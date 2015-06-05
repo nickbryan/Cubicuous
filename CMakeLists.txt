@@ -1,23 +1,22 @@
 cmake_minimum_required(VERSION 3.2)
 project(Cubicuous)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+#Basic flags for CMAKE building
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+set(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build/")
+set(LIBRARY_OUTPUT_PATH "${PROJECT_SOURCE_DIR}/build/")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build")
+
+#Find all the libraries we need
+find_package (OpenGL REQUIRED)
 
 if (NOT WIN32)
-set(CMAKE_MODULE_PATH /usr/local/lib/cmake /usr/local/lib/x86_64-linux-gnu/cmake)
-set(CMAKE_PREFIX_PATH /usr/local/lib/cmake/glfw)
-endif (NOT WIN32)
-
-find_package (PkgConfig REQUIRED)
-find_package (OpenGL REQUIRED)
-if (WIN32)
-  include_directories("C:/GLFW/include" "C:/glm" "C:/glew/include")
-  link_directories("C:/glew/lib/Release/x64" "C:/GLFW/lib-mingw" )
-else (WIN32)
+  set(CMAKE_MODULE_PATH /usr/local/lib/cmake /usr/local/lib/x86_64-linux-gnu/cmake)
+  set(CMAKE_PREFIX_PATH /usr/local/lib/cmake/glfw)
   find_package (glfw3 REQUIRED)
   find_package (GLM REQUIRED)
   find_package (GLEW REQUIRED STATIC)
-endif (WIN32)
+endif (NOT WIN32)
 if (APPLE)
   include_directories(/usr/local/include)
   find_library(COCOA_LIBRARY Cocoa REQUIRED)
@@ -25,21 +24,23 @@ if (APPLE)
   find_library(COREVID_LIBRARY CoreVideo REQUIRED)
 endif (APPLE)
 
-set(SOURCE_FILES
-test/main.cpp
-src/Window/Window.cpp src/Window/Window.h)
+#Source files
+set(SOURCE_FILES src/Window/Window.cpp src/Window/Window.h)
 
-add_executable(Cubicuous ${SOURCE_FILES})
-  target_link_libraries (Cubicuous
+#The library its self
+add_library(Cubicuous ${SOURCE_FILES} src/Debugging/Logger.cpp src/Debugging/Logger.h)
+
+#Link the libraries to the exe
+target_link_libraries (Cubicuous
           ${GLFW3_LIBRARY}
           ${OPENGL_LIBRARIES}
           ${GLEW_LIBRARY}
           ${COCOA_LIBRARY} ${COREVID_LIBRARY} ${IOKIT_LIBRARY})
+
 if (WIN32)
   target_link_libraries (Cubicuous
-          ${OPENGL_LIBRARIES} glfw3 glew32s glu32 opengl32)
+          ${OPENGL_LIBRARIES} glew32 glfw3 opengl32)
 endif (WIN32)
-
 if (UNIX AND NOT APPLE)
   target_link_libraries (Cubicuous
           ${OPENGL_LIBRARIES}
@@ -54,3 +55,7 @@ target_link_libraries (Cubicuous
           ${GLFW3_LIBRARY}
           ${GLEW_LIBRARY})
 endif (APPLE)
+
+#Test targets
+add_executable(WindowTest test/Window/main.cpp)
+target_link_libraries(WindowTest Cubicuous)

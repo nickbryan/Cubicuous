@@ -1,81 +1,82 @@
+#include <stdlib.h>
 #include "Window.h"
 
 namespace Cubicuous {
     namespace Window {
+        int Window::OPENGL_VERSION_MAJOR = 3;
+        int Window::OPENGL_VERSION_MINOR = 3;
+        int Window::OPENGL_VERSION_REV = 0;
 
-        Window::Window(const char *title, int width, int height)
-        {
-            this->title = title;
-            this->width = width;
-            this->height = height;
+        Window::Window(const char *title, int width, int height) {
+	        this->title = title;
+	        this->width = width;
+	        this->height = height;
 
-            if (!this->init()) {
-                glfwTerminate();
-            }
+	        if (!this->init()) {
+		        glfwTerminate();
+	        }
         }
 
-        Window::~Window()
-        {
-            glfwTerminate();
+        Window::~Window() {
+	        glfwTerminate();
+
+			#ifdef _WIN32
+	            system("PAUSE");
+			#endif
         }
 
-        void Window::clear() const
-        {
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        void Window::clear() const {
+	        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
-        void Window::close() const
-        {
-            glfwSetWindowShouldClose(this->window, GL_TRUE);
+        void Window::close() const {
+	        glfwSetWindowShouldClose(this->window, GL_TRUE);
         }
 
-        bool Window::init()
-        {
-            if (!glfwInit()) {
-                std::cout << "Failed to initialise GLFW!" << std::endl;
-                return false;
-            }
+        bool Window::init() {
+	        if (!glfwInit()) {
+		        Debugging::Logger::log("Failed to initialise GLFW!");
+		        return false;
+	        }
 
-            // We need this to get latest version of OpenGl on mac
-            #ifdef __APPLE__
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	        // We need this to get latest version of OpenGl on mac
+			#ifdef __APPLE__
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Window::OPENGL_VERSION_MAJOR);
+                glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Window::OPENGL_VERSION_MINOR);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
                 glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             #endif
 
-            this->window = glfwCreateWindow(this->width, this->height, this->title, nullptr, nullptr);
-            if (!window) {
-                std::cout << "Failed to create GLFW window!" << std::endl;
-                return false;
-            }
+	        glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
-            glfwMakeContextCurrent(this->window);
+	        this->window = glfwCreateWindow(this->width, this->height, this->title, nullptr, nullptr);
+	        if (!window) {
+		        Debugging::Logger::log("Failed to create GLFW window!");
+		        return false;
+	        }
 
-            glewExperimental = GL_TRUE;
-            if (glewInit() != GLEW_OK) {
-                std::cout << "Failed to initialise GLEW!" << std::endl;
-                return false;
-            }
+	        glfwMakeContextCurrent(this->window);
 
-            return true;
+	        glewExperimental = GL_TRUE;
+	        if (glewInit() != GLEW_OK) {
+		        Debugging::Logger::log("Failed to initialise GLEW!");
+		        return false;
+	        }
+
+	        return true;
         }
 
-        bool Window::isOpen() const
-        {
-            return !glfwWindowShouldClose(this->window);
+        bool Window::isOpen() const {
+	        return !glfwWindowShouldClose(this->window);
         }
 
-        void Window::update() const
-        {
-            glfwSwapBuffers(this->window);
-            glfwPollEvents();
+        void Window::update() const {
+	        glfwSwapBuffers(this->window);
+	        glfwPollEvents();
         }
 
-        void Window::windowResizeCallback(GLFWwindow *window, int width, int height)
-        {
-            glViewport(0, 0, width, height);
+        void Window::windowResizeCallback(GLFWwindow *window, int width, int height) {
+	        glViewport(0, 0, width, height);
         }
-
     }
 }

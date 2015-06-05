@@ -1,42 +1,47 @@
 #ifndef CUBICUOUS_WINDOW_H
 #define CUBICUOUS_WINDOW_H
 
-#include <iostream>
+#include "../Debugging/Logger.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
 namespace Cubicuous {
     namespace Window {
-
         class Window {
         private:
-            const char *title;
+	        const char *title;
 
-            int width;
-            int height;
+	        int width;
+	        int height;
 
-            GLFWwindow *window;
+	        GLFWwindow *window;
 
         public:
-            Window(const char *title, int width, int height);
-            ~Window();
+	        static int OPENGL_VERSION_MAJOR;
+	        static int OPENGL_VERSION_MINOR;
+	        static int OPENGL_VERSION_REV;
 
-            bool isOpen() const;
+	        Window(const char *title, int width, int height);
 
-            inline int getWidth()  const { return this->width; }
-            inline int getHeight() const { return this->height; }
+	        ~Window();
 
-            void clear() const;
-            void close() const;
-            void update() const;
+	        bool isOpen() const;
+
+	        inline int getWidth() const { return this->width; }
+
+	        inline int getHeight() const { return this->height; }
+
+	        void clear() const;
+
+	        void close() const;
+
+	        void update() const;
 
         private:
-            bool init();
+	        bool init();
 
-            static void windowResizeCallback(GLFWwindow *window, int width, int height);
+	        static void windowResizeCallback(GLFWwindow *window, int width, int height);
         };
-
     }
 }
-
 #endif
