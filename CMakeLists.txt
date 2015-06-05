@@ -24,11 +24,11 @@ if (APPLE)
   find_library(COREVID_LIBRARY CoreVideo REQUIRED)
 endif (APPLE)
 
-#Source files
-set(SOURCE_FILES src/Window/Window.cpp src/Window/Window.h)
-
-#The library its self
-add_library(Cubicuous ${SOURCE_FILES} src/Debugging/Logger.cpp src/Debugging/Logger.h)
+#Add the library its self
+add_library(Cubicuous ${SOURCE_FILES}
+    src/Debugging/Logger.cpp src/Debugging/Logger.h
+    src/Window/Window.cpp src/Window/Window.h
+)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous
