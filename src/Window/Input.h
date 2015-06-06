@@ -4,41 +4,52 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include "../Debugging/Logger.h"
+#include "Window.h"
 
 namespace Cubicuous {
     namespace Window {
+        class Window;
 
         #define MAX_KEYS 1024
         #define MAX_MOUSE_BUTTONS 32
 
         class Input {
-        private:
-            bool keys[MAX_KEYS];
-            bool mouseButtons[MAX_MOUSE_BUTTONS];
+            public:
+                bool focused = false;
 
-            double mouseX;
-            double mouseY;
+            private:
+                int _keys[MAX_KEYS];
+                int _mouseButtons[MAX_MOUSE_BUTTONS];
+                bool _useFocus = false;
 
-            GLFWwindow *glfwWindow;
+                float _boundX;
+                float _boundY;
+                int   _boundWidth;
+                int   _boundHeight;
 
-        public:
-            Input(GLFWwindow *windowPointer);
-            ~Input();
+                Window *_window;
 
-            bool isKeyPressed(unsigned int keyCode) const;
-            bool isMouseButtonPressed(unsigned int buttonCode) const;
+            public:
+                Input(Window *windowPointer, bool useFocus, float x, float y, int width, int height);
+                Input(Window *windowPointer, float x, float y, int width, int height);
+                Input(Window *windowPointer, bool useFocus);
+                Input(Window *windowPointer);
 
-            inline int getMouseX() const { return this->mouseX; }
-            inline int getMouseY() const { return this->mouseY; }
+                ~Input();
 
-        private:
-            static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);
+                int getKeyState(unsigned int keyCode) const;
+                int getMouseButtonState(unsigned int buttonCode) const;
 
-            static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
+                bool isKeyPressed(unsigned int keyCode) const;
+                bool isMouseButtonPressed(unsigned int buttonCode) const;
+                bool isMouseOver() const;
+                inline bool isUsingFocus() const { return this->_useFocus; };
+
+            private:
+                static void _keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods);
+
+                static void _mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
         };
-
     }
 }
-
-
 #endif

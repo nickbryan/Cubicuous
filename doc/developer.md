@@ -18,3 +18,4 @@ This guide is intended to give the developer an overview of the coding style/sta
 ###Naming Standards
   - Class names should be PascalCase
   - Methods and variables should be camelCase
+  - Private methods and variables should be prefixed with _

@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "Window.h"
 
 namespace Cubicuous {
@@ -7,11 +8,11 @@ namespace Cubicuous {
         int Window::OPENGL_VERSION_REV = 0;
 
         Window::Window(const char *title, int width, int height) {
-	        this->title = title;
-	        this->width = width;
-	        this->height = height;
+	        this->_title = title;
+	        this->_width = width;
+	        this->_height = height;
 
-	        if (!this->init()) {
+	        if (!this->_init()) {
 		        glfwTerminate();
 	        }
         }
@@ -29,10 +30,10 @@ namespace Cubicuous {
         }
 
         void Window::close() const {
-	        glfwSetWindowShouldClose(this->window, GL_TRUE);
+	        glfwSetWindowShouldClose(this->_window, GL_TRUE);
         }
 
-        bool Window::init() {
+        bool Window::_init() {
 	        if (!glfwInit()) {
 		        Debugging::Logger::log("Failed to initialise GLFW!");
 		        return false;
@@ -48,19 +49,19 @@ namespace Cubicuous {
 
 	        glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
-	        this->window = glfwCreateWindow(this->width, this->height, this->title, nullptr, nullptr);
-	        if (!window) {
+	        this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
+	        if (!_window) {
 		        Debugging::Logger::log("Failed to create GLFW window!");
 		        return false;
 	        }
 
-	        glfwMakeContextCurrent(this->window);
+	        glfwMakeContextCurrent(this->_window);
 
             // Allows us to access our window in our callbacks
-            glfwSetWindowUserPointer(this->window, this);
+            glfwSetWindowUserPointer(this->_window, this);
 
             // Initialise the input handler, this needs to be read only
-            this->input = new Input(this->window);
+            this->_input = new Input(this);
 
 	        glewExperimental = GL_TRUE;
 	        if (glewInit() != GLEW_OK) {
@@ -72,16 +73,21 @@ namespace Cubicuous {
         }
 
         bool Window::isOpen() const {
-	        return !glfwWindowShouldClose(this->window);
+	        return !glfwWindowShouldClose(this->_window);
         }
 
-        void Window::update() const {
-	        glfwSwapBuffers(this->window);
+        void Window::update() {
+            this->_updateMousePosition();
+	        glfwSwapBuffers(this->_window);
 	        glfwPollEvents();
         }
 
-        void Window::windowResizeCallback(GLFWwindow *window, int width, int height) {
+        void Window::_windowResizeCallback(GLFWwindow *window, int width, int height) {
 	        glViewport(0, 0, width, height);
+        }
+
+        void Window::_updateMousePosition() {
+	        glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
         }
     }
 }

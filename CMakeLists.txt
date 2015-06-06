@@ -28,7 +28,8 @@ endif (APPLE)
 add_library(Cubicuous ${SOURCE_FILES}
     src/Debugging/Logger.cpp src/Debugging/Logger.h
     src/Window/Window.cpp src/Window/Window.h
-src/Window/Input.cpp src/Window/Input.h)
+    src/Window/Input.cpp src/Window/Input.h
+    src/Game.cpp src/Game.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

@@ -6,47 +6,59 @@
 
 namespace Cubicuous {
     namespace Window {
+        class Input;
+
         class Window {
-        friend class Input;
+            friend class Input;
 
-        private:
-	        const char *title;
+            public:
+                static int OPENGL_VERSION_MAJOR;
+                static int OPENGL_VERSION_MINOR;
+                static int OPENGL_VERSION_REV;
 
-	        int width;
-	        int height;
+            private:
+                double _mouseX;
+                double _mouseY;
 
-	        GLFWwindow *window;
+                const char *_title;
 
-        public:
-            static int OPENGL_VERSION_MAJOR;
-            static int OPENGL_VERSION_MINOR;
-            static int OPENGL_VERSION_REV;
+                int _width;
+                int _height;
 
-            Input *input;
+                GLFWwindow *_window;
+                Input *_input;
 
-        private:
-            bool init();
+            public:
+                Window(const char *title, int width, int height);
 
-            static void windowResizeCallback(GLFWwindow *window, int width, int height);
+                ~Window();
 
-        public:
-	        Window(const char *title, int width, int height);
+                bool isOpen() const;
 
-	        ~Window();
+                inline int getWidth() const { return this->_width; }
 
-	        bool isOpen() const;
+                inline int getHeight() const { return this->_height; }
 
-	        inline int getWidth() const { return this->width; }
+                inline GLFWwindow* getWindow() const { return this->_window; }
 
-	        inline int getHeight() const { return this->height; }
+                inline Input* getInput() const { return this->_input; };
 
-			inline GLFWwindow* getWindowPointer() const { return this->window; }
+                void clear() const;
 
-	        void clear() const;
+                void close() const;
 
-	        void close() const;
+                void update();
 
-	        void update() const;
+                inline double getMouseX() const { return this->_mouseX; }
+                inline double getMouseY() const { return this->_mouseY; }
+                inline void   resetMousePosition() const { glfwSetCursorPos(this->_window, 0.0f, 0.0f); };
+
+            private:
+                bool _init();
+
+                void _updateMousePosition();
+
+                static void _windowResizeCallback(GLFWwindow *window, int width, int height);
         };
     }
 }
