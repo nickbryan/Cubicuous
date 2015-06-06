@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "Window.h"
 
 namespace Cubicuous {
@@ -56,6 +55,12 @@ namespace Cubicuous {
 	        }
 
 	        glfwMakeContextCurrent(this->window);
+
+            // Allows us to access our window in our callbacks
+            glfwSetWindowUserPointer(this->window, this);
+
+            // Initialise the input handler, this needs to be read only
+            this->input = new Input(this->window);
 
 	        glewExperimental = GL_TRUE;
 	        if (glewInit() != GLEW_OK) {

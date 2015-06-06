@@ -13,6 +13,10 @@ int main() {
 	while (window.isOpen()) {
 		window.clear();
 		window.update();
+
+        if (window.input->isKeyPressed(GLFW_KEY_ESCAPE)) {
+            glfwSetWindowShouldClose(window.getWindowPointer(), GL_TRUE);
+        }
 	}
 
 	return 0;

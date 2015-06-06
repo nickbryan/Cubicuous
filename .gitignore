@@ -40,4 +40,5 @@
 #########
 /bin
 /out
+/build
 .idea
