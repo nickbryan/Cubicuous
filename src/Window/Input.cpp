@@ -43,6 +43,10 @@ namespace Cubicuous {
             return this->mouseButtons[buttonCode];
         }
 
+        void Input::updateMousePosition() {
+            glfwGetCursorPos(this->glfwWindow, &this->mouseX, &this->mouseY);
+        }
+
         void Input::keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods) {
             Window *win = (Window*)glfwGetWindowUserPointer(window);
             win->input->keys[key] = action != GLFW_RELEASE;

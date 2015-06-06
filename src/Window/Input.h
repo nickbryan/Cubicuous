@@ -30,6 +30,9 @@ namespace Cubicuous {
 
             inline int getMouseX() const { return this->mouseX; }
             inline int getMouseY() const { return this->mouseY; }
+            inline void resetMousePosition() const { glfwSetCursorPos(this->glfwWindow, 0.0f, 0.0f); };
+
+            void updateMousePosition();
 
         private:
             static void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods);

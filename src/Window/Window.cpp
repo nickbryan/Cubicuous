@@ -76,9 +76,12 @@ namespace Cubicuous {
         }
 
         void Window::update() const {
+            this->input->updateMousePosition();
 	        glfwSwapBuffers(this->window);
 	        glfwPollEvents();
         }
+
+
 
         void Window::windowResizeCallback(GLFWwindow *window, int width, int height) {
 	        glViewport(0, 0, width, height);
