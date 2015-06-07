@@ -14,8 +14,8 @@ int main() {
 		window.clear();
 		window.update();
 
-        if (window.input->isKeyPressed(GLFW_KEY_ESCAPE)) {
-            glfwSetWindowShouldClose(window.getWindowPointer(), GL_TRUE);
+        if (window.getInput()->isKeyPressed(GLFW_KEY_ESCAPE)) {
+            glfwSetWindowShouldClose(window.getWindow(), GL_TRUE);
         }
 	}
 
