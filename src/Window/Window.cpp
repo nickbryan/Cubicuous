@@ -63,6 +63,10 @@ namespace Cubicuous {
             // Initialise the input handler, this needs to be read only
             this->_input = new Input(this);
 
+            //event listeners
+            glfwSetWindowSizeCallback(this->_window, Window::_windowResizeCallback);
+            glfwSetWindowFocusCallback(this->_window, Window::_windowFocusCallback);
+
 	        glewExperimental = GL_TRUE;
 	        if (glewInit() != GLEW_OK) {
 		        Debugging::Logger::log("Failed to initialise GLEW!");
@@ -77,7 +81,9 @@ namespace Cubicuous {
         }
 
         void Window::update() {
+            this->_wasFocused = this->_focused;
             this->_updateMousePosition();
+            this->_input->processEvents();
 	        glfwSwapBuffers(this->_window);
 	        glfwPollEvents();
         }
@@ -86,7 +92,14 @@ namespace Cubicuous {
 	        glViewport(0, 0, width, height);
         }
 
+        void Window::_windowFocusCallback(GLFWwindow *window, int focused) {
+	        Window *win = (Window*)glfwGetWindowUserPointer(window);
+	        win->_focused = focused == GL_TRUE;
+	    }
+
         void Window::_updateMousePosition() {
+            this->_previousMouseX = this->_mouseX;
+	        this->_previousMouseY = this->_mouseY;
 	        glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
         }
     }

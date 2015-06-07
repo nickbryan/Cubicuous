@@ -3,6 +3,8 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <functional>
+#include <vector>
 #include "../Debugging/Logger.h"
 #include "Window.h"
 
@@ -15,11 +17,34 @@ namespace Cubicuous {
 
         class Input {
             public:
+                enum State {
+                    UP,   //fires once, when the key state changes from down to up
+                    DOWN, //fires while the key is down
+                    PRESS //fires when the key changes from up to down
+                };
+
+                struct Listener {
+                    unsigned int key;
+                    State state;
+                    std::function<void()> handler;
+
+                    Listener(unsigned int key, State state, std::function<void()> handler) {
+                        this->key = key;
+                        this->state = state;
+                        this->handler = handler;
+                    }
+                };
+
                 bool focused = false;
+                std::vector<Listener> keyListeners;
+                std::vector<Listener> mouseListeners;
+                std::vector<std::function<void()>> mouseEnterListeners;
+                std::vector<std::function<void()>> mouseLeaveListeners;
+                std::vector<std::function<void()>> mouseMoveListeners;
 
             private:
-                int _keys[MAX_KEYS];
-                int _mouseButtons[MAX_MOUSE_BUTTONS];
+                bool _keys[MAX_KEYS];
+                bool _mouseButtons[MAX_MOUSE_BUTTONS];
                 bool _useFocus = false;
 
                 float _boundX;
@@ -37,12 +62,15 @@ namespace Cubicuous {
 
                 ~Input();
 
+                void processEvents();
+
                 int getKeyState(unsigned int keyCode) const;
                 int getMouseButtonState(unsigned int buttonCode) const;
 
                 bool isKeyPressed(unsigned int keyCode) const;
                 bool isMouseButtonPressed(unsigned int buttonCode) const;
                 bool isMouseOver() const;
+                bool wasMouseOver() const;
                 inline bool isUsingFocus() const { return this->_useFocus; };
 
             private:

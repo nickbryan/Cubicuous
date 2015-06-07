@@ -1,6 +1,7 @@
 #ifndef CUBICUOUS_LOGGER_H
 #define CUBICUOUS_LOGGER_H
 
+#include <sstream>
 #include <string>
 #include <iostream>
 #include <GL/glew.h>
@@ -20,6 +21,13 @@ namespace Cubicuous {
 	        static std::string toLoggable(const GLubyte *gluByte);
 
 	        static std::string toLoggable(const char *chars);
+
+	        template < typename T > static std::string toLoggable( const T& n ) {
+		        //mingw32 has a bug that stops std::to_string working so implement our self
+		        std::ostringstream stm ;
+		        stm << n ;
+		        return stm.str() ;
+	        }
         };
     }
 }

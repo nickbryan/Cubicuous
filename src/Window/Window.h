@@ -19,11 +19,16 @@ namespace Cubicuous {
             private:
                 double _mouseX;
                 double _mouseY;
+                double _previousMouseX;
+                double _previousMouseY;
 
                 const char *_title;
 
                 int _width;
                 int _height;
+
+                bool _focused = GL_TRUE;
+                bool _wasFocused = GL_TRUE;
 
                 GLFWwindow *_window;
                 Input *_input;
@@ -49,8 +54,16 @@ namespace Cubicuous {
 
                 void update();
 
+                /**
+                 * Whether or not the window was focused last frame
+                 */
+                inline bool wasFocused() const { return this->_wasFocused; }
+                inline bool isFocused() const { return this->_focused; }
+
                 inline double getMouseX() const { return this->_mouseX; }
                 inline double getMouseY() const { return this->_mouseY; }
+                inline double getPreviousMouseX() const { return this->_previousMouseX; }
+                inline double getPreviousMouseY() const { return this->_previousMouseY; }
                 inline void   resetMousePosition() const { glfwSetCursorPos(this->_window, 0.0f, 0.0f); };
 
             private:
@@ -59,6 +72,8 @@ namespace Cubicuous {
                 void _updateMousePosition();
 
                 static void _windowResizeCallback(GLFWwindow *window, int width, int height);
+
+                static void _windowFocusCallback(GLFWwindow *window, int focused);
         };
     }
 }
