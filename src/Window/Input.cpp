@@ -11,11 +11,11 @@ namespace Cubicuous {
             this->_useFocus = useFocus;
 
             for (int i = 0; i < MAX_KEYS; i++) {
-                this->_keys[i] = GLFW_RELEASE;
+                this->_keys[i] = false;
             }
 
             for (int i =0; i < MAX_MOUSE_BUTTONS; i++) {
-                this->_mouseButtons[i] = GLFW_RELEASE;
+                this->_mouseButtons[i] = false;
             }
 
             glfwSetCursorPos(this->_window->getWindow(), 0.0f, 0.0f);
@@ -128,7 +128,7 @@ namespace Cubicuous {
 		        }
 	        }
 
-	        win->_input->_keys[key] = action != GLFW_RELEASE;
+	        win->_input->_keys[key] = isPressed;
         }
 
         void Input::_mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
