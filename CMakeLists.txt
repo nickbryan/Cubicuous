@@ -29,7 +29,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Debugging/Logger.cpp src/Debugging/Logger.h
     src/Window/Window.cpp src/Window/Window.h
     src/Window/Input.cpp src/Window/Input.h
-    src/Game.cpp src/Game.h)
+    src/Game.cpp src/Game.h src/Core/Scene.cpp src/Core/Scene.h src/Core/Entity.cpp src/Core/Entity.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous
@@ -60,3 +60,6 @@ endif (APPLE)
 #Test targets
 add_executable(WindowTest test/Window/main.cpp)
 target_link_libraries(WindowTest Cubicuous)
+
+add_executable(GameTest test/Game/main.cpp)
+target_link_libraries(GameTest Cubicuous)

@@ -6,6 +6,20 @@
 
 namespace Cubicuous {
     namespace Window {
+        struct WindowSettings {
+            const char *title;
+            int width;
+            int height;
+
+            WindowSettings(const char *title, int width, int height) {
+                this->title = title;
+                this->width = width;
+                this->height = height;
+            }
+
+            WindowSettings(std::string title, int width, int height) : WindowSettings(title.c_str(), width, height) { }
+        };
+
         class Input;
 
         class Window {
@@ -34,7 +48,9 @@ namespace Cubicuous {
                 Input *_input;
 
             public:
-                Window(const char *title, int width, int height);
+            Window(const char *title, int width, int height);
+
+            Window(WindowSettings settings) : Window(settings.title, settings.width, settings.height) { };
 
                 ~Window();
 
