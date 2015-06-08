@@ -42,7 +42,7 @@ namespace Cubicuous {
 	    std::unordered_map<const char *, Scene *>::const_iterator iterator = this->_scenes->find(name);
 
 	    if (iterator == this->_scenes->end()) {
-		    throw "Scene already cached";
+		    return nullptr;
 	    }
 
 	    return iterator->second;
