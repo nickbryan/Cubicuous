@@ -16,15 +16,15 @@ namespace Cubicuous {
 	        }
 
 	        //scene used methods
-	        virtual void render(long deltaTime) {
+			virtual void render(double deltaTime) {
 		        for (Entity entity : this->_entities) {
 			        entity.render(deltaTime);
 		        }
 	        }
 
-	        virtual void update(long deltaTime) {
+			virtual void update() {
 		        for (Entity entity : this->_entities) {
-			        entity.update(deltaTime);
+					entity.update();
 		        }
 	        }
 
