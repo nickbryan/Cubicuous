@@ -8,34 +8,34 @@ namespace Cubicuous {
     namespace Core {
         class Scene {
         protected:
-	        std::vector<Entity> _entities;
+            std::vector<Entity> _entities;
 
         public:
-	        virtual inline void addEntity(Entity entity) {
-		        this->_entities.push_back(entity);
-	        }
+            virtual inline void addEntity(Entity entity) {
+                this->_entities.push_back(entity);
+            }
 
-	        //scene used methods
-			virtual void render(double deltaTime) {
-		        for (Entity entity : this->_entities) {
-			        entity.render(deltaTime);
-		        }
-	        }
+            //scene used methods
+            virtual void render(double deltaTime) {
+                for (Entity entity : this->_entities) {
+                    entity.render(deltaTime);
+                }
+            }
 
-			virtual void update() {
-		        for (Entity entity : this->_entities) {
-					entity.update();
-		        }
-	        }
+            virtual void update() {
+                for (Entity entity : this->_entities) {
+                    entity.update();
+                }
+            }
 
-	        //events
-	        virtual void onActive() { };
+            //events
+            virtual void onActive() { };
 
-	        virtual void onInactive() { };
+            virtual void onInactive() { };
 
-	        virtual void onPause() { };
+            virtual void onPause() { };
 
-	        virtual void onPlay() { };
+            virtual void onPlay() { };
         };
     }
 }

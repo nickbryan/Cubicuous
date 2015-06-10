@@ -4,28 +4,28 @@
 #include "../ILoop.h"
 
 namespace Cubicuous {
-	namespace Core {
-		namespace Loops {
-			class ConstSpeedVarFps : public ILoop {
-			private:
-				static const int MAX_UPDATES = 5;
-				double _nextTick;
-				double _trackerStart;
-				double _trackerEnd;
-				int _updates;
-				int _skipTicks;
+    namespace Core {
+        namespace Loops {
+            class ConstSpeedVarFps : public ILoop {
+            private:
+                static const int MAX_UPDATES = 5;
+                double _nextTick;
+                double _trackerStart;
+                double _trackerEnd;
+                int _updates;
+                int _skipTicks;
 
-			public:
-				ConstSpeedVarFps(int updateRate) : ILoop(updateRate) {
-					this->_nextTick = this->getTicks();
-					this->_skipTicks = 1000 / updateRate;
-				};
+            public:
+                ConstSpeedVarFps(int updateRate) : ILoop(updateRate) {
+                    this->_nextTick = this->getTicks();
+                    this->_skipTicks = 1000 / updateRate;
+                };
 
-				~ConstSpeedVarFps();
+                ~ConstSpeedVarFps();
 
-				virtual void loop(Scene *activeScene) override;
-			};
-		}
-	}
+                virtual void loop(Scene *activeScene) override;
+            };
+        }
+    }
 }
 #endif
