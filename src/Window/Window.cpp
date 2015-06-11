@@ -20,9 +20,9 @@ namespace Cubicuous {
         Window::~Window() {
             glfwTerminate();
 
-#ifdef _WIN32
-            system("PAUSE");
-#endif
+            #ifdef _WIN32
+                system("PAUSE");
+            #endif
         }
 
         void Window::clear() const {
@@ -40,7 +40,7 @@ namespace Cubicuous {
             }
 
             // We need this to get latest version of OpenGl on mac
-#ifdef __APPLE__
+            #ifdef __APPLE__
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Window::OPENGL_VERSION_MAJOR);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Window::OPENGL_VERSION_MINOR);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);

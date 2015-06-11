@@ -25,10 +25,10 @@ namespace Cubicuous {
     }
 
     Game::~Game() {
-        if (this->_activeScene != nullptr) {
+        if (this->_activeScene != nullptr && this->_activeScene != this->_settings->pauseScene) {
             delete(&this->_activeScene);
         }
-        if (this->_nextScene != nullptr) {
+        if (this->_nextScene != nullptr && this->_nextScene != this->_settings->pauseScene) {
             delete(&this->_nextScene);
         }
 

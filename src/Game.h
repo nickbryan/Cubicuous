@@ -49,7 +49,11 @@ namespace Cubicuous {
             inline ~GameSettings() {
                 delete(&this->quickQuitKey);
                 delete(&this->togglePauseKey);
-                delete(&this->pauseScene);
+
+                if (this->pauseScene != nullptr) {
+                    delete(&this->pauseScene);
+                }
+
                 delete(&this->loop);
             }
         };
