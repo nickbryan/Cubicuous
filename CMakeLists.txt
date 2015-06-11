@@ -29,9 +29,12 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Debugging/Logger.cpp src/Debugging/Logger.h
     src/Window/Window.cpp src/Window/Window.h
     src/Window/Input.cpp src/Window/Input.h
+    src/Core/Scene.h
+    src/Core/Entity.cpp src/Core/Entity.h
+    src/Core/ILoop.h
+        src/Core/Loops/ConstSpeedVarFps.cpp src/Core/Loops/ConstSpeedVarFps.h
     src/Game.cpp src/Game.h
-    src/Core/Scene.cpp src/Core/Scene.h
-    src/Core/Entity.cpp src/Core/Entity.h)
+)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

@@ -5,13 +5,9 @@ using Cubicuous::Debugging::Logger;
 using Cubicuous::Window::Input;
 
 int main() {
-	Cubicuous::Game game(Cubicuous::Game::GameSettings(), Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
+    Cubicuous::Game game(new Cubicuous::Game::GameSettings(GLFW_KEY_ESCAPE),
+                         Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
+    game.start();
 
-	//placeholder until loop is implemented
-	while (game.getWindow()->isOpen()) {
-		game.getWindow()->clear();
-		game.getWindow()->update();
-	}
-
-	return 0;
+    return 0;
 }
