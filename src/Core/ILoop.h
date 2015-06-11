@@ -26,17 +26,7 @@ namespace Cubicuous {
             int _nextTime = 0;
 
         public:
-            inline ILoop(int updateRate) { this->_updateRate; }
-
-            inline virtual ~ILoop() {
-                delete(&this->_updateRate);
-                delete(&this->_frps);
-                delete(&this->_frts);
-                delete(&this->_fups);
-                delete(&this->_futs);
-                delete(&this->_renderTime);
-                delete(&this->_updateTime);
-            }
+            inline ILoop(int updateRate) { this->_updateRate = updateRate; }
 
             virtual void loop(Scene *activeScene) { };
 

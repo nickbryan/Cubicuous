@@ -25,11 +25,6 @@ namespace Cubicuous {
             }
 
             ConstSpeedVarFps::~ConstSpeedVarFps() {
-                delete(&this->_nextTick);
-                delete(&this->_skipTicks);
-                delete(&this->_updates);
-                delete(&this->_trackerStart);
-                delete(&this->_trackerEnd);
             }
         }
     }

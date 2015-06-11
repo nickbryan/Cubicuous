@@ -11,6 +11,11 @@ namespace Cubicuous {
             std::vector<Entity> _entities;
 
         public:
+            Scene();
+            virtual inline ~Scene() {
+
+            }
+
             virtual inline void addEntity(Entity entity) {
                 this->_entities.push_back(entity);
             }

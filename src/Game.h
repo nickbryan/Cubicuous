@@ -17,7 +17,7 @@ namespace Cubicuous {
             unsigned int quickQuitKey = 0;
             unsigned int togglePauseKey = 0;
             Scene *pauseScene = nullptr;
-            ILoop *loop;
+            ILoop *loop = nullptr;
 
             inline GameSettings() {
                 this->loop = new Cubicuous::Core::Loops::ConstSpeedVarFps(30);
@@ -47,14 +47,11 @@ namespace Cubicuous {
             }
 
             inline ~GameSettings() {
-                delete(&this->quickQuitKey);
-                delete(&this->togglePauseKey);
-
                 if (this->pauseScene != nullptr) {
-                    delete(&this->pauseScene);
+                    delete this->pauseScene;
                 }
 
-                delete(&this->loop);
+                delete this->loop;
             }
         };
 

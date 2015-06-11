@@ -33,12 +33,6 @@ namespace Cubicuous {
         Input::Input(Window *windowPointer) : Input(windowPointer, false) { }
 
         Input::~Input() {
-            delete(&this->_keys);
-            delete(&this->_mouseButtons);
-            delete(&this->_boundX);
-            delete(&this->_boundY);
-            delete(&this->_boundWidth);
-            delete(&this->_boundHeight);
         }
 
         void Input::processEvents() {
