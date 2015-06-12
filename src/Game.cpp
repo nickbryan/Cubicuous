@@ -19,6 +19,10 @@ namespace Cubicuous {
             this->_window->getInput()->keyListeners.push_back(
                     Cubicuous::Window::Input::Listener(this->_settings->togglePauseKey,
                                                        Cubicuous::Window::Input::State::PRESS, [this]() {
+                                if(this->_activeScene != nullptr) {
+                                    this->_activeScene->onPause();
+                                }
+
                                 this->setScene(this->_settings->pauseScene);
                             }));
         }
@@ -60,6 +64,10 @@ namespace Cubicuous {
                 this->_previousScene = this->_activeScene;
                 this->_activeScene = this->_nextScene;
                 this->_activeScene->onActive();
+
+                if(this->_previousScene == this->_settings->pauseScene) {
+                    this->_activeScene->onPlay();
+                }
             }
 
             if (this->_activeScene != nullptr) {
