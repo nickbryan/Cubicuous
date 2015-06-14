@@ -25,7 +25,7 @@ namespace Cubicuous {
         }
 
         void ShaderProgram::attachShader(const char *shaderFilePath, GLenum shaderType) {
-            GLuint shader = this->getShader(shaderFilePath, shaderType);
+            GLuint shader = this->_getShader(shaderFilePath, shaderType);
             glAttachShader(this->_shaderProgramID, shader);
             glDeleteShader(shader);
 
@@ -58,7 +58,7 @@ namespace Cubicuous {
             glUseProgram(this->_shaderProgramID);
         }
 
-        GLuint ShaderProgram::getShader(const char *shaderFilePath, GLenum shaderType) {
+        GLuint ShaderProgram::_getShader(const char *shaderFilePath, GLenum shaderType) {
             std::string shaderNameString = Logger::toLoggable(shaderFilePath);
 
             Logger::log("Shader Manager", "Making shader " + shaderNameString);
