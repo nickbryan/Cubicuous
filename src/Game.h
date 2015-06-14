@@ -5,10 +5,13 @@
 #include "Core/Scene.h"
 #include "Core/ILoop.h"
 #include "Core/Loops/ConstSpeedVarFps.h"
+#include "Graphics/ShaderProgram.h"
+
 #include <unordered_map>
 
 using Cubicuous::Core::Scene;
 using Cubicuous::Core::ILoop;
+using Cubicuous::Graphics::ShaderProgram;
 
 namespace Cubicuous {
     class Game {
@@ -18,6 +21,8 @@ namespace Cubicuous {
             unsigned int togglePauseKey = 0;
             Scene *pauseScene = nullptr;
             ILoop *loop = nullptr;
+
+            GLuint vertexBufferObject;
 
             inline GameSettings() {
                 this->loop = new Cubicuous::Core::Loops::ConstSpeedVarFps(30);
@@ -66,6 +71,8 @@ namespace Cubicuous {
         Window::Window *_window;
         GameSettings *_settings;
 
+        ShaderProgram *_shaderProgram;
+
     public:
         Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings);
 
@@ -83,9 +90,9 @@ namespace Cubicuous {
 
         inline void cacheScene(std::string name, Scene *scene) { this->cacheScene(name.c_str(), scene); }
 
-        Scene *getCachedScene(const char *name) const;
+        Scene* getCachedScene(const char *name) const;
 
-        inline Scene *getCachedScene(std::string name) const { return this->getCachedScene(name.c_str()); }
+        inline Scene* getCachedScene(std::string name) const { return this->getCachedScene(name.c_str()); }
 
         inline void setScene(Scene *scene) { this->_nextScene = scene; };
 
@@ -95,12 +102,13 @@ namespace Cubicuous {
 
         inline void previousScene() { this->setScene(this->_previousScene); }
 
-        inline Scene *getPreviousScene() const { return this->_previousScene; }
+        inline Scene* getPreviousScene() const { return this->_previousScene; }
 
-        inline Scene *getActiveScene() const { return this->_activeScene; }
+        inline Scene* getActiveScene() const { return this->_activeScene; }
 
-        inline Scene *getNextScene() const { return this->_nextScene; }
+        inline Scene* getNextScene() const { return this->_nextScene; }
 
+        inline ShaderProgram* getShaderProgram() { return this->_shaderProgram; }
 
     };
 }

@@ -5,6 +5,7 @@ namespace Cubicuous {
         this->_window = new Window::Window(windowSettings);
         this->_settings = gameSettings;
         this->_scenes = new std::unordered_map<const char *, Scene *>;
+        this->_shaderProgram = new ShaderProgram();
 
         if (this->_settings->quickQuitKey != 0) {
             this->_window->getInput()->keyListeners.push_back(
@@ -46,6 +47,10 @@ namespace Cubicuous {
 
         if (this->_window != nullptr) {
             delete this->_window;
+        }
+
+        if (this->_shaderProgram != nullptr) {
+            delete this->_shaderProgram;
         }
     }
 

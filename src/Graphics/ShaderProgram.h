@@ -1,0 +1,82 @@
+#ifndef CUBICUOUS_SHADERMANAGER_H
+#define CUBICUOUS_SHADERMANAGER_H
+
+#include <GL/glew.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <vector>
+#include <fstream>
+
+#include "../Debugging/Logger.h"
+
+namespace Cubicuous {
+    namespace Graphics {
+        class ShaderProgram {
+        private:
+            GLuint _shaderProgramID;
+
+        public:
+            ShaderProgram();
+            ~ShaderProgram();
+
+            void attachShader(const char* shaderFilePath, GLenum shaderType);
+
+            void bindFragDataLocation(const char* binding);
+
+            void enable();
+
+            inline void disable() {
+                glUseProgram(0);
+            }
+
+            inline void setUniform1f(const GLchar* name, float value) {
+                glUniform1f(this->getUniformLocation(name), value);
+            }
+
+            inline void setUniform1fv(const GLchar* name, float* value, int count)
+            {
+                glUniform1fv(this->getUniformLocation(name), count, value);
+            }
+
+            inline void setUniform1i(const GLchar* name, int value)
+            {
+                glUniform1i(this->getUniformLocation(name), value);
+            }
+
+            inline void setUniform1iv(const GLchar* name, int* value, int count)
+            {
+                glUniform1iv(this->getUniformLocation(name), count, value);
+            }
+
+            inline void setUniform2f(const GLchar* name, const glm::vec2& vector)
+            {
+                glUniform2f(this->getUniformLocation(name), vector.x, vector.y);
+            }
+
+            inline void setUniform3f(const GLchar* name, const glm::vec3& vector)
+            {
+                glUniform3f(this->getUniformLocation(name), vector.x, vector.y, vector.z);
+            }
+
+            inline void setUniform4f(const GLchar* name, const glm::vec4& vector)
+            {
+                glUniform4f(this->getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+            }
+
+            inline void setUniformMat4(const GLchar* name, const glm::mat4& matrix)
+            {
+                glUniformMatrix4fv(this->getUniformLocation(name),
+                                   1, GL_FALSE, glm::value_ptr(matrix));
+            }
+
+        private:
+            GLuint getShader(const char* shaderFilePath, GLenum shaderType);
+
+            inline GLint getUniformLocation(const GLchar* name) {
+                return glGetUniformLocation(this->_shaderProgramID, name);
+            }
+        };
+    }
+}
+
+#endif
