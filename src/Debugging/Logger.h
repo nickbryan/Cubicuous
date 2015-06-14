@@ -8,6 +8,14 @@
 
 namespace Cubicuous {
     namespace Debugging {
+    #ifdef _WIN32
+        #define NEWLINE "\r\n"
+    #elif defined macintosh // OS 9
+        #define NEWLINE "\r"
+    #else
+    #define NEWLINE "\n" // Mac OS X uses \n
+    #endif
+
         class Logger {
         public:
             static void log(std::string str);

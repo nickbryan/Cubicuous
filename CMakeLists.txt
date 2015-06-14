@@ -34,7 +34,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Core/ILoop.h
     src/Core/Loops/ConstSpeedVarFps.cpp src/Core/Loops/ConstSpeedVarFps.h
     src/Game.cpp src/Game.h
-)
+    src/Graphics/Shader.h src/Graphics/ShaderManager.cpp src/Graphics/ShaderManager.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous
