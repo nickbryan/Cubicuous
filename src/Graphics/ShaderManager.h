@@ -63,7 +63,7 @@ namespace Cubicuous {
                                    1, GL_FALSE, glm::value_ptr(matrix));
             }
 
-            static inline void enableShader(GLuint shaderProgram) const {
+            static inline void enableShader(GLuint shaderProgram) {
                 glUseProgram(shaderProgram);
             }
 
@@ -71,7 +71,7 @@ namespace Cubicuous {
                 glUseProgram(0);
             }
 
-            static inline void destroyShader(GLuint shaderProgram) const {
+            static inline void destroyShader(GLuint shaderProgram) {
                 glDeleteProgram(shaderProgram);
             }
         };
