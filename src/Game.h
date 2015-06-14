@@ -100,6 +100,8 @@ namespace Cubicuous {
         inline Scene *getActiveScene() const { return this->_activeScene; }
 
         inline Scene *getNextScene() const { return this->_nextScene; }
+
+
     };
 }
 #endif
