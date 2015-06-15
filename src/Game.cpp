@@ -111,4 +111,28 @@ namespace Cubicuous {
 
         return iterator->second;
     }
+
+    VertexBuffer Game::createVertexBuffer(const char* name, GLenum type) {
+        VertexBuffer vertexBuffer = VertexBuffer(type);
+        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer>(name, vertexBuffer));
+        return vertexBuffer;
+    }
+
+    void Game::attachVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type) {
+        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer>(name, VertexBuffer(type, storageMode, id)));
+    }
+
+    void Game::attachVertexBuffer(const char* name, VertexBuffer& buffer) {
+        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer>(name, buffer));
+    }
+
+    const VertexBuffer* Game::getVertexBuffer(const char* name) {
+        std::unordered_map<const char*, VertexBuffer>::const_iterator iterator = this->_vertexBuffers.find(name);
+
+        if (iterator == this->_vertexBuffers.end()) {
+            return nullptr;
+        }
+
+        return &iterator->second;
+    }
 }
