@@ -27,6 +27,9 @@ namespace Cubicuous {
                                 this->setScene(this->_settings->pauseScene);
                             }));
         }
+
+        glGenVertexArrays(1, &this->_vertexArrayID);
+        glBindVertexArray(this->_vertexArrayID);
     }
 
     Game::~Game() {
@@ -41,6 +44,7 @@ namespace Cubicuous {
             delete this->_scenes;
         }
 
+        glDeleteVertexArrays(1, &this->_vertexArrayID);
         if (this->_settings != nullptr) {
             delete this->_settings;
         }

@@ -73,6 +73,7 @@ namespace Cubicuous {
 
         ShaderProgram *_shaderProgram;
         std::unordered_map<const char*, VertexBuffer> _vertexBuffers;
+        GLuint _vertexArrayID;
 
     public:
         Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings);
