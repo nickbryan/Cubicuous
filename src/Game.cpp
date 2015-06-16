@@ -39,6 +39,9 @@ namespace Cubicuous {
         if (this->_nextScene != nullptr && this->_nextScene != this->_settings->pauseScene) {
             delete this->_nextScene;
         }
+        if(this->_previousScene != nullptr && this->_previousScene != this->_settings->pauseScene) {
+            delete this->_previousScene;
+        }
 
         if (this->_scenes != nullptr) {
             delete this->_scenes;
@@ -77,6 +80,8 @@ namespace Cubicuous {
                 if(this->_previousScene == this->_settings->pauseScene) {
                     this->_activeScene->onPlay();
                 }
+
+                this->_nextScene = nullptr;
             }
 
             if (this->_activeScene != nullptr) {

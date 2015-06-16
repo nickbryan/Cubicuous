@@ -5,9 +5,9 @@ namespace Cubicuous {
     namespace Core {
         class Entity {
         public:
-            virtual void render(double deltaTime);
+            inline virtual void render(double deltaTime) {};
 
-            virtual void update();
+            inline virtual void update() {};
         };
     }
 }
