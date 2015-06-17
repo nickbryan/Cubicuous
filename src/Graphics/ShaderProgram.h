@@ -14,6 +14,7 @@ namespace Cubicuous {
         class ShaderProgram {
         private:
             GLuint _shaderProgramID;
+            GLint _VertexAttribArrayID;
 
         public:
             ShaderProgram();
@@ -24,6 +25,13 @@ namespace Cubicuous {
             void bindFragDataLocation(const char* binding);
 
             void enable();
+
+            void setVertexAttribArray(const char* location, GLint size, GLenum type, GLboolean normalised,
+                                        GLsizei stride, const GLvoid* pointer);
+
+            void disableVertexAttribArray();
+
+            inline GLint getVertexAttribArray() { return this->_VertexAttribArrayID; }
 
             inline void disable() {
                 glUseProgram(0);

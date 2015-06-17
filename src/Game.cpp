@@ -1,4 +1,7 @@
 #include "Game.h"
+#include "Core/Scene.h"
+#include "Core/ILoop.h"
+#include "Core/Loops/ConstSpeedVarFps.h"
 
 namespace Cubicuous {
     Game::Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings) {
@@ -85,7 +88,7 @@ namespace Cubicuous {
             }
 
             if (this->_activeScene != nullptr) {
-                this->_settings->loop->loop(this->_activeScene);
+                this->_settings->loop->loop(this);
             }
 
             this->_window->clear();
@@ -135,13 +138,13 @@ namespace Cubicuous {
         this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer>(name, buffer));
     }
 
-    const VertexBuffer* Game::getVertexBuffer(const char* name) {
-        std::unordered_map<const char*, VertexBuffer>::const_iterator iterator = this->_vertexBuffers.find(name);
+    VertexBuffer& Game::getVertexBuffer(const char* name) {
+        std::unordered_map<const char*, VertexBuffer>::iterator iterator = this->_vertexBuffers.find(name);
 
         if (iterator == this->_vertexBuffers.end()) {
-            return nullptr;
+            throw "Buffer not found.";
         }
 
-        return &iterator->second;
+        return (*iterator).second;
     }
 }

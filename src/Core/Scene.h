@@ -5,6 +5,8 @@
 #include "Entity.h"
 
 namespace Cubicuous {
+    class Game;
+
     namespace Core {
         class Scene {
         protected:
@@ -19,13 +21,13 @@ namespace Cubicuous {
             }
 
             //scene used methods
-            virtual void render(double deltaTime) {
+            virtual void render(Cubicuous::Game *game, double deltaTime) {
                 for (Entity entity : this->_entities) {
                     entity.render(deltaTime);
                 }
             }
 
-            virtual void update() {
+            virtual void update(Cubicuous::Game *game) {
                 for (Entity entity : this->_entities) {
                     entity.update();
                 }

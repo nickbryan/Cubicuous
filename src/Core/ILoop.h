@@ -4,6 +4,7 @@
 #include <time.h>
 #include <ctime>
 #include "Scene.h"
+#include "../Game.h"
 
 namespace Cubicuous {
     namespace Core {
@@ -28,7 +29,7 @@ namespace Cubicuous {
         public:
             inline ILoop(int updateRate) { this->_updateRate = updateRate; }
 
-            virtual void loop(Scene *activeScene) { };
+            virtual void loop(Game *game) { };
 
             inline virtual int getFps() const { return this->_frps; }
 

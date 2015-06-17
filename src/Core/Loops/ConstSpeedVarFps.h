@@ -16,14 +16,11 @@ namespace Cubicuous {
                 int _skipTicks;
 
             public:
-                ConstSpeedVarFps(int updateRate) : ILoop(updateRate) {
-                    this->_nextTick = this->getTicks();
-                    this->_skipTicks = 1000 / updateRate;
-                };
+                ConstSpeedVarFps(int updateRate);
 
                 ~ConstSpeedVarFps();
 
-                virtual void loop(Scene *activeScene) override;
+                virtual void loop(Game *game) override;
             };
         }
     }

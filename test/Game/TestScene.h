@@ -3,14 +3,15 @@
 
 #include "../../src/core/Scene.h"
 #include "../../src/core/Entity.h"
+#include "../../src/Game.h"
 
 class TestScene : public Cubicuous::Core::Scene {
 public:
     inline TestScene() : Scene(){};
     inline ~TestScene(){};
-    void render(double deltaTime) override;
+    void render(Cubicuous::Game *game, double deltaTime) override;
 
-    void update() override;
+    void update(Cubicuous::Game *game) override;
 };
 
 

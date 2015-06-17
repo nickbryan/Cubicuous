@@ -58,6 +58,18 @@ namespace Cubicuous {
             glUseProgram(this->_shaderProgramID);
         }
 
+        void ShaderProgram::setVertexAttribArray(const char *location, GLint size, GLenum type, GLboolean normalised,
+                                                   GLsizei stride, const GLvoid *pointer) {
+
+            this->_VertexAttribArrayID = glGetAttribLocation(this->_shaderProgramID, location);
+            glEnableVertexAttribArray(this->_VertexAttribArrayID);
+            glVertexAttribPointer(this->_VertexAttribArrayID, size, type, normalised, stride, pointer);
+        }
+
+        void ShaderProgram::disableVertexAttribArray() {
+            glDisableVertexAttribArray(this->_VertexAttribArrayID);
+        }
+
         GLuint ShaderProgram::_getShader(const char *shaderFilePath, GLenum shaderType) {
             std::string shaderNameString = Logger::toLoggable(shaderFilePath);
 
