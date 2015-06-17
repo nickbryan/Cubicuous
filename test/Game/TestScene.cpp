@@ -5,8 +5,8 @@
 #include "TestScene.h"
 #include "../../src/Graphics/ShaderProgram.h"
 
-void TestScene::render(Cubicuous::Game *game, double deltaTime) {
-    Cubicuous::Graphics::ShaderProgram *shaderProgram = game->getShaderProgram();
+void TestScene::render(double deltaTime) {
+    Cubicuous::Graphics::ShaderProgram *shaderProgram = this->_game->getShaderProgram();
 
     glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), ((float)800 / (float)600), 1.0f, 10.0f);
 
@@ -25,6 +25,6 @@ void TestScene::render(Cubicuous::Game *game, double deltaTime) {
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
-void TestScene::update(Cubicuous::Game *game) {
+void TestScene::update() {
 
 }

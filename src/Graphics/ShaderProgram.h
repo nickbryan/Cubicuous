@@ -8,13 +8,14 @@
 #include <fstream>
 
 #include "../Debugging/Logger.h"
+#include "ShaderException.h"
 
 namespace Cubicuous {
     namespace Graphics {
         class ShaderProgram {
         private:
             GLuint _shaderProgramID;
-            GLint _VertexAttribArrayID;
+            GLuint _vertexAttribArrayID;
 
         public:
             ShaderProgram();
@@ -31,7 +32,7 @@ namespace Cubicuous {
 
             void disableVertexAttribArray();
 
-            inline GLint getVertexAttribArray() { return this->_VertexAttribArrayID; }
+            inline GLint getVertexAttribArray() { return this->_vertexAttribArrayID; }
 
             inline void disable() {
                 glUseProgram(0);
@@ -83,6 +84,11 @@ namespace Cubicuous {
             inline GLint _getUniformLocation(const GLchar *name) {
                 return glGetUniformLocation(this->_shaderProgramID, name);
             }
+
+            void _checkError(const char* strIfError);
+            inline void _checkError(std::string strIfError) {
+                this->_checkError(strIfError.c_str());
+            };
         };
     }
 }

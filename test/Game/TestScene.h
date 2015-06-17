@@ -7,11 +7,11 @@
 
 class TestScene : public Cubicuous::Core::Scene {
 public:
-    inline TestScene() : Scene(){};
-    inline ~TestScene(){};
-    void render(Cubicuous::Game *game, double deltaTime) override;
+    inline TestScene(Cubicuous::Game* game) : Scene(game) {};
+    inline ~TestScene() {};
+    void render(double deltaTime) override;
 
-    void update(Cubicuous::Game *game) override;
+    void update() override;
 };
 
 

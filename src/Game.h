@@ -25,11 +25,7 @@ using Cubicuous::Graphics::ShaderProgram;
 using Cubicuous::Graphics::VertexBuffer;
 
 namespace Cubicuous {
-
     class Game {
-    public:
-
-
     private:
         std::unordered_map<const char *, Scene *> *_scenes;
         Scene *_activeScene = nullptr;

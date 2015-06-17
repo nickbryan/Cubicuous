@@ -1,7 +1,5 @@
 #include "ShaderProgram.h"
 
-
-
 namespace Cubicuous {
     using namespace Debugging;
 
@@ -10,14 +8,14 @@ namespace Cubicuous {
         ShaderProgram::ShaderProgram() {
             this->_shaderProgramID = glCreateProgram();
 
-            GLenum error = glGetError();
-
             if (this->_shaderProgramID == 0) {
-                Logger::log("Shader Manager", "Failed to create shader program");
+                throw new ShaderException("Failed to create shader program");
             }
             else if (glIsProgram(this->_shaderProgramID) != GL_TRUE) {
-                Logger::log("Shader Manager", "Failed to create shader program");
+                throw new ShaderException("Failed to create shader program, shader program is not a shader program");
             }
+
+            this->_checkError("Failed to create shader program");
         }
 
         ShaderProgram::~ShaderProgram() {
@@ -28,51 +26,44 @@ namespace Cubicuous {
             GLuint shader = this->_getShader(shaderFilePath, shaderType);
             glAttachShader(this->_shaderProgramID, shader);
             glDeleteShader(shader);
-
-            GLenum error = glGetError();
-            if(error != GL_NO_ERROR) {
-                Logger::log("Shader Manager", "Failed attaching shader, error " +
-                        Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
-            }
+            this->_checkError("Failed to attach shader " + Logger::toLoggable(shaderFilePath));
         }
 
         void ShaderProgram::bindFragDataLocation(const char *binding) {
             glBindFragDataLocation(this->_shaderProgramID, 0, binding);
-
-            GLenum error = glGetError();
-            if(error != GL_NO_ERROR) {
-                Logger::log("Shader Manager", "Failed binding data location, error " +
-                                              Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
-            }
+            this->_checkError("Failed binding data location '" + Logger::toLoggable(binding) + "'");
         }
 
         void ShaderProgram::enable() {
             glLinkProgram(this->_shaderProgramID);
-
-            GLenum error = glGetError();
-            if(error != GL_NO_ERROR) {
-                Logger::log("Shader Manager", "Failed linking shader program, error " +
-                                              Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
-            }
-
+            this->_checkError("Failed linking shader program");
             glUseProgram(this->_shaderProgramID);
         }
 
         void ShaderProgram::setVertexAttribArray(const char *location, GLint size, GLenum type, GLboolean normalised,
                                                    GLsizei stride, const GLvoid *pointer) {
+            GLint attrId = glGetAttribLocation(this->_shaderProgramID, location);
 
-            this->_VertexAttribArrayID = glGetAttribLocation(this->_shaderProgramID, location);
-            glEnableVertexAttribArray(this->_VertexAttribArrayID);
-            glVertexAttribPointer(this->_VertexAttribArrayID, size, type, normalised, stride, pointer);
+            std::string locationStr = Logger::toLoggable(location);
+            if(attrId == -1) { //opengl only uses signed so it can return -1
+                throw new ShaderException("Failed to get attr location" + locationStr);
+            }
+            this->_checkError("Failed to get attrib location " + locationStr);
+
+            this->_vertexAttribArrayID = (GLuint)attrId;
+            glEnableVertexAttribArray(this->_vertexAttribArrayID);
+            this->_checkError("Failed to enable attrib " + locationStr);
+            glVertexAttribPointer(this->_vertexAttribArrayID, size, type, normalised, stride, pointer);
+            this->_checkError("Failed to link attrib " + locationStr + " to program");
         }
 
         void ShaderProgram::disableVertexAttribArray() {
-            glDisableVertexAttribArray(this->_VertexAttribArrayID);
+            glDisableVertexAttribArray(this->_vertexAttribArrayID);
+            this->_checkError("Failed to disable active vertex attribute");
         }
 
         GLuint ShaderProgram::_getShader(const char *shaderFilePath, GLenum shaderType) {
             std::string shaderNameString = Logger::toLoggable(shaderFilePath);
-
             Logger::log("Shader Manager", "Making shader " + shaderNameString);
 
             /* Read file */
@@ -81,8 +72,7 @@ namespace Cubicuous {
             shaderFile.open(shaderFilePath, std::ios_base::in);
 
             if (!shaderFile) {
-                Logger::log("Shader Manager", shaderNameString + " not found");
-                return 0;
+                throw new ShaderException(shaderNameString + " not found");
             }
 
             std::string line;
@@ -98,12 +88,10 @@ namespace Cubicuous {
             GLuint shaderID = glCreateShader(shaderType);
 
             if (shaderID == 0) {
-                Logger::log("Shader Manager", "Failed to create shader for " + shaderNameString);
-                return 0;
+                throw new ShaderException("Failed to create shader for " + shaderNameString);
             }
 
             const char *shaderStr = shaderData.c_str();
-
             glShaderSource(shaderID, 1, &shaderStr, nullptr);
             glCompileShader(shaderID);
 
@@ -117,19 +105,18 @@ namespace Cubicuous {
                 GLchar *infoLog = new GLchar[logLength + 1];
                 glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog);
 
-                Logger::log("Shader Manager", shaderNameString + " failed to compile: " + infoLog);
-                return 0;
+                throw new ShaderException("Failed to compile shader '" + shaderNameString + "': " + infoLog);
             }
 
+            this->_checkError("Failed making shader program");
+            return shaderID;
+        }
+
+        void ShaderProgram::_checkError(const char* strIfError) {
             GLenum error = glGetError();
             if(error != GL_NO_ERROR) {
-                Logger::log("Shader Manager", "Failed making shader program, error "
-                                    + Logger::toLoggable(error) + ": "
-                                    + Logger::toLoggable(glewGetErrorString(error)));
-                return 0;
+                throw new ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
             }
-
-            return shaderID;
         }
     }
 }

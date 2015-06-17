@@ -3,6 +3,9 @@
 
 #include <vector>
 #include "Entity.h"
+#include "../Window/Input.h"
+
+using Cubicuous::Window::Input;
 
 namespace Cubicuous {
     class Game;
@@ -10,28 +13,26 @@ namespace Cubicuous {
     namespace Core {
         class Scene {
         protected:
-            std::vector<Entity> _entities;
+            std::vector<Entity*> _entities;
+            Cubicuous::Game* _game;
+            Input *_input;
 
         public:
-            inline Scene() {};
-            inline ~Scene() {};
+            Scene(Cubicuous::Game* game);
+            virtual inline ~Scene() {
+                if(this->_input != nullptr) {
+                    delete(this->_input);
+                }
+            };
 
-            virtual inline void addEntity(Entity entity) {
-                this->_entities.push_back(entity);
-            }
+            virtual inline Input* getInput() const { return this->_input; }
+
+            virtual void addEntity(Entity* entity);
 
             //scene used methods
-            virtual void render(Cubicuous::Game *game, double deltaTime) {
-                for (Entity entity : this->_entities) {
-                    entity.render(deltaTime);
-                }
-            }
+            virtual void render(double deltaTime);
 
-            virtual void update(Cubicuous::Game *game) {
-                for (Entity entity : this->_entities) {
-                    entity.update();
-                }
-            }
+            virtual void update();
 
             //events
             virtual void onActive() { };
