@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include "../../src/Window/Window.h"
 #include "../../src/Game.h"
 #include "TestScene.h"
@@ -81,8 +80,8 @@ int main() {
 
         game.start();
     }
-    catch (Cubicuous::Graphics::ShaderException const *e) {
-        std::cout << e->what() << std::endl;
+    catch (Cubicuous::Graphics::ShaderException &e) {
+        Logger::log(e.what());
 
 #ifdef _WIN32
         system("PAUSE");

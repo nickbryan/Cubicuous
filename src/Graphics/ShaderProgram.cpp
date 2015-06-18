@@ -6,13 +6,14 @@ namespace Cubicuous {
     namespace Graphics {
 
         ShaderProgram::ShaderProgram() {
+            this->_checkError("Errors before create shader program");
             this->_shaderProgramID = glCreateProgram();
 
             if (this->_shaderProgramID == 0) {
-                throw new ShaderException("Failed to create shader program");
+                throw ShaderException("Failed to create shader program");
             }
             else if (glIsProgram(this->_shaderProgramID) != GL_TRUE) {
-                throw new ShaderException("Failed to create shader program, shader program is not a shader program");
+                throw ShaderException("Failed to create shader program, shader program is not a shader program");
             }
 
             this->_checkError("Failed to create shader program");
@@ -46,7 +47,7 @@ namespace Cubicuous {
 
             std::string locationStr = Logger::toLoggable(location);
             if(attrId == -1) { //opengl only uses signed so it can return -1
-                throw new ShaderException("Failed to get attr location" + locationStr);
+                throw ShaderException("Failed to get attr location" + locationStr);
             }
             this->_checkError("Failed to get attrib location " + locationStr);
 
@@ -72,7 +73,7 @@ namespace Cubicuous {
             shaderFile.open(shaderFilePath, std::ios_base::in);
 
             if (!shaderFile) {
-                throw new ShaderException(shaderNameString + " not found");
+                throw ShaderException(shaderNameString + " not found");
             }
 
             std::string line;
@@ -88,7 +89,7 @@ namespace Cubicuous {
             GLuint shaderID = glCreateShader(shaderType);
 
             if (shaderID == 0) {
-                throw new ShaderException("Failed to create shader for " + shaderNameString);
+                throw ShaderException("Failed to create shader for " + shaderNameString);
             }
 
             const char *shaderStr = shaderData.c_str();
@@ -105,7 +106,7 @@ namespace Cubicuous {
                 GLchar *infoLog = new GLchar[logLength + 1];
                 glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog);
 
-                throw new ShaderException("Failed to compile shader '" + shaderNameString + "': " + infoLog);
+                throw ShaderException("Failed to compile shader '" + shaderNameString + "': " + infoLog);
             }
 
             this->_checkError("Failed making shader program");
@@ -115,7 +116,7 @@ namespace Cubicuous {
         void ShaderProgram::_checkError(const char* strIfError) {
             GLenum error = glGetError();
             if(error != GL_NO_ERROR) {
-                throw new ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
+                throw ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
             }
         }
     }

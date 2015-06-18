@@ -18,7 +18,7 @@ namespace Cubicuous {
             }
 
             virtual ~ShaderException() throw() {
-                delete(this->_what);
+
             }
 
             inline virtual const char* what() const throw() override {
