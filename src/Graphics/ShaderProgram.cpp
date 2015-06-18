@@ -73,7 +73,7 @@ namespace Cubicuous {
             shaderFile.open(shaderFilePath, std::ios_base::in);
 
             if (!shaderFile) {
-                throw ShaderException(shaderNameString + " not found");
+                throw ShaderException("Shader file not found");
             }
 
             std::string line;
@@ -89,7 +89,7 @@ namespace Cubicuous {
             GLuint shaderID = glCreateShader(shaderType);
 
             if (shaderID == 0) {
-                throw ShaderException("Failed to create shader for " + shaderNameString);
+                throw ShaderException("Failed to create shader, id 0 returned");
             }
 
             const char *shaderStr = shaderData.c_str();
@@ -106,7 +106,7 @@ namespace Cubicuous {
                 GLchar *infoLog = new GLchar[logLength + 1];
                 glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog);
 
-                throw ShaderException("Failed to compile shader '" + shaderNameString + "': " + infoLog);
+                throw ShaderException("Failed to compile shader: " + Logger::toLoggable(infoLog));
             }
 
             this->_checkError("Failed making shader program");

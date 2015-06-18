@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "../../src/Window/Window.h"
 #include "../../src/Game.h"
 #include "TestScene.h"
