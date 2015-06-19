@@ -82,7 +82,7 @@ int main() {
         game.start();
     }
     catch (Cubicuous::Graphics::ShaderException &e) {
-        Logger::log(e.what());
+        Logger::log("Shader Exception", e.what());
 
 #ifdef _WIN32
         system("PAUSE");

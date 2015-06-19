@@ -116,7 +116,8 @@ namespace Cubicuous {
         void ShaderProgram::_checkError(const char* strIfError) {
             GLenum error = glGetError();
             if(error != GL_NO_ERROR) {
-                throw ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": " + Logger::toLoggable(glewGetErrorString(error)));
+                throw ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": "
+                                      + Logger::toLoggable(glewGetErrorString(error)));
             }
         }
     }

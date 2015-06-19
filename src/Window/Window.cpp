@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Window.h"
+#include "../Graphics/ShaderException.h"
 
 namespace Cubicuous {
     namespace Window {
@@ -49,8 +50,10 @@ namespace Cubicuous {
 
             glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
+            //TODO: Check version we got and make sure it's > the const values
+
             this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
-            if (!_window) {
+            if (!this->_window) {
                 Debugging::Logger::log("Failed to create GLFW window!");
                 return false;
             }
@@ -72,6 +75,8 @@ namespace Cubicuous {
                 Debugging::Logger::log("Failed to initialise GLEW!");
                 return false;
             }
+
+            glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW
 
             return true;
         }

@@ -2,19 +2,20 @@
 #define CUBICUOUS_SHADEREXCEPTION_H
 
 #include <exception>
+#include <string.h>
 
 namespace Cubicuous {
     namespace Graphics {
         class ShaderException : public std::exception {
         private:
-            const char* _what;
+            std::string _what;
 
         public:
             ShaderException(const char* what) {
-                this->_what = what;
+                this->_what = std::string(what);
             }
             ShaderException(std::string what) {
-                this->_what = what.c_str();
+                this->_what = what;
             }
 
             virtual ~ShaderException() throw() {
@@ -22,7 +23,7 @@ namespace Cubicuous {
             }
 
             inline virtual const char* what() const throw() override {
-                return this->_what;
+                return this->_what.c_str();
             }
         };
     };
