@@ -30,7 +30,7 @@ namespace Cubicuous {
             this->_checkError("Failed to attach shader " + Logger::toLoggable(shaderFilePath));
         }
 
-        void ShaderProgram::bindFragDataLocation(const char *binding) {
+        void ShaderProgram::bindOutput(const char* binding) {
             glBindFragDataLocation(this->_shaderProgramID, 0, binding);
             this->_checkError("Failed binding data location '" + Logger::toLoggable(binding) + "'");
         }
@@ -47,7 +47,7 @@ namespace Cubicuous {
 
             std::string locationStr = Logger::toLoggable(location);
             if(attrId == -1) { //opengl only uses signed so it can return -1
-                throw ShaderException("Failed to get attr location" + locationStr);
+                throw ShaderException("Failed to get attr location " + locationStr);
             }
             this->_checkError("Failed to get attrib location " + locationStr);
 

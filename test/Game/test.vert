@@ -1,15 +1,10 @@
-#version 150 core
+#version 330
 
+uniform mat4 view;
+uniform mat4 projection;
+uniform mat4 model;
 in vec3 position;
-in vec3 color;
 
-out vec3 Color;
-
-uniform mat4 mvp;
-
-void main()
-{
-    Color = color;
-
-    gl_Position = mvp * vec4(position, 1.0);
+void main() {
+    gl_Position = projection  * view * model * vec4(position, 1.0);
 }

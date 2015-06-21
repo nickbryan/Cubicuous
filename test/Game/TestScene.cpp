@@ -3,25 +3,21 @@
 #include <glm/gtx/transform2.hpp>
 #include <GL/glew.h>
 #include "TestScene.h"
-#include "../../src/Graphics/ShaderProgram.h"
 
 void TestScene::render(double deltaTime) {
     Cubicuous::Graphics::ShaderProgram *shaderProgram = this->_game->getShaderProgram();
+    shaderProgram->enable();
+    shaderProgram->setVertexAttribArray("position", 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-    glm::mat4 projectionMatrix = glm::perspective(glm::radians(45.0f), ((float)800 / (float)600), 1.0f, 10.0f);
-
-    glm::mat4 viewMatrix = glm::lookAt(
+    shaderProgram->setUniformMat4("projection", glm::perspective(glm::radians(45.0f), ((float)800 / (float)600), 1.0f, 10.0f));
+    shaderProgram->setUniformMat4("view", glm::lookAt(
             glm::vec3(1.5f, 1.5f, 1.5f),
             glm::vec3(0.0f, 0.0f, 0.0f),
             glm::vec3(0.0f, 0.0f, 1.0f)
-    );
+    ));
+    shaderProgram->setUniformMat4("model", glm::mat4(1.0f));
 
-    glm::mat4 modelMatrix = glm::mat4(1.0f);
-
-    glm::mat4 mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
-
-    shaderProgram->setUniformMat4("mvp", mvpMatrix);
-
+    shaderProgram->disableVertexAttribArray();
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 

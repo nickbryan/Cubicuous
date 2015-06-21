@@ -8,6 +8,9 @@ namespace Cubicuous {
         this->_window = new Window::Window(windowSettings);
         this->_settings = gameSettings;
         this->_scenes = new std::unordered_map<const char *, Scene *>;
+
+        glGenVertexArrays(1, &this->_vertexArrayID);
+        glBindVertexArray(this->_vertexArrayID);
         this->_shaderProgram = new ShaderProgram();
 
         if (this->_settings->quickQuitKey != 0) {
@@ -30,9 +33,6 @@ namespace Cubicuous {
                                 this->setScene(this->_settings->pauseScene);
                             }));
         }
-
-        glGenVertexArrays(1, &this->_vertexArrayID);
-        glBindVertexArray(this->_vertexArrayID);
     }
 
     Game::~Game() {

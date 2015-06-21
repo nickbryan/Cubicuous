@@ -23,7 +23,7 @@ namespace Cubicuous {
 
             void attachShader(const char* shaderFilePath, GLenum shaderType);
 
-            void bindFragDataLocation(const char* binding);
+            void bindOutput(const char* binding);
 
             void enable();
 

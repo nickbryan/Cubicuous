@@ -23,13 +23,13 @@ namespace Cubicuous {
 
     GameSettings::GameSettings(unsigned int quickQuitKey, unsigned int togglePauseKey, Core::Scene *pauseScene)
             : GameSettings(togglePauseKey, pauseScene)  {
-        this->togglePauseKey = togglePauseKey;
-        this->pauseScene = pauseScene;
+        this->quickQuitKey = quickQuitKey;
     }
 
     GameSettings::GameSettings(unsigned int togglePauseKey, Core::Scene *pauseScene)
             : GameSettings() {
-        this->quickQuitKey = quickQuitKey;
+        this->togglePauseKey = togglePauseKey;
+        this->pauseScene = pauseScene;
     }
 
     GameSettings::~GameSettings() {
