@@ -27,6 +27,7 @@ endif (APPLE)
 #Add the library its self
 add_library(Cubicuous ${SOURCE_FILES}
     src/Debugging/Logger.cpp src/Debugging/Logger.h
+    src/Window/WindowException.h
     src/Window/Window.cpp src/Window/Window.h
     src/Window/Input.cpp src/Window/Input.h
     src/GameSettings.cpp src/GameSettings.h

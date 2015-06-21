@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Window.h"
+#include "WindowException.h"
 
 namespace Cubicuous {
     namespace Window {
@@ -11,10 +12,7 @@ namespace Cubicuous {
             this->_title = title;
             this->_width = width;
             this->_height = height;
-
-            if (!this->_init()) {
-                glfwTerminate();
-            }
+            this->_init();
         }
 
         Window::~Window() {
@@ -33,10 +31,9 @@ namespace Cubicuous {
             glfwSetWindowShouldClose(this->_window, GL_TRUE);
         }
 
-        bool Window::_init() {
+        void Window::_init() {
             if (!glfwInit()) {
-                Debugging::Logger::log("Failed to initialise GLFW!");
-                return false;
+                throw WindowException("Failed to initialise GLFW!");
             }
 
             // We need this to get latest version of OpenGl on mac
@@ -49,12 +46,21 @@ namespace Cubicuous {
 
             glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
-            //TODO: Check version we got and make sure it's > the const values
+            int major;
+            int minor;
+            glGetIntegerv(GL_MAJOR_VERSION, &major);
+            glGetIntegerv(GL_MINOR_VERSION, &minor);
+
+            if(major < Window::OPENGL_VERSION_MAJOR) {
+                throw WindowException("OpenGL major installation version (" + Debugging::Logger::toLoggable(major) + ") too old!");
+            }
+            else if(minor < Window::OPENGL_VERSION_MINOR) {
+                throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
+            }
 
             this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
             if (!this->_window) {
-                Debugging::Logger::log("Failed to create GLFW window!");
-                return false;
+                throw WindowException("Failed to create GLFW window!");
             }
 
             glfwMakeContextCurrent(this->_window);
@@ -71,8 +77,7 @@ namespace Cubicuous {
 
             glewExperimental = GL_TRUE;
             if (glewInit() != GLEW_OK) {
-                Debugging::Logger::log("Failed to initialise GLEW!");
-                return false;
+                throw WindowException("Failed to initialise GLEW!");
             }
 
             glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW
@@ -81,8 +86,6 @@ namespace Cubicuous {
             glEnable(GL_CULL_FACE);
             glEnableClientState(GL_VERTEX_ARRAY);
             glViewport(0, 0, this->_width, this->_height);
-
-            return true;
         }
 
         bool Window::isOpen() const {

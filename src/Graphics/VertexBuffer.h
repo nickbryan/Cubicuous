@@ -34,6 +34,11 @@ namespace Cubicuous {
                 inline void updateData(const void* data) {
                     glBindBuffer(GL_ARRAY_BUFFER, this->_bufferID);
                     glBufferData(this->_type, sizeof(data), data, this->_storageMode);
+
+                    GLenum error = glGetError();
+                    if(error != GL_NO_ERROR) {
+                        Debugging::Logger::log("Failed updating buffer data" + Debugging::Logger::toLoggable(error));
+                    }
                 }
         };
     }

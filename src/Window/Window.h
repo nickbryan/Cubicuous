@@ -88,7 +88,7 @@ namespace Cubicuous {
             inline void resetMousePosition() const { glfwSetCursorPos(this->_window, 0.0f, 0.0f); };
 
         private:
-            bool _init();
+            void _init();
 
             void _updateMousePosition();
 
