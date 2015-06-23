@@ -51,7 +51,7 @@ private:
             -0.5f,  0.5f, -0.5f
     };
 
-    VertexBuffer& _cubeBuffer;
+    VertexBuffer* _cubeBuffer;
 
 public:
     inline TestScene(Cubicuous::Game* game) : Scene(game), _cubeBuffer(game->getVertexBuffer("cubeBuffer")) {

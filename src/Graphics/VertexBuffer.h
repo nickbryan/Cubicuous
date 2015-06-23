@@ -17,12 +17,20 @@ namespace Cubicuous {
                     this->_storageMode = storageMode;
 
                     glGenBuffers(1, &this->_bufferID);
+                    glBindBuffer(this->_type, this->_bufferID);
+
+                    GLenum error = glGetError();
+                    if(error != GL_NO_ERROR) {
+                        Debugging::Logger::log("Failed generating vertex buffer: " + Debugging::Logger::toLoggable(error));
+                    }
                 }
 
                 VertexBuffer(GLenum type) : VertexBuffer(type, GL_STATIC_DRAW) {}
 
                 inline VertexBuffer(GLenum type, GLenum storageMode, GLuint bufferId) {
                     this->_bufferID = bufferId;
+                    this->_type = type;
+                    this->_storageMode = storageMode;
                 }
 
                 inline ~VertexBuffer() {
@@ -32,23 +40,13 @@ namespace Cubicuous {
                 inline GLuint getBufferID() const { return this->_bufferID; }
 
                 inline void updateData(const void* data) {
-                    if (glIsBuffer(this->_bufferID) == GL_TRUE) {
-                        Debugging::Logger::log("its true");
-                    }
-
-
-                    GLenum error = glGetError();
-                    if(error != GL_NO_ERROR) {
-                        Debugging::Logger::log("Failed before buffer data: " + Debugging::Logger::toLoggable(error));
-                    }
-
                     glBindBuffer(this->_type, this->_bufferID);
-                     error = glGetError();
+                    GLenum error = glGetError();
                     if(error != GL_NO_ERROR) {
                         Debugging::Logger::log("Failed binding buffer data: " + Debugging::Logger::toLoggable(error));
                     }
-                    glBufferData(this->_type, sizeof(data), data, this->_storageMode);
 
+                    glBufferData(this->_type, sizeof(data), data, this->_storageMode);
                     error = glGetError();
                     if(error != GL_NO_ERROR) {
                         Debugging::Logger::log("Failed updating buffer data: " + Debugging::Logger::toLoggable(error));
