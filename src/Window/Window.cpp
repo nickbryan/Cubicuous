@@ -46,6 +46,13 @@ namespace Cubicuous {
 
             glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
+            this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
+            if (!this->_window) {
+                throw WindowException("Failed to create GLFW window!");
+            }
+
+            glfwMakeContextCurrent(this->_window);
+
             int major;
             int minor;
             glGetIntegerv(GL_MAJOR_VERSION, &major);
@@ -57,13 +64,6 @@ namespace Cubicuous {
             else if(minor < Window::OPENGL_VERSION_MINOR) {
                 throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
             }
-
-            this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
-            if (!this->_window) {
-                throw WindowException("Failed to create GLFW window!");
-            }
-
-            glfwMakeContextCurrent(this->_window);
 
             // Allows us to access our window in our callbacks
             glfwSetWindowUserPointer(this->_window, this);
@@ -84,7 +84,6 @@ namespace Cubicuous {
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_MULTISAMPLE);
             glEnable(GL_CULL_FACE);
-            glEnableClientState(GL_VERTEX_ARRAY);
             glViewport(0, 0, this->_width, this->_height);
         }
 

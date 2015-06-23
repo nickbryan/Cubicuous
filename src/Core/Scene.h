@@ -14,7 +14,7 @@ namespace Cubicuous {
         class Scene {
         protected:
             std::vector<Entity*> _entities;
-            Cubicuous::Game* _game;
+            Cubicuous::Game *_game;
             Input *_input;
 
         public:

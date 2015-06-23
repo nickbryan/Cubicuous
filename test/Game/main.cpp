@@ -2,6 +2,7 @@
 #include "../../src/Window/Window.h"
 #include "../../src/Game.h"
 #include "TestScene.h"
+#include "../../src/Window/WindowException.h"
 
 using Cubicuous::Debugging::Logger;
 using Cubicuous::Window::Input;
@@ -14,9 +15,9 @@ int main() {
         shaderProgram->attachShader("test.vert", GL_VERTEX_SHADER);
         shaderProgram->attachShader("test.frag", GL_FRAGMENT_SHADER);
         shaderProgram->bindOutput("outColor");
+        shaderProgram->enable();
 
         game.createVertexBuffer("cubeBuffer", GL_ARRAY_BUFFER);
-        game.createVertexBuffer("colorBuffer", GL_ARRAY_BUFFER);
 
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");
@@ -25,6 +26,15 @@ int main() {
     }
     catch (Cubicuous::Graphics::ShaderException &e) {
         Logger::log("Shader Exception", e.what());
+
+#ifdef _WIN32
+        system("PAUSE");
+#endif
+
+        return 1;
+    }
+    catch(Cubicuous::Window::WindowException &e) {
+        Logger::log("Window Exception", e.what());
 
 #ifdef _WIN32
         system("PAUSE");
@@ -51,11 +61,13 @@ int main() {
         return 1;
     }
     catch(...) {
-        Logger::log(std::current_exception().__cxa_exception_type()->name());
-
-#ifdef _WIN32
-        system("PAUSE");
-#endif
+        #ifdef _WIN32
+            Logger::log(std::current_exception().__cxa_exception_type()->name());
+            system("PAUSE");
+        #endif
+        #ifdef __APPLE__
+            Logger::log("An unknown error occurred");
+        #endif
 
         return 1;
     }
