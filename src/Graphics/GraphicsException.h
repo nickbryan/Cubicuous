@@ -6,19 +6,19 @@
 
 namespace Cubicuous {
     namespace Graphics {
-        class ShaderException : public std::exception {
+        class GraphicsException : public std::exception {
         private:
             std::string _what;
 
         public:
-            ShaderException(const char* what) {
+            GraphicsException(const char* what) {
                 this->_what = std::string(what);
             }
-            ShaderException(std::string what) {
+            GraphicsException(std::string what) {
                 this->_what = what;
             }
 
-            virtual ~ShaderException() throw() {
+            virtual ~GraphicsException() throw() {
 
             }
 

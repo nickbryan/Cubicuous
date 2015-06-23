@@ -37,7 +37,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Core/ILoop.h
     src/Core/Loops/ConstSpeedVarFps.cpp src/Core/Loops/ConstSpeedVarFps.h
     src/Graphics/ShaderProgram.cpp src/Graphics/ShaderProgram.h
-    src/Graphics/VertexBuffer.h src/Graphics/ShaderException.h)
+    src/Graphics/VertexBuffer.h src/Graphics/GraphicsException.h src/Graphics/VertexArray.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

@@ -24,7 +24,7 @@ int main() {
 
         game.start();
     }
-    catch (Cubicuous::Graphics::ShaderException &e) {
+    catch (Cubicuous::Graphics::GraphicsException&e) {
         Logger::log("Shader Exception", e.what());
 
 #ifdef _WIN32

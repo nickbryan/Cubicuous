@@ -13,6 +13,7 @@ namespace Cubicuous {
         glBindVertexArray(this->_vertexArrayID);
         this->_shaderProgram = new ShaderProgram();
 
+
         if (this->_settings->quickQuitKey != 0) {
             this->_window->getInput()->keyListeners.push_back(
                     Cubicuous::Window::Input::Listener(this->_settings->quickQuitKey,
@@ -70,6 +71,8 @@ namespace Cubicuous {
         }
 
         this->_running = true;
+        this->_shaderProgram->enable();
+
         while (this->_running) {
             if (this->_nextScene != nullptr) {
                 if (this->_activeScene != nullptr) {
@@ -94,6 +97,9 @@ namespace Cubicuous {
             this->_window->clear();
             this->_window->update();
         }
+
+        //stop code
+        this->_shaderProgram->disable();
     }
 
     void Game::cacheScene(const char *name, Scene *scene) {

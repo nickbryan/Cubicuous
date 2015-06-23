@@ -8,14 +8,16 @@
 #include <fstream>
 
 #include "../Debugging/Logger.h"
-#include "ShaderException.h"
+#include "GraphicsException.h"
+#include "VertexArray.h"
 
 namespace Cubicuous {
     namespace Graphics {
         class ShaderProgram {
         private:
-            GLuint _shaderProgramID;
-            GLuint _vertexAttribArrayID;
+            GLuint                    _shaderProgramID;
+            VertexArray*              _activeVertexArray = nullptr;
+            std::vector<VertexArray*> _vertexArrays;
 
         public:
             ShaderProgram();
@@ -27,12 +29,22 @@ namespace Cubicuous {
 
             void enable();
 
-            void setVertexAttribArray(const char* location, GLint size, GLenum type, GLboolean normalised,
-                                        GLsizei stride, const GLvoid* pointer);
+            inline GLuint getID() const { return this->_shaderProgramID; }
 
-            void disableVertexAttribArray();
+            inline void addVertexArray(const char* location, GLint size, GLenum type, GLboolean normalised,
+                                       GLsizei stride, const GLvoid* pointer) {
+               this->addVertexArray(new VertexArray(this->_shaderProgramID, location, size, type, normalised, stride, pointer));
+            }
 
-            inline GLint getVertexAttribArray() { return this->_vertexAttribArrayID; }
+            void addVertexArray(VertexArray* vertexArray);
+
+            void reloadActiveVertexArray() const;
+
+            inline VertexArray* getActiveVertexArray() const { return this->_activeVertexArray; }
+
+            void setActiveVertexArray(const char* name);
+
+            void disableActiveVertexArray();
 
             inline void disable() {
                 glUseProgram(0);

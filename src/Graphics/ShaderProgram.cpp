@@ -10,10 +10,10 @@ namespace Cubicuous {
             this->_shaderProgramID = glCreateProgram();
 
             if (this->_shaderProgramID == 0) {
-                throw ShaderException("Failed to create shader program");
+                throw GraphicsException("Failed to create shader program");
             }
             else if (glIsProgram(this->_shaderProgramID) != GL_TRUE) {
-                throw ShaderException("Failed to create shader program, shader program is not a shader program");
+                throw GraphicsException("Failed to create shader program, shader program is not a shader program");
             }
 
             this->_checkError("Failed to create shader program");
@@ -30,6 +30,31 @@ namespace Cubicuous {
             this->_checkError("Failed to attach shader " + Logger::toLoggable(shaderFilePath));
         }
 
+        void ShaderProgram::addVertexArray(VertexArray* vertexArray) {
+            this->_vertexArrays.push_back(vertexArray);
+        }
+
+        void ShaderProgram::reloadActiveVertexArray() const {
+            if(this->_activeVertexArray != nullptr) {
+                this->_activeVertexArray->enable();
+            }
+        }
+
+        void ShaderProgram::disableActiveVertexArray() {
+            this->_activeVertexArray->disable();
+            this->_activeVertexArray = nullptr;
+        }
+
+        void ShaderProgram::setActiveVertexArray(const char* name) {
+            for(VertexArray* vertexArray : this->_vertexArrays) {
+                if(vertexArray->getName() == name) {
+                    this->_activeVertexArray = vertexArray;
+                    vertexArray->enable();
+                    break;
+                }
+            }
+        }
+
         void ShaderProgram::bindOutput(const char* binding) {
             glBindFragDataLocation(this->_shaderProgramID, 0, binding);
             this->_checkError("Failed binding data location '" + Logger::toLoggable(binding) + "'");
@@ -39,28 +64,6 @@ namespace Cubicuous {
             glLinkProgram(this->_shaderProgramID);
             this->_checkError("Failed linking shader program");
             glUseProgram(this->_shaderProgramID);
-        }
-
-        void ShaderProgram::setVertexAttribArray(const char *location, GLint size, GLenum type, GLboolean normalised,
-                                                   GLsizei stride, const GLvoid *pointer) {
-            GLint attrId = glGetAttribLocation(this->_shaderProgramID, location);
-
-            std::string locationStr = Logger::toLoggable(location);
-            if(attrId == -1) { //opengl only uses signed so it can return -1
-                throw ShaderException("Failed to get attr location " + locationStr);
-            }
-            this->_checkError("Failed to get attrib location " + locationStr);
-
-            this->_vertexAttribArrayID = (GLuint)attrId;
-            glEnableVertexAttribArray(this->_vertexAttribArrayID);
-            this->_checkError("Failed to enable attrib " + locationStr);
-            glVertexAttribPointer(this->_vertexAttribArrayID, size, type, normalised, stride, pointer);
-            this->_checkError("Failed to link attrib " + locationStr + " to program");
-        }
-
-        void ShaderProgram::disableVertexAttribArray() {
-            glDisableVertexAttribArray(this->_vertexAttribArrayID);
-            this->_checkError("Failed to disable active vertex attribute");
         }
 
         GLuint ShaderProgram::_getShader(const char *shaderFilePath, GLenum shaderType) {
@@ -73,7 +76,7 @@ namespace Cubicuous {
             shaderFile.open(shaderFilePath, std::ios_base::in);
 
             if (!shaderFile) {
-                throw ShaderException("Shader file not found");
+                throw GraphicsException("Shader file not found");
             }
 
             std::string line;
@@ -89,7 +92,7 @@ namespace Cubicuous {
             GLuint shaderID = glCreateShader(shaderType);
 
             if (shaderID == 0) {
-                throw ShaderException("Failed to create shader, id 0 returned");
+                throw GraphicsException("Failed to create shader, id 0 returned");
             }
 
             const char *shaderStr = shaderData.c_str();
@@ -106,7 +109,7 @@ namespace Cubicuous {
                 GLchar *infoLog = new GLchar[logLength + 1];
                 glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog);
 
-                throw ShaderException("Failed to compile shader: " + Logger::toLoggable(infoLog));
+                throw GraphicsException("Failed to compile shader: " + Logger::toLoggable(infoLog));
             }
 
             this->_checkError("Failed making shader program");
@@ -116,7 +119,7 @@ namespace Cubicuous {
         void ShaderProgram::_checkError(const char* strIfError) {
             GLenum error = glGetError();
             if(error != GL_NO_ERROR) {
-                throw ShaderException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": "
+                throw GraphicsException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": "
                                       + Logger::toLoggable(glewGetErrorString(error)));
             }
         }

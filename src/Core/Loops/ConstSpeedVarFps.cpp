@@ -29,6 +29,7 @@ namespace Cubicuous {
                 }
 
                 this->_trackerStart = this->getTicks();
+                game->getShaderProgram()->reloadActiveVertexArray();
                 game->getActiveScene()->render((this->_trackerStart + this->_skipTicks - this->_nextTick) / this->_skipTicks);
                 this->_trackerEnd = this->getTicks();
                 this->_frts++;

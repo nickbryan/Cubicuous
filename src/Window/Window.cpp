@@ -84,6 +84,7 @@ namespace Cubicuous {
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_MULTISAMPLE);
             glEnable(GL_CULL_FACE);
+            glEnableClientState(GL_VERTEX_ARRAY);
             glViewport(0, 0, this->_width, this->_height);
         }
 

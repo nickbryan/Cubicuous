@@ -55,6 +55,7 @@ private:
 
 public:
     inline TestScene(Cubicuous::Game* game) : Scene(game), _cubeBuffer(game->getVertexBuffer("cubeBuffer")) {
+        game->getShaderProgram()->addVertexArray("position", 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
     };
 
     void render(double deltaTime) override;
