@@ -22,6 +22,9 @@ int main() {
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");
 
+        // make sure we are not getting a black cube or something
+        glClearColor(0.135f, 0.160f, 0.255f, 1.0f);
+
         game.start();
     }
     catch (Cubicuous::Graphics::GraphicsException&e) {

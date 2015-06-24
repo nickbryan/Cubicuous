@@ -74,6 +74,7 @@ namespace Cubicuous {
         this->_shaderProgram->enable();
 
         while (this->_running) {
+            this->_window->clear();
             if (this->_nextScene != nullptr) {
                 if (this->_activeScene != nullptr) {
                     this->_activeScene->onInactive();
@@ -94,7 +95,6 @@ namespace Cubicuous {
                 this->_settings->loop->loop(this);
             }
 
-            this->_window->clear();
             this->_window->update();
         }
 
@@ -136,7 +136,7 @@ namespace Cubicuous {
         return vertexBuffer;
     }
 
-    VertexBuffer* Game::createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type) {
+    void Game::createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type) {
         this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer*>(name, new VertexBuffer(type, storageMode, id)));
     }
 

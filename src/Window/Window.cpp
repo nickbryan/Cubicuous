@@ -83,8 +83,8 @@ namespace Cubicuous {
             glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_MULTISAMPLE);
-            glEnable(GL_CULL_FACE);
-            glEnableClientState(GL_VERTEX_ARRAY);
+            glDisable(GL_CULL_FACE);
+            //glEnableClientState(GL_VERTEX_ARRAY);
             glViewport(0, 0, this->_width, this->_height);
         }
 

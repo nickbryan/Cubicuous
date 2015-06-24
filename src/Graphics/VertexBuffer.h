@@ -39,14 +39,14 @@ namespace Cubicuous {
 
                 inline GLuint getBufferID() const { return this->_bufferID; }
 
-                inline void updateData(const void* data) {
+                inline void updateData(GLfloat* data, GLsizei count) {
                     glBindBuffer(this->_type, this->_bufferID);
                     GLenum error = glGetError();
                     if(error != GL_NO_ERROR) {
                         Debugging::Logger::log("Failed binding buffer data: " + Debugging::Logger::toLoggable(error));
                     }
 
-                    glBufferData(this->_type, sizeof(data), data, this->_storageMode);
+                    glBufferData(this->_type, count * sizeof(GLfloat), data, this->_storageMode);
                     error = glGetError();
                     if(error != GL_NO_ERROR) {
                         Debugging::Logger::log("Failed updating buffer data: " + Debugging::Logger::toLoggable(error));

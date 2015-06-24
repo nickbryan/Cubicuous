@@ -82,7 +82,7 @@ namespace Cubicuous {
         VertexBuffer* createVertexBuffer(const char* name, GLenum type);
         inline VertexBuffer* createVertexBuffer(const char* name) { return this->createVertexBuffer(name, GL_STATIC_DRAW); };
 
-        VertexBuffer* createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type);
+        void createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type);
         inline void attachVertexBuffer(const char* name, GLuint id, GLenum type) { this->createVertexBuffer(name, id, type, type); };
         void attachVertexBuffer(const char* name, VertexBuffer* buffer);
         inline void attachVertexBuffer(const char* name, GLuint id) { this->attachVertexBuffer(name, id, GL_STATIC_DRAW); };
