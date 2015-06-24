@@ -1,5 +1,5 @@
-#ifndef CUBICUOUS_SHADERMANAGER_H
-#define CUBICUOUS_SHADERMANAGER_H
+#ifndef CUBICUOUS_SHADERPROGRAM_H
+#define CUBICUOUS_SHADERPROGRAM_H
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -10,6 +10,7 @@
 #include "../Debugging/Logger.h"
 #include "GraphicsException.h"
 #include "VertexArray.h"
+#include "Uniform.h"
 
 namespace Cubicuous {
     namespace Graphics {
@@ -18,22 +19,46 @@ namespace Cubicuous {
             GLuint                    _shaderProgramID;
             VertexArray*              _activeVertexArray = nullptr;
             std::vector<VertexArray*> _vertexArrays;
+            std::vector<Uniform*>     _uniforms;
 
         public:
             ShaderProgram();
             ~ShaderProgram();
 
+            //shaders
             void attachShader(const char* shaderFilePath, GLenum shaderType);
 
             void bindOutput(const char* binding);
 
+            //shader program
             void enable();
 
             inline GLuint getID() const { return this->_shaderProgramID; }
 
-            inline void addVertexArray(const char* location, GLint size, GLenum type, GLboolean normalised,
+            inline void disable() {
+                this->disableActiveVertexArray();
+                glUseProgram(0);
+            }
+
+            //uniforms
+            Uniform* getCachedUniform(const char* name);
+
+            inline Uniform* cacheUniform(const char* name) {
+                Uniform* uniform = new Uniform(this->_shaderProgramID, name);
+                this->cacheUniform(uniform);
+                return uniform;
+            }
+            inline void cacheUniform(Uniform* uniform) {
+                this->_uniforms.push_back(uniform);
+                Debugging::Logger::log("Shader Program", "Cached uniform " + uniform->getName());
+            }
+
+            //vertex arrays
+            inline VertexArray* addVertexArray(const char* location, GLint size, GLenum type, GLboolean normalised,
                                        GLsizei stride, const GLvoid* pointer) {
-               this->addVertexArray(new VertexArray(this->_shaderProgramID, location, size, type, normalised, stride, pointer));
+               VertexArray* vertexArray = new VertexArray(this->_shaderProgramID, location, size, type, normalised, stride, pointer);
+               this->addVertexArray(vertexArray);
+               return vertexArray;
             }
 
             void addVertexArray(VertexArray* vertexArray);
@@ -42,60 +67,14 @@ namespace Cubicuous {
 
             inline VertexArray* getActiveVertexArray() const { return this->_activeVertexArray; }
 
+            VertexArray* getVertexArray(const char* name);
+
             void setActiveVertexArray(const char* name);
 
             void disableActiveVertexArray();
 
-            inline void disable() {
-                glUseProgram(0);
-            }
-
-            inline void setUniform1f(const GLchar* name, float value) {
-                glUniform1f(this->_getUniformLocation(name), value);
-            }
-
-            inline void setUniform1fv(const GLchar* name, float* value, int count)
-            {
-                glUniform1fv(this->_getUniformLocation(name), count, value);
-            }
-
-            inline void setUniform1i(const GLchar* name, int value)
-            {
-                glUniform1i(this->_getUniformLocation(name), value);
-            }
-
-            inline void setUniform1iv(const GLchar* name, int* value, int count)
-            {
-                glUniform1iv(this->_getUniformLocation(name), count, value);
-            }
-
-            inline void setUniform2f(const GLchar* name, const glm::vec2& vector)
-            {
-                glUniform2f(this->_getUniformLocation(name), vector.x, vector.y);
-            }
-
-            inline void setUniform3f(const GLchar* name, const glm::vec3& vector)
-            {
-                glUniform3f(this->_getUniformLocation(name), vector.x, vector.y, vector.z);
-            }
-
-            inline void setUniform4f(const GLchar* name, const glm::vec4& vector)
-            {
-                glUniform4f(this->_getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
-            }
-
-            inline void setUniformMat4(const GLchar* name, const glm::mat4& matrix)
-            {
-                glUniformMatrix4fv(this->_getUniformLocation(name),
-                                   1, GL_FALSE, glm::value_ptr(matrix));
-            }
-
         private:
             GLuint _getShader(const char *shaderFilePath, GLenum shaderType);
-
-            inline GLint _getUniformLocation(const GLchar *name) {
-                return glGetUniformLocation(this->_shaderProgramID, name);
-            }
 
             void _checkError(const char* strIfError);
             inline void _checkError(std::string strIfError) {

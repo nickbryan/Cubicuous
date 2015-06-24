@@ -31,7 +31,6 @@ namespace Cubicuous {
                 this->_id = (GLuint)attrId;
                 this->_location = location;
                 this->setAttrOptions(size, type, normalised, stride, pointer);
-                this->enable();
             }
 
             inline void setAttrOptions(GLint size, GLenum type, GLboolean normalised, GLsizei stride, const GLvoid* pointer) {
@@ -49,7 +48,7 @@ namespace Cubicuous {
 
             inline void disable() const { glDisableVertexAttribArray(this->_id); }
 
-            inline GLint getID() { return this->_id; }
+            inline GLuint getID() { return this->_id; }
 
             inline const char* getName() { return this->_location; }
 

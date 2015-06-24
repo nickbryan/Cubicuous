@@ -71,10 +71,10 @@ namespace Cubicuous {
         }
 
         this->_running = true;
-        this->_shaderProgram->enable();
 
         while (this->_running) {
             this->_window->clear();
+
             if (this->_nextScene != nullptr) {
                 if (this->_activeScene != nullptr) {
                     this->_activeScene->onInactive();
@@ -92,6 +92,8 @@ namespace Cubicuous {
             }
 
             if (this->_activeScene != nullptr) {
+                this->_shaderProgram->enable();
+                this->_shaderProgram->reloadActiveVertexArray();
                 this->_settings->loop->loop(this);
             }
 

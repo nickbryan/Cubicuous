@@ -19,6 +19,12 @@ int main() {
 
         game.createVertexBuffer("cubeBuffer", GL_ARRAY_BUFFER);
 
+        game.getShaderProgram()->addVertexArray("position", 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+        game.getShaderProgram()->setActiveVertexArray("position");
+        game.getShaderProgram()->cacheUniform("view");
+        game.getShaderProgram()->cacheUniform("projection");
+        game.getShaderProgram()->cacheUniform("model");
+
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");
 

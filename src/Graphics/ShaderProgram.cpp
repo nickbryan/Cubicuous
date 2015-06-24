@@ -28,6 +28,7 @@ namespace Cubicuous {
             glAttachShader(this->_shaderProgramID, shader);
             glDeleteShader(shader);
             this->_checkError("Failed to attach shader " + Logger::toLoggable(shaderFilePath));
+            Debugging::Logger::log("Shader Manager", "Attached shader " + Debugging::Logger::toLoggable(shaderFilePath));
         }
 
         void ShaderProgram::addVertexArray(VertexArray* vertexArray) {
@@ -45,19 +46,40 @@ namespace Cubicuous {
             this->_activeVertexArray = nullptr;
         }
 
-        void ShaderProgram::setActiveVertexArray(const char* name) {
+        VertexArray* ShaderProgram::getVertexArray(const char* name) {
             for(VertexArray* vertexArray : this->_vertexArrays) {
                 if(vertexArray->getName() == name) {
-                    this->_activeVertexArray = vertexArray;
-                    vertexArray->enable();
-                    break;
+                    return vertexArray;
                 }
+            }
+
+            return nullptr;
+        }
+
+        void ShaderProgram::setActiveVertexArray(const char* name) {
+            VertexArray* vertexArray = this->getVertexArray(name);
+
+            if(vertexArray != nullptr) {
+                this->_activeVertexArray = vertexArray;
+                vertexArray->enable();
+                Debugging::Logger::log("Shader Manager", "Set active vertex array to " + Debugging::Logger::toLoggable(name));
             }
         }
 
         void ShaderProgram::bindOutput(const char* binding) {
             glBindFragDataLocation(this->_shaderProgramID, 0, binding);
             this->_checkError("Failed binding data location '" + Logger::toLoggable(binding) + "'");
+            Debugging::Logger::log("Shader Manager", "Bound output " + Debugging::Logger::toLoggable(binding));
+        }
+
+        Uniform* ShaderProgram::getCachedUniform(const char* name) {
+            for(Uniform* uniform : this->_uniforms) {
+                if(uniform->getName() == name) {
+                    return uniform;
+                }
+            }
+
+            return nullptr;
         }
 
         void ShaderProgram::enable() {
