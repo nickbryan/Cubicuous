@@ -17,5 +17,5 @@ void TestScene::render(double deltaTime) {
 }
 
 void TestScene::update() {
-
+    std::cout << "Current fps " << this->_game->getSettings()->loop->getFps() << std::endl;
 }

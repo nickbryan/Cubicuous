@@ -5,6 +5,7 @@
 #include "Graphics/ShaderProgram.h"
 #include "Graphics/VertexBuffer.h"
 #include "GameSettings.h"
+#include "Core/ILoop.h"
 
 #include <unordered_map>
 
@@ -54,6 +55,8 @@ namespace Cubicuous {
         inline void stop() { this->_running = false; }
 
         inline Window::Window *getWindow() const { return this->_window; };
+
+        inline GameSettings* getSettings() const { return this->_settings; };
 
         /* Scene catching */
         void cacheScene(const char *name, Scene *scene);
