@@ -4,6 +4,11 @@
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
 #include <glm/detail/type_mat.hpp>
+#include <cmath>
+
+#ifndef M_PI //mingw32 bug work around
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace Cubicuous {
     namespace Core {

@@ -1,7 +1,6 @@
 #include <glm/detail/func_trigonometric.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "Camera.h"
-#include "../Debugging/Logger.h"
 
 namespace Cubicuous {
     namespace Core {
