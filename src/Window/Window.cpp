@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include "Window.h"
+#include "WindowException.h"
 
 namespace Cubicuous {
     namespace Window {
@@ -8,54 +9,61 @@ namespace Cubicuous {
         int Window::OPENGL_VERSION_REV = 0;
 
         Window::Window(const char *title, int width, int height) {
-	        this->_title = title;
-	        this->_width = width;
-	        this->_height = height;
-
-	        if (!this->_init()) {
-		        glfwTerminate();
-	        }
+            this->_title = title;
+            this->_width = width;
+            this->_height = height;
+            this->_init();
         }
 
         Window::~Window() {
-	        glfwTerminate();
+            glfwTerminate();
 
-			#ifdef _WIN32
-	            system("PAUSE");
-			#endif
+            #ifdef _WIN32
+                system("PAUSE");
+            #endif
         }
 
         void Window::clear() const {
-	        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         }
 
         void Window::close() const {
-	        glfwSetWindowShouldClose(this->_window, GL_TRUE);
+            glfwSetWindowShouldClose(this->_window, GL_TRUE);
         }
 
-        bool Window::_init() {
-	        if (!glfwInit()) {
-		        Debugging::Logger::log("Failed to initialise GLFW!");
-		        return false;
-	        }
+        void Window::_init() {
+            if (!glfwInit()) {
+                throw WindowException("Failed to initialise GLFW!");
+            }
 
-	        // We need this to get latest version of OpenGl on mac
-			#ifdef __APPLE__
+            // We need this to get latest version of OpenGl on mac
+            #ifdef __APPLE__
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, Window::OPENGL_VERSION_MAJOR);
                 glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, Window::OPENGL_VERSION_MINOR);
                 glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
                 glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
             #endif
 
-	        glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
+            glfwGetVersion(&Window::OPENGL_VERSION_MAJOR, &Window::OPENGL_VERSION_MINOR, &Window::OPENGL_VERSION_REV);
 
-	        this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
-	        if (!_window) {
-		        Debugging::Logger::log("Failed to create GLFW window!");
-		        return false;
-	        }
+            this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
+            if (!this->_window) {
+                throw WindowException("Failed to create GLFW window!");
+            }
 
-	        glfwMakeContextCurrent(this->_window);
+            glfwMakeContextCurrent(this->_window);
+
+            int major;
+            int minor;
+            glGetIntegerv(GL_MAJOR_VERSION, &major);
+            glGetIntegerv(GL_MINOR_VERSION, &minor);
+
+            if(major < Window::OPENGL_VERSION_MAJOR) {
+                throw WindowException("OpenGL major installation version (" + Debugging::Logger::toLoggable(major) + ") too old!");
+            }
+            else if(minor < Window::OPENGL_VERSION_MINOR) {
+                throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
+            }
 
             // Allows us to access our window in our callbacks
             glfwSetWindowUserPointer(this->_window, this);
@@ -67,40 +75,48 @@ namespace Cubicuous {
             glfwSetWindowSizeCallback(this->_window, Window::_windowResizeCallback);
             glfwSetWindowFocusCallback(this->_window, Window::_windowFocusCallback);
 
-	        glewExperimental = GL_TRUE;
-	        if (glewInit() != GLEW_OK) {
-		        Debugging::Logger::log("Failed to initialise GLEW!");
-		        return false;
-	        }
+            glewExperimental = GL_TRUE;
+            if (glewInit() != GLEW_OK) {
+                throw WindowException("Failed to initialise GLEW!");
+            }
 
-	        return true;
+            glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_MULTISAMPLE);
+            glDisable(GL_CULL_FACE);
+
+            #ifdef _WIN32
+                glEnableClientState(GL_VERTEX_ARRAY);
+            #endif
+
+            glViewport(0, 0, this->_width, this->_height);
         }
 
         bool Window::isOpen() const {
-	        return !glfwWindowShouldClose(this->_window);
+            return !glfwWindowShouldClose(this->_window);
         }
 
         void Window::update() {
             this->_wasFocused = this->_focused;
             this->_updateMousePosition();
             this->_input->processEvents();
-	        glfwSwapBuffers(this->_window);
-	        glfwPollEvents();
+            glfwSwapBuffers(this->_window);
+            glfwPollEvents();
         }
 
         void Window::_windowResizeCallback(GLFWwindow *window, int width, int height) {
-	        glViewport(0, 0, width, height);
+            glViewport(0, 0, width, height);
         }
 
         void Window::_windowFocusCallback(GLFWwindow *window, int focused) {
-	        Window *win = (Window*)glfwGetWindowUserPointer(window);
-	        win->_focused = focused == GL_TRUE;
-	    }
+            Window *win = (Window *) glfwGetWindowUserPointer(window);
+            win->_focused = focused == GL_TRUE;
+        }
 
         void Window::_updateMousePosition() {
             this->_previousMouseX = this->_mouseX;
-	        this->_previousMouseY = this->_mouseY;
-	        glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
+            this->_previousMouseY = this->_mouseY;
+            glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
         }
     }
 }
