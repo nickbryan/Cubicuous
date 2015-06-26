@@ -8,6 +8,8 @@
 
 #ifdef _WIN32
     #include <winsock2.h>
+#else
+    #include <sys/time.h>
 #endif
 
 namespace Cubicuous {
@@ -27,7 +29,7 @@ namespace Cubicuous {
             double _updateTime;
 
         private:
-            int _nextTime = 0;
+            time_t _nextTime = 0;
 
         public:
             inline ILoop(int updateRate) {

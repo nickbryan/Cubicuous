@@ -23,8 +23,6 @@ namespace Cubicuous {
         class Input;
 
         class Window {
-            friend class Input;
-
         public:
             static int OPENGL_VERSION_MAJOR;
             static int OPENGL_VERSION_MINOR;
@@ -69,6 +67,8 @@ namespace Cubicuous {
             void close() const;
 
             void update();
+
+            void postRender();
 
             /**
              * Whether or not the window was focused last frame

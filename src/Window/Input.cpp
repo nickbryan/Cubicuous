@@ -1,4 +1,5 @@
 #include "Input.h"
+#include "../Game.h"
 
 namespace Cubicuous {
     namespace Window {
@@ -18,7 +19,6 @@ namespace Cubicuous {
                 this->_mouseButtons[i] = false;
             }
 
-            glfwSetCursorPos(this->_window->getWindow(), 0.0f, 0.0f);
             glfwSetKeyCallback(this->_window->getWindow(), this->_keyCallback);
             glfwSetMouseButtonCallback(this->_window->getWindow(), this->_mouseButtonCallback);
         }
@@ -106,45 +106,79 @@ namespace Cubicuous {
         }
 
         void Input::_keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods) {
-            Window *win = (Window *) glfwGetWindowUserPointer(window);
+            Game *game = (Game *) glfwGetWindowUserPointer(window);
 
-            if (!win->isFocused()) {
+            if (!game->getWindow()->isFocused()) {
                 return;
             }
 
             bool isPressed = action != GLFW_RELEASE;
-            if ((!win->_input->_useFocus || win->_input->focused)) {
-                for (Listener &listener : win->_input->keyListeners) {
+            Input *input = game->getWindow()->getInput();
+
+            if ((!input->_useFocus || input->focused)) {
+                for (Listener &listener : input->keyListeners) {
                     if (listener.key == key &&
-                        ((listener.state == State::PRESS && !win->_input->_keys[key] && isPressed) ||
-                         (listener.state == State::UP && win->_input->_keys[key] && !isPressed))) {
+                        ((listener.state == State::PRESS && !input->_keys[key] && isPressed) ||
+                         (listener.state == State::UP && input->_keys[key] && !isPressed))) {
                         listener.handler();
                     }
                 }
             }
 
-            win->_input->_keys[key] = isPressed;
+            input->_keys[key] = isPressed;
+
+            if (game->getActiveScene() != nullptr) {
+                input = game->getActiveScene()->getInput();
+                input->_keys[key] = isPressed;
+
+                if ((!input->_useFocus || input->focused)) {
+                    for (Listener &listener : input->keyListeners) {
+                        if (listener.key == key &&
+                            ((listener.state == State::PRESS && !input->_keys[key] && isPressed) ||
+                             (listener.state == State::UP && input->_keys[key] && !isPressed))) {
+                            listener.handler();
+                        }
+                    }
+                }
+
+            }
         }
 
         void Input::_mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
-            Window *win = (Window *) glfwGetWindowUserPointer(window);
+            Game *game = (Game *) glfwGetWindowUserPointer(window);
 
-            if (!win->isFocused()) {
+            if (!game->getWindow()->isFocused()) {
                 return;
             }
 
             bool isPressed = action != GLFW_RELEASE;
-            if (win->_input->isMouseOver()) {
-                for (Listener &listener : win->_input->mouseListeners) {
+            Input* input = game->getWindow()->getInput();
+
+            if (input->isMouseOver()) {
+                for (Listener &listener : input->mouseListeners) {
                     if (listener.key == button &&
-                        ((listener.state == State::PRESS && !win->_input->_mouseButtons[button] && isPressed) ||
-                         (listener.state == State::UP && win->_input->_mouseButtons[button] && !isPressed))) {
+                        ((listener.state == State::PRESS && !input->_mouseButtons[button] && isPressed) ||
+                         (listener.state == State::UP && input->_mouseButtons[button] && !isPressed))) {
                         listener.handler();
                     }
                 }
             }
 
-            win->_input->_mouseButtons[button] = isPressed;
+            input->_mouseButtons[button] = isPressed;
+            if(game->getActiveScene() != nullptr) {
+                input = game->getActiveScene()->getInput();
+                input->_mouseButtons[button] = isPressed;
+
+                if (input->isMouseOver()) {
+                    for (Listener &listener : input->mouseListeners) {
+                        if (listener.key == button &&
+                            ((listener.state == State::PRESS && !input->_mouseButtons[button] && isPressed) ||
+                             (listener.state == State::UP && input->_mouseButtons[button] && !isPressed))) {
+                            listener.handler();
+                        }
+                    }
+                }
+            }
         }
     }
 }

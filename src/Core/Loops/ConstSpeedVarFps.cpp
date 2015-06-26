@@ -19,6 +19,7 @@ namespace Cubicuous {
 
                 while ((this->_trackerStart = this->getTicks()) > this->_nextTick &&
                        this->_updates < ConstSpeedVarFps::MAX_UPDATES) {
+                    game->getWindow()->update();
                     game->getActiveScene()->getInput()->processEvents();
                     game->getActiveScene()->update();
                     this->_trackerEnd = this->getTicks();

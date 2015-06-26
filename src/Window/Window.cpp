@@ -65,9 +65,6 @@ namespace Cubicuous {
                 throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
             }
 
-            // Allows us to access our window in our callbacks
-            glfwSetWindowUserPointer(this->_window, this);
-
             // Initialise the input handler, this needs to be read only
             this->_input = new Input(this);
 
@@ -99,8 +96,11 @@ namespace Cubicuous {
             this->_wasFocused = this->_focused;
             this->_updateMousePosition();
             this->_input->processEvents();
-            glfwSwapBuffers(this->_window);
             glfwPollEvents();
+        }
+
+        void Window::postRender() {
+            glfwSwapBuffers(this->_window);
         }
 
         void Window::_windowResizeCallback(GLFWwindow *window, int width, int height) {

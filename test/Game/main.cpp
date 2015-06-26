@@ -14,7 +14,7 @@ int main() {
         // Grab curser and hide it
         glfwSetInputMode(game.getWindow()->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         // Set the curser to 0,0 so we can work out delta movements
-        glfwSetCursorPos(game.getWindow()->getWindow(), 0.0f, 0.0f);
+        game.getWindow()->resetMousePosition();
 
         ShaderProgram* shaderProgram = game.getShaderProgram();
         shaderProgram->attachShader("test.vert", GL_VERTEX_SHADER);

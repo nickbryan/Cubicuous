@@ -6,6 +6,8 @@
 namespace Cubicuous {
     Game::Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings) {
         this->_window = new Window::Window(windowSettings);
+        glfwSetWindowUserPointer(this->getWindow()->getWindow(), this);
+
         this->_settings = gameSettings;
         this->_scenes = new std::unordered_map<const char *, Scene *>;
 
@@ -97,7 +99,7 @@ namespace Cubicuous {
                 this->_settings->loop->loop(this);
             }
 
-            this->_window->update();
+            this->_window->postRender();
         }
 
         //stop code

@@ -15,7 +15,8 @@ namespace Cubicuous {
         Core::Scene *pauseScene = nullptr;
         Core::ILoop *loop = nullptr;
 
-        GameSettings();
+        inline GameSettings() : GameSettings(60) {};
+        GameSettings(int logicFps);
         GameSettings(Core::ILoop *loop);
         GameSettings(unsigned int quickQuitKey);
         GameSettings(unsigned int togglePauseKey, Core::Scene *pauseScene);
