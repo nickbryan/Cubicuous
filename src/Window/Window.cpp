@@ -117,5 +117,13 @@ namespace Cubicuous {
             this->_previousMouseY = this->_mouseY;
             glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
         }
+
+        void Window::resetMousePosition() {
+            glfwSetCursorPos(this->_window, 0.0f, 0.0f);
+            this->_mouseX = 0;
+            this->_mouseY = 0;
+            this->_previousMouseX = 0;
+            this->_previousMouseY = 0;
+        }
     }
 }

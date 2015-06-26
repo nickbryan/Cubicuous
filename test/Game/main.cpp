@@ -9,7 +9,7 @@ using Cubicuous::Window::Input;
 
 int main() {
     try {
-        Cubicuous::Game game = Cubicuous::Game(new Cubicuous::GameSettings(GLFW_KEY_ESCAPE), Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
+        Cubicuous::Game game = Cubicuous::Game(new Cubicuous::GameSettings(60, GLFW_KEY_ESCAPE), Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
 
         // Grab curser and hide it
         glfwSetInputMode(game.getWindow()->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);

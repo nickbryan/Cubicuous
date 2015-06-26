@@ -11,8 +11,8 @@ namespace Cubicuous {
         this->loop = loop;
     }
 
-    GameSettings::GameSettings(unsigned int quickQuitKey)
-            : GameSettings()  {
+    GameSettings::GameSettings(int logicFps, unsigned int quickQuitKey)
+            : GameSettings(logicFps)  {
         this->quickQuitKey = quickQuitKey;
     }
 

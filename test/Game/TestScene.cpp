@@ -26,14 +26,13 @@ void TestScene::update() {
     if (this->_input->isKeyPressed(GLFW_KEY_A)) {
         this->_camera->strafe(-1 * 0.1f);
     }
-    if (this->_input->isKeyPressed(GLFW_KEY_X)) {
+    if (this->_input->isKeyPressed(GLFW_KEY_Z)) {
         this->_camera->climb(0.1f);
     }
-    if (this->_input->isKeyPressed(GLFW_KEY_Z)) {
+    if (this->_input->isKeyPressed(GLFW_KEY_X)) {
         this->_camera->climb(-1 * 0.1f);
     }
 
-    this->_camera->mouseLook((float)this->_game->getWindow()->getMouseX(),
-                             (float)this->_game->getWindow()->getMouseY(), 0.001f);
-    this->_game->getWindow()->resetMousePosition();
+    this->_camera->mouseLook((float)this->_game->getWindow()->getMouseXDiff(),
+                             (float)this->_game->getWindow()->getMouseYDiff(), 0.001f);
 }

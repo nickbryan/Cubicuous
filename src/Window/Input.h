@@ -81,10 +81,9 @@ namespace Cubicuous {
 
             inline bool isUsingFocus() const { return this->_useFocus; };
 
-        private:
-            static void _keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods);
+            static void keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods);
 
-            static void _mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
+            static void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods);
         };
     }
 }

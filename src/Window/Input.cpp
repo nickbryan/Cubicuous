@@ -18,9 +18,6 @@ namespace Cubicuous {
             for (int i = 0; i < MAX_MOUSE_BUTTONS; i++) {
                 this->_mouseButtons[i] = false;
             }
-
-            glfwSetKeyCallback(this->_window->getWindow(), this->_keyCallback);
-            glfwSetMouseButtonCallback(this->_window->getWindow(), this->_mouseButtonCallback);
         }
 
         Input::Input(Window *windowPointer, float x, float y, int width, int height) : Input(windowPointer, false, x, y,
@@ -105,7 +102,7 @@ namespace Cubicuous {
             return this->_mouseButtons[buttonCode];
         }
 
-        void Input::_keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods) {
+        void Input::keyCallback(GLFWwindow *window, int key, int scanCode, int action, int mods) {
             Game *game = (Game *) glfwGetWindowUserPointer(window);
 
             if (!game->getWindow()->isFocused()) {
@@ -144,7 +141,7 @@ namespace Cubicuous {
             }
         }
 
-        void Input::_mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
+        void Input::mouseButtonCallback(GLFWwindow *window, int button, int action, int mods) {
             Game *game = (Game *) glfwGetWindowUserPointer(window);
 
             if (!game->getWindow()->isFocused()) {

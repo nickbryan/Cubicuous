@@ -1,12 +1,11 @@
 #include "Game.h"
-#include "Core/Scene.h"
-#include "Core/ILoop.h"
-#include "Core/Loops/ConstSpeedVarFps.h"
 
 namespace Cubicuous {
     Game::Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings) {
         this->_window = new Window::Window(windowSettings);
         glfwSetWindowUserPointer(this->getWindow()->getWindow(), this);
+        glfwSetKeyCallback(this->getWindow()->getWindow(), Input::keyCallback);
+        glfwSetMouseButtonCallback(this->getWindow()->getWindow(), Input::mouseButtonCallback);
 
         this->_settings = gameSettings;
         this->_scenes = new std::unordered_map<const char *, Scene *>;
@@ -14,7 +13,6 @@ namespace Cubicuous {
         glGenVertexArrays(1, &this->_vertexArrayID);
         glBindVertexArray(this->_vertexArrayID);
         this->_shaderProgram = new ShaderProgram();
-
 
         if (this->_settings->quickQuitKey != 0) {
             this->_window->getInput()->keyListeners.push_back(

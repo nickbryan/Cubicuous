@@ -57,7 +57,6 @@ private:
     Cubicuous::Graphics::Uniform* _modelUni;
 
     Cubicuous::Core::Camera *_camera;
-    Cubicuous::Window::Input *_input;
 
 public:
     inline TestScene(Cubicuous::Game* game) : Scene(game) {
@@ -67,7 +66,6 @@ public:
         this->_modelUni = this->_game->getShaderProgram()->getCachedUniform("model");
         this->_camera = new Cubicuous::Core::Camera(45.0f, 800.0f / 600.0f,
                                                     1.0f, 100.0f, glm::vec3(0.0f, 0.0f, 5.0f));
-        this->_input = this->_game->getWindow()->getInput();
 
         if(this->_viewUni == nullptr) {
             throw "Failed to find view uniform from cache";
