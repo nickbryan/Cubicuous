@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "Window.h"
 #include "WindowException.h"
+#include "../Game.h"
 
 namespace Cubicuous {
     namespace Window {
@@ -108,8 +109,8 @@ namespace Cubicuous {
         }
 
         void Window::_windowFocusCallback(GLFWwindow *window, int focused) {
-            Window *win = (Window *) glfwGetWindowUserPointer(window);
-            win->_focused = focused == GL_TRUE;
+            Game *game = (Game *) glfwGetWindowUserPointer(window);
+            game->getWindow()->_focused = focused == GL_TRUE;
         }
 
         void Window::_updateMousePosition() {
