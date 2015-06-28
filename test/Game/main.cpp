@@ -9,7 +9,12 @@ using Cubicuous::Window::Input;
 
 int main() {
     try {
-        Cubicuous::Game game = Cubicuous::Game(new Cubicuous::GameSettings(GLFW_KEY_ESCAPE), Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
+        Cubicuous::Game game = Cubicuous::Game(new Cubicuous::GameSettings(60, GLFW_KEY_ESCAPE), Cubicuous::Window::WindowSettings("Cubicuous", 800, 600));
+
+        // Grab curser and hide it
+        glfwSetInputMode(game.getWindow()->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        // Set the curser to 0,0 so we can work out delta movements
+        game.getWindow()->resetMousePosition();
 
         ShaderProgram* shaderProgram = game.getShaderProgram();
         shaderProgram->attachShader("test.vert", GL_VERTEX_SHADER);
@@ -29,7 +34,7 @@ int main() {
         game.setScene("TestScene");
 
         // make sure we are not getting a black cube or something
-        glClearColor(0.135f, 0.160f, 0.255f, 1.0f);
+        glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
 
         game.start();
     }

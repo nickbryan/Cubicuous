@@ -23,8 +23,6 @@ namespace Cubicuous {
         class Input;
 
         class Window {
-            friend class Input;
-
         public:
             static int OPENGL_VERSION_MAJOR;
             static int OPENGL_VERSION_MINOR;
@@ -70,6 +68,8 @@ namespace Cubicuous {
 
             void update();
 
+            void postRender();
+
             /**
              * Whether or not the window was focused last frame
              */
@@ -81,11 +81,15 @@ namespace Cubicuous {
 
             inline double getMouseY() const { return this->_mouseY; }
 
+            inline double getMouseXDiff() const { return this->_mouseX - this->_previousMouseX; }
+
+            inline double getMouseYDiff() const { return this->_mouseY - this->_previousMouseY; }
+
             inline double getPreviousMouseX() const { return this->_previousMouseX; }
 
             inline double getPreviousMouseY() const { return this->_previousMouseY; }
 
-            inline void resetMousePosition() const { glfwSetCursorPos(this->_window, 0.0f, 0.0f); };
+            void resetMousePosition();
 
         private:
             void _init();

@@ -65,9 +65,6 @@ namespace Cubicuous {
                 throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
             }
 
-            // Allows us to access our window in our callbacks
-            glfwSetWindowUserPointer(this->_window, this);
-
             // Initialise the input handler, this needs to be read only
             this->_input = new Input(this);
 
@@ -83,7 +80,6 @@ namespace Cubicuous {
             glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW
             glEnable(GL_DEPTH_TEST);
             glEnable(GL_MULTISAMPLE);
-            glDisable(GL_CULL_FACE);
 
             #ifdef _WIN32
                 glEnableClientState(GL_VERTEX_ARRAY);
@@ -100,8 +96,11 @@ namespace Cubicuous {
             this->_wasFocused = this->_focused;
             this->_updateMousePosition();
             this->_input->processEvents();
-            glfwSwapBuffers(this->_window);
             glfwPollEvents();
+        }
+
+        void Window::postRender() {
+            glfwSwapBuffers(this->_window);
         }
 
         void Window::_windowResizeCallback(GLFWwindow *window, int width, int height) {
@@ -117,6 +116,14 @@ namespace Cubicuous {
             this->_previousMouseX = this->_mouseX;
             this->_previousMouseY = this->_mouseY;
             glfwGetCursorPos(this->_window, &this->_mouseX, &this->_mouseY);
+        }
+
+        void Window::resetMousePosition() {
+            glfwSetCursorPos(this->_window, 0.0f, 0.0f);
+            this->_mouseX = 0;
+            this->_mouseY = 0;
+            this->_previousMouseX = 0;
+            this->_previousMouseY = 0;
         }
     }
 }

@@ -14,11 +14,12 @@ namespace Cubicuous {
             }
 
             void ConstSpeedVarFps::loop(Game *game) {
-                this->_checkSecondElapsed();
                 this->_updates = 0;
+                this->_checkSecondElapsed();
 
                 while ((this->_trackerStart = this->getTicks()) > this->_nextTick &&
                        this->_updates < ConstSpeedVarFps::MAX_UPDATES) {
+                    game->getWindow()->update();
                     game->getActiveScene()->getInput()->processEvents();
                     game->getActiveScene()->update();
                     this->_trackerEnd = this->getTicks();

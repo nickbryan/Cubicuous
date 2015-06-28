@@ -6,13 +6,18 @@
 #include "Scene.h"
 #include "../Game.h"
 
+#ifdef _WIN32
+    #include <winsock2.h>
+#else
+    #include <sys/time.h>
+#endif
+
 namespace Cubicuous {
     namespace Core {
         class ILoop {
         protected:
             //desired fps
             int _updateRate;
-
 
             int _frps = 0; //frames rendered previous second
             int _frts = 0; //frames rendered this second
@@ -24,10 +29,13 @@ namespace Cubicuous {
             double _updateTime;
 
         private:
-            int _nextTime = 0;
+            time_t _nextTime = 0;
 
         public:
-            inline ILoop(int updateRate) { this->_updateRate = updateRate; }
+            inline ILoop(int updateRate) {
+                this->_updateRate = updateRate;
+                this->_nextTime = std::time(nullptr);
+            }
 
             virtual void loop(Game *game) { };
 
@@ -39,13 +47,23 @@ namespace Cubicuous {
 
             inline virtual double getUpdateTime() const { return this->_updateTime; };
 
-            inline double getTicks() const { return static_cast<double>(clock()) / CLOCKS_PER_SEC; }
+            inline unsigned getTicks() const {
+                #ifdef _WIN32
+                    return GetTickCount();
+                #else
+                    struct timeval tv;
+                    gettimeofday(&tv, 0);
+                    return unsigned((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+                #endif
+            }
 
             inline virtual void _checkSecondElapsed() {
                 if (std::time(nullptr) > this->_nextTime) { //been more than 1000ms
                     this->_fups = this->_futs;
                     this->_frps = this->_frts;
-                    this->_nextTime++; //in another 1000ms
+                    this->_futs = 0;
+                    this->_frts = 0;
+                    this->_nextTime++; //in another second
                 }
             }
         };

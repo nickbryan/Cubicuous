@@ -3,21 +3,16 @@
 #include "Core/Loops/ConstSpeedVarFps.h"
 
 namespace Cubicuous {
-
-    GameSettings::GameSettings() {
-        this->loop = new Core::Loops::ConstSpeedVarFps(30);
+    GameSettings::GameSettings(int logicFps) {
+        this->loop = new Core::Loops::ConstSpeedVarFps(logicFps);
     }
 
     GameSettings::GameSettings(Core::ILoop *loop) {
-        if (loop == nullptr) {
-            this->loop = new Core::Loops::ConstSpeedVarFps(30);
-        } else {
-            this->loop = loop;
-        }
+        this->loop = loop;
     }
 
-    GameSettings::GameSettings(unsigned int quickQuitKey)
-            : GameSettings()  {
+    GameSettings::GameSettings(int logicFps, unsigned int quickQuitKey)
+            : GameSettings(logicFps)  {
         this->quickQuitKey = quickQuitKey;
     }
 
