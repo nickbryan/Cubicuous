@@ -41,7 +41,8 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Graphics/GraphicsException.h
     src/Graphics/VertexArray.h
     src/Graphics/Uniform.h
-    src/Core/Camera.cpp src/Core/Camera.h)
+    src/Core/Camera.cpp src/Core/Camera.h
+    src/Core/Movable.cpp src/Core/Movable.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

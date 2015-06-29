@@ -8,7 +8,9 @@ void TestScene::render(double deltaTime) {
     this->_viewUni->update(this->_camera->getViewMatrix());
     this->_projUni->update(this->_camera->getProjectionMatrix());
     this->_modelUni->update(glm::mat4(1.0f));
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
+    this->_modelUni->update(glm::translate(glm::mat4(1.0f), glm::vec3(5.0f, 5.0f, 5.0f)));
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
