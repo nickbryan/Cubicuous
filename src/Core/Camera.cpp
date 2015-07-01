@@ -24,11 +24,8 @@ namespace Cubicuous {
         }
 
         glm::mat4 Camera::getViewMatrix() {
-            return this->_getRotationMatrix() * glm::inverse(glm::translate(glm::mat4(), this->_position));
+            return this->_getRotationMatrix() * glm::inverse(glm::translate(glm::mat4(), this->getPosition()));
         }
 
-        glm::mat4 Camera::getProjectionMatrix() {
-            return this->_projection;
-        }
     }
 }

@@ -3,6 +3,10 @@
 
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
+#include <math.h>
+#include <glm/detail/func_trigonometric.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/detail/type_mat.hpp>
 
 namespace Cubicuous {
     namespace Core {
