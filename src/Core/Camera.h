@@ -40,14 +40,10 @@ namespace Cubicuous {
             }
 
             inline void unlockFromEntity() {
-                if(this->_entity == nullptr) {
-                    return;
+                if (this->_entity != nullptr) {
+                    this->_position = this->_entity->getPosition();
                 }
 
-                this->_position = this->_entity->getPosition();
-                this->_yaw = this->_entity->getYaw();
-                this->_roll = this->_entity->getRoll();
-                this->_pitch = this->_entity->getPitch();
                 this->_entity = nullptr;
             }
 
@@ -59,28 +55,32 @@ namespace Cubicuous {
                 if (this->_entity != nullptr) {
                     return _entity->getPosition();
                 }
-                return this->_position;
+
+                return Movable::getPosition();
             }
 
             virtual inline float getYaw() const override {
                 if (this->_entity != nullptr) {
                     return _entity->getYaw();
                 }
-                return this->_yaw;
+
+                return Movable::getYaw();
             }
 
             virtual inline float getPitch() const override {
                 if (this->_entity != nullptr) {
                     return _entity->getPitch();
                 }
-                return this->_pitch;
+
+                return Movable::getPitch();
             }
 
             virtual inline float getRoll() const override {
                 if (this->_entity != nullptr) {
                     return _entity->getRoll();
                 }
-                return this->_roll;
+
+                return Movable::getRoll();
             }
 
             virtual inline void setYaw(float yaw) override {
@@ -88,14 +88,14 @@ namespace Cubicuous {
                     this->_entity->setYaw(yaw);
                 }
 
-                this->_yaw = yaw;
+                Movable::setYaw(yaw);
             }
             virtual inline void setPitch(float pitch) override {
                 if (this->_entity != nullptr) {
                     this->_entity->setPitch(pitch);
                 }
 
-                this->_pitch = pitch;
+                Movable::setPitch(pitch);
             }
 
             virtual inline void setRoll(float roll) override {
@@ -103,15 +103,21 @@ namespace Cubicuous {
                     this->_entity->setRoll(roll);
                 }
 
-                this->_roll = roll;
+                Movable::setRoll(roll);
             }
+
+            virtual void stride(float by) override;
+
+            virtual void strafe(float by) override;
+
+            virtual void climb(float by) override;
 
             virtual inline void setPosition(glm::vec3 position) override {
                 if (this->_entity != nullptr) {
                     this->_entity->setPosition(position);
                 }
 
-                this->_position = position;
+                Movable::setPosition(position);
             }
 
             inline glm::mat4 getProjectionMatrix() const {

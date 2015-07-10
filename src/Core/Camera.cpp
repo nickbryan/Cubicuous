@@ -27,5 +27,28 @@ namespace Cubicuous {
             return this->_getRotationMatrix() * glm::inverse(glm::translate(glm::mat4(), this->getPosition()));
         }
 
+        void Camera::stride(float by) {
+            if(this->_entity != nullptr) {
+                this->_entity->stride(by);
+            } else {
+                Movable::stride(by);
+            }
+        }
+
+        void Camera::strafe(float by) {
+            if(this->_entity != nullptr) {
+                this->_entity->strafe(by);
+            } else {
+                Movable::strafe(by);
+            }
+        }
+
+        void Camera::climb(float by) {
+            if(this->_entity != nullptr) {
+                this->_entity->climb(by);
+            } else {
+                Movable::climb(by);
+            }
+        }
     }
 }

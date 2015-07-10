@@ -4,6 +4,7 @@
 #include "TestScene.h"
 #include "../../src/Window/WindowException.h"
 #include "CubeEntity.h"
+#include "SideColoredCubeEntity.h"
 
 using Cubicuous::Debugging::Logger;
 using Cubicuous::Window::Input;
@@ -30,15 +31,16 @@ int main() {
         game.getShaderProgram()->cacheUniform("view");
         game.getShaderProgram()->cacheUniform("projection");
         game.getShaderProgram()->cacheUniform("model");
+        game.getShaderProgram()->cacheUniform("inColor");
 
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");
         Scene *testScene = game.getCachedScene("TestScene");
-        testScene->addEntity(new CubeEntity(glm::vec3(1.0f, 1.0f, 1.0f)));
-        testScene->addEntity(new CubeEntity(glm::vec3(-10.0f, 2.0f, 2.0f)));
-        testScene->addEntity(new CubeEntity(glm::vec3(3.0f, 3.0f, 3.0f)));
-        testScene->addEntity(new CubeEntity(glm::vec3(4.0f, 4.0f, 4.0f)));
-        testScene->addEntity(new CubeEntity(glm::vec3(5.0f, 5.0f, 5.0f)));
+        testScene->addEntity(new CubeEntity(glm::vec3(1.0f, 1.0f, 1.0f), &game));
+        testScene->addEntity(new CubeEntity(glm::vec3(-10.0f, 2.0f, 2.0f), &game));
+        testScene->addEntity(new SideColoredCubeEntity(glm::vec3(3.0f, 3.0f, 3.0f), &game));
+        testScene->addEntity(new CubeEntity(glm::vec3(4.0f, 4.0f, 4.0f), &game));
+        testScene->addEntity(new CubeEntity(glm::vec3(5.0f, 5.0f, 5.0f), &game));
 
         // make sure we are not getting a black cube or something
         glClearColor(0.5f, 0.7f, 1.0f, 1.0f);

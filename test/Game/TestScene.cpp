@@ -6,19 +6,8 @@
 #include "../../src/Core/Entity.h"
 
 void TestScene::render(double deltaTime) {
-    //this->_viewUni->update(this->_camera->getViewMatrix());
-    this->_projUni->update(this->_camera->getProjectionMatrix());
-
     for (Cubicuous::Core::Entity *entity : this->_entities) {
-        if(entity == this->_camera->getLockedEntity()) {
-            this->_viewUni->update(glm::mat4());
-            this->_modelUni->update(entity->getModelMatrix());
-        }
-        else {
-            this->_viewUni->update(this->_camera->getViewMatrix());
-            this->_modelUni->update(entity->getModelMatrix());
-        }
-
+        this->_modelUni->update(entity->getModelMatrix());
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 }
@@ -64,14 +53,10 @@ void TestScene::update() {
     }
 
     if (this->_input->isKeyPressed(GLFW_KEY_1)) {
-        std::cout << "Locked to entity 1" << std::endl;
-        this->_camera->lockToEntity(this->_entities[1]);
-    }
-    if (this->_input->isKeyPressed(GLFW_KEY_2)) {
-        std::cout << "Locked to entity 2" << std::endl;
+        std::cout << "Locked to entity" << std::endl;
         this->_camera->lockToEntity(this->_entities[2]);
     }
-    if (this->_input->isKeyPressed(GLFW_KEY_3)) {
+    if (this->_input->isKeyPressed(GLFW_KEY_2)) {
         std::cout << "Unlocked from entity" << std::endl;
         this->_camera->unlockFromEntity();
     }

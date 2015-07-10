@@ -4,15 +4,21 @@
 #include "Movable.h"
 
 namespace Cubicuous {
+    class Game;
     namespace Core {
         class Entity : public Movable {
+        protected:
+            Game* _game;
+
         public:
+            Entity(Game *game);
+
             inline virtual void render(double deltaTime) {};
 
             inline virtual void update() {};
 
             inline glm::mat4 getModelMatrix() {
-                return this->_getRotationMatrix() * glm::translate(glm::mat4(), this->getPosition());
+                return glm::translate(glm::mat4(), this->getPosition()) * this->_getRotationMatrix();
             }
         };
     }

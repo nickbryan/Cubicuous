@@ -23,7 +23,7 @@ namespace Cubicuous {
             glm::vec3 _initialPosition;
             glm::vec3 _position;
 
-            glm::mat4 _getRotationMatrix();
+            virtual glm::mat4 _getRotationMatrix();
 
         public:
             virtual inline void setYaw(float yaw) { this->_yaw = yaw; };
@@ -38,11 +38,11 @@ namespace Cubicuous {
             virtual const inline glm::vec3 &getInitialPosition() const { return _initialPosition; }
             virtual const inline glm::vec3 &getPosition() const { return _position; }
 
-            void stride(float by);
-            void strafe(float by);
-            void climb(float by);
+            virtual void stride(float by);
+            virtual void strafe(float by);
+            virtual void climb(float by);
 
-            void mouseLook(float deltaX, float deltaY, float mouseSpeed);
+            virtual void mouseLook(float deltaX, float deltaY, float mouseSpeed);
         };
     }
 }

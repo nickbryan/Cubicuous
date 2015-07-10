@@ -42,7 +42,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Graphics/VertexArray.h
     src/Graphics/Uniform.h
     src/Core/Camera.cpp src/Core/Camera.h
-    src/Core/Movable.cpp src/Core/Movable.h)
+    src/Core/Movable.cpp src/Core/Movable.h src/Core/Entity.cpp)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous
@@ -74,5 +74,5 @@ endif (APPLE)
 add_executable(WindowTest test/Window/main.cpp)
 target_link_libraries(WindowTest Cubicuous)
 
-add_executable(GameTest test/Game/main.cpp test/Game/TestScene.cpp test/Game/TestScene.h test/Game/CubeEntity.cpp test/Game/CubeEntity.h)
+add_executable(GameTest test/Game/main.cpp test/Game/TestScene.cpp test/Game/TestScene.h test/Game/CubeEntity.h test/Game/SideColoredCubeEntity.h)
 target_link_libraries(GameTest Cubicuous)

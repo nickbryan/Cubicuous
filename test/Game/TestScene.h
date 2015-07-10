@@ -76,6 +76,16 @@ public:
         else if(this->_modelUni == nullptr) {
             throw "Failed to find model uniform from cache";
         }
+
+        this->_viewUni->update(this->_camera->getViewMatrix());
+        this->_projUni->update(this->_camera->getProjectionMatrix());
+
+        GLfloat whiteData[108];
+        for(int i = 0; i < 108; i++) {
+            whiteData[i] = 0.0f;
+        }
+
+        this->_game->getVertexBuffer("inColor")->updateData(whiteData, 108);
     };
 
     void render(double deltaTime) override;

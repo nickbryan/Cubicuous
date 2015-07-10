@@ -11,6 +11,12 @@ namespace Cubicuous {
                 GLenum _type;
                 GLenum _storageMode;
 
+                bool     _keepValue;
+                GLfloat* _previousValue;
+                GLsizei  _previousCount;
+                GLfloat* _value;
+                GLsizei  _count;
+
             public:
                 VertexBuffer(GLenum type, GLenum storageMode) {
                     this->_type = type;
@@ -37,9 +43,28 @@ namespace Cubicuous {
                     glDeleteBuffers(1, &this->_bufferID);
                 }
 
+                inline void keepValue() {
+                    this->_keepValue = true;
+                }
+
+                inline void stopKeepingValue() {
+                    this->_keepValue = false;
+                }
+
+                inline void revertValue() {
+                    this->updateData(this->_previousValue, this->_previousCount);
+                }
+
                 inline GLuint getBufferID() const { return this->_bufferID; }
 
                 inline void updateData(GLfloat* data, GLsizei count) {
+                    if(this->_keepValue) {
+                        this->_previousValue = this->_value;
+                        this->_previousCount = this->_count;
+                        this->_value = data;
+                        this->_count = count;
+                    }
+
                     glBindBuffer(this->_type, this->_bufferID);
                     GLenum error = glGetError();
                     if(error != GL_NO_ERROR) {

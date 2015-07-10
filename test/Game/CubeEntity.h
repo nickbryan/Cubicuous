@@ -8,7 +8,7 @@ using namespace Cubicuous::Core;
 class CubeEntity : public Entity {
 
 public:
-    CubeEntity(glm::vec3 position) {
+    CubeEntity(glm::vec3 position, Cubicuous::Game* game) : Entity(game) {
         this->setPosition(position);
         this->setYaw(0.0f);
         this->setPitch(0.0f);

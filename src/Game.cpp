@@ -150,6 +150,7 @@ namespace Cubicuous {
         std::unordered_map<const char*, VertexBuffer*>::iterator iterator = this->_vertexBuffers.find(name);
 
         if (iterator == this->_vertexBuffers.end()) {
+            Debugging::Logger::log("Failed to find buffer " + Debugging::Logger::toLoggable(name));
             throw "Buffer not found.";
         }
 
