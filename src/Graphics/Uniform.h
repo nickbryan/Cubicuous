@@ -19,16 +19,16 @@ namespace Cubicuous {
             float* _valuePtr = nullptr;
             int    _count = -1;
 
-            float* _value;
+            float  _value = -1.0f;
 
             int    _intValue = -1;
 
             int*   _intValuePtr = nullptr;
 
-            glm::vec2 &_vec2;
-            glm::vec3 &_vec3;
-            glm::vec4 &_vec4;
-            glm::mat4 &_mat4;
+            glm::vec2 _vec2;
+            glm::vec3 _vec3;
+            glm::vec4 _vec4;
+            glm::mat4 _mat4;
 
         public:
             inline Uniform(GLuint shaderProgramID, const char* name) {
@@ -45,10 +45,10 @@ namespace Cubicuous {
                             Debugging::Logger::toLoggable(error));
                 }
 
-                this->_vec2 = nullptr;
-                this->_vec3 = nullptr;
-                this->_vec4 = nullptr;
-                this->_mat4 = nullptr;
+                this->_vec2 = glm::vec2();
+                this->_vec3 = glm::vec3();
+                this->_vec4 = glm::vec4();
+                this->_mat4 = glm::mat4();
                 this->_name = std::string(name);
             }
 
@@ -59,28 +59,28 @@ namespace Cubicuous {
             inline void stopKeepingValue() { this->_keepValue = false; }
 
             inline void revertValue() {
-                if(this->_valuePtr != nullptr) {
+                if(this->_value != -1.0f) {
+                    this->update(this->_value);
+                }
+                else if(this->_valuePtr != nullptr) {
                     this->update(this->_valuePtr, this->_count);
-                }
-                else if(this->_value) {
-                    this->update(this->_value, this->_count);
-                }
-                else if(this->_intValuePtr) {
-                    this->update(this->_intValuePtr, this->_count);
                 }
                 else if(this->_intValue != -1) {
                     this->update(this->_intValue);
                 }
-                else if(this->_vec2 != nullptr) {
+                else if(this->_intValuePtr != nullptr) {
+                    this->update(this->_intValuePtr, this->_count);
+                }
+                else if(this->_vec2 != glm::vec2()) {
                     this->update(this->_vec2);
                 }
-                else if(this->_vec3 != nullptr) {
+                else if(this->_vec3 != glm::vec3()) {
                     this->update(this->_vec3);
                 }
-                else if(this->_vec4 != nullptr) {
+                else if(this->_vec4 != glm::vec4()) {
                     this->update(this->_vec4);
                 }
-                else if(this->_mat4 != nullptr) {
+                else if(this->_mat4 != glm::mat4()) {
                     this->update(this->_mat4);
                 }
             }
@@ -92,7 +92,7 @@ namespace Cubicuous {
             inline void update(float value) {
                 if(this->_keepValue) {
                     this->_clearKeptValues();
-                    this->_value = &value;
+                    this->_value = value;
                 }
 
                 glUniform1f(this->_id, value);
@@ -166,14 +166,14 @@ namespace Cubicuous {
         private:
             void _clearKeptValues() {
                 this->_valuePtr = nullptr;
-                this->_value = nullptr;
+                this->_value = -1.0f;
                 this->_intValue = -1;
                 this->_count = -1;
                 this->_intValuePtr = nullptr;
-                this->_vec2 = nullptr;
-                this->_vec3 = nullptr;
-                this->_vec4 = nullptr;
-                this->_mat4 = nullptr;
+                this->_vec2 = glm::vec2();
+                this->_vec3 = glm::vec3();
+                this->_vec4 = glm::vec4();
+                this->_mat4 = glm::mat4();
             }
         };
     }

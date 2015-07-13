@@ -74,5 +74,5 @@ endif (APPLE)
 add_executable(WindowTest test/Window/main.cpp)
 target_link_libraries(WindowTest Cubicuous)
 
-add_executable(GameTest test/Game/main.cpp test/Game/TestScene.cpp test/Game/TestScene.h test/Game/CubeEntity.h test/Game/SideColoredCubeEntity.h)
+add_executable(GameTest test/Game/main.cpp test/Game/TestScene.cpp test/Game/TestScene.h test/Game/CubeEntity.h)
 target_link_libraries(GameTest Cubicuous)

@@ -1,19 +1,24 @@
 #include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtx/transform2.hpp>
 #include <GL/glew.h>
 #include "TestScene.h"
-#include "../../src/Core/Entity.h"
 
 void TestScene::render(double deltaTime) {
     for (Cubicuous::Core::Entity *entity : this->_entities) {
+        if(entity == this->_entities[1]) {
+            this->_colorBuffer->update(this->_coloredCube, 108);
+        }
+        else {
+            this->_colorBuffer->update(this->_cubeColor, 108);
+        }
+        this->_game->getShaderProgram()->setActiveVertexArray("color");
+
         this->_modelUni->update(entity->getModelMatrix());
+        this->_game->getShaderProgram()->setActiveVertexArray("position");
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 }
 
 void TestScene::update() {
-
     if (this->_input->isKeyPressed(GLFW_KEY_W)) {
         this->_camera->stride(0.1f);
     }

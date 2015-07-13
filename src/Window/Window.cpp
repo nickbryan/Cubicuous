@@ -126,5 +126,17 @@ namespace Cubicuous {
             this->_previousMouseX = 0;
             this->_previousMouseY = 0;
         }
+
+        void Window::unlockCursor() {
+            if(this->_cursorLocked) {
+                glfwSetInputMode(this->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+            }
+        }
+
+        void Window::lockCursor() {
+            if(!this->_cursorLocked) {
+                glfwSetInputMode(this->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            }
+        }
     }
 }

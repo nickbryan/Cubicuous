@@ -41,6 +41,7 @@ namespace Cubicuous {
 
             bool _focused = GL_TRUE;
             bool _wasFocused = GL_TRUE;
+            bool _cursorLocked = false;
 
             GLFWwindow *_window;
             Input *_input;
@@ -53,6 +54,8 @@ namespace Cubicuous {
             ~Window();
 
             bool isOpen() const;
+
+            inline bool isCursorLocked() const { return this->_cursorLocked; }
 
             inline int getWidth() const { return this->_width; }
 
@@ -90,6 +93,10 @@ namespace Cubicuous {
             inline double getPreviousMouseY() const { return this->_previousMouseY; }
 
             void resetMousePosition();
+
+            void lockCursor();
+
+            void unlockCursor();
 
         private:
             void _init();

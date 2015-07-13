@@ -52,12 +52,12 @@ namespace Cubicuous {
                 }
 
                 inline void revertValue() {
-                    this->updateData(this->_previousValue, this->_previousCount);
+                    this->update(this->_previousValue, this->_previousCount);
                 }
 
                 inline GLuint getBufferID() const { return this->_bufferID; }
 
-                inline void updateData(GLfloat* data, GLsizei count) {
+                inline void update(GLfloat* data, GLsizei count) {
                     if(this->_keepValue) {
                         this->_previousValue = this->_value;
                         this->_previousCount = this->_count;

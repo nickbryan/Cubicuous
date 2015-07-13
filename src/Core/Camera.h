@@ -9,10 +9,6 @@
 #include "Movable.h"
 #include "Entity.h"
 
-#ifndef M_PI //mingw32 bug work around
-#define M_PI 3.14159265358979323846
-#endif
-
 namespace Cubicuous {
     namespace Core {
         class Camera : public Movable {

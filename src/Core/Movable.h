@@ -8,6 +8,10 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/detail/type_mat.hpp>
 
+#ifndef M_PI //mingw32 bug work around
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace Cubicuous {
     namespace Core {
         class Movable {
