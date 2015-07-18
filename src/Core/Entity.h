@@ -10,6 +10,8 @@ namespace Cubicuous {
         protected:
             Game* _game;
 
+            virtual glm::mat4 _getRotationMatrix();
+
         public:
             Entity(Game *game);
 

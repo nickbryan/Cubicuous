@@ -42,8 +42,10 @@ namespace Cubicuous {
         }
 
         void ShaderProgram::disableActiveVertexArray() {
-            this->_activeVertexArray->disable();
-            this->_activeVertexArray = nullptr;
+            if(this->_activeVertexArray != nullptr) {
+                this->_activeVertexArray->disable();
+                this->_activeVertexArray = nullptr;
+            }
         }
 
         VertexArray* ShaderProgram::getVertexArray(const char* name) {
@@ -62,7 +64,6 @@ namespace Cubicuous {
             if(vertexArray != nullptr) {
                 this->_activeVertexArray = vertexArray;
                 vertexArray->enable();
-                Debugging::Logger::log("Shader Manager", "Set active vertex array to " + Debugging::Logger::toLoggable(name));
             }
         }
 

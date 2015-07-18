@@ -3,17 +3,49 @@
 #include "TestScene.h"
 
 void TestScene::render(double deltaTime) {
+    this->_viewUni->update(this->_camera->getViewMatrix());
+    this->_projUni->update(this->_camera->getProjectionMatrix());
+
+    glViewport(350,250,100,100);
+    //draw axis indicator
+    this->_cubeBuffer->update(this->_axisIndicator, 6);
+    this->_positionVertexArray->enable();
+    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
+    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
+    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getYaw(), glm::vec3(1.0f,0.0f,0.0f)));
+    glDrawArrays(GL_LINES, 0, 6);
+    this->_cubeBuffer->update(this->_axisIndicator, 6);
+    this->_positionVertexArray->enable();
+    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
+    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
+    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getPitch(), glm::vec3(0.0f,1.0f,0.0f)));
+    glDrawArrays(GL_LINES, 0, 6);
+    this->_cubeBuffer->update(this->_axisIndicator, 6);
+    this->_positionVertexArray->enable();
+    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
+    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
+    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getYaw(), glm::vec3(0.0f,0.0f,1.0f)));
+    glDrawArrays(GL_LINES, 0, 6);
+
+    glViewport(0,0,800,600);
+    //draw entities
+    this->_cubeBuffer->update(this->_cube, 108);
+    this->_positionVertexArray->enable();
+
+    this->_viewUni->update(this->_camera->getViewMatrix());
+    this->_projUni->update(this->_camera->getProjectionMatrix());
+
     for (Cubicuous::Core::Entity *entity : this->_entities) {
-        if(entity == this->_entities[1]) {
+        if(entity == this->_entities[2] || entity == this->_entities[1]) {
             this->_colorBuffer->update(this->_coloredCube, 108);
         }
         else {
             this->_colorBuffer->update(this->_cubeColor, 108);
         }
-        this->_game->getShaderProgram()->setActiveVertexArray("color");
 
+        this->_colorVertexArray->enable();
         this->_modelUni->update(entity->getModelMatrix());
-        this->_game->getShaderProgram()->setActiveVertexArray("position");
+
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
 }
@@ -38,25 +70,58 @@ void TestScene::update() {
         this->_camera->climb(-1 * 0.1f);
     }
 
+    //CONTROL SECOND ENTITY
+        //MOVEMENT
+            //FORWARD AND BACK
     if (this->_input->isKeyPressed(GLFW_KEY_I)) {
         this->_entities[1]->stride(0.1f);
     }
     if (this->_input->isKeyPressed(GLFW_KEY_K)) {
-        this->_entities[1]->stride(-1 * 0.1f);
+        this->_entities[1]->stride(-0.1f);
     }
+
+            //LEFT AND RIGHT
     if (this->_input->isKeyPressed(GLFW_KEY_L)) {
         this->_entities[1]->strafe(0.1f);
     }
     if (this->_input->isKeyPressed(GLFW_KEY_J)) {
-        this->_entities[1]->strafe(-1 * 0.1f);
+        this->_entities[1]->strafe(-0.1f);
     }
+
+            //UP AND DOWN
     if (this->_input->isKeyPressed(GLFW_KEY_N)) {
         this->_entities[1]->climb(0.1f);
     }
     if (this->_input->isKeyPressed(GLFW_KEY_M)) {
-        this->_entities[1]->climb(-1 * 0.1f);
+        this->_entities[1]->climb(-0.1f);
     }
 
+        //LOOKING
+            //ROLLING
+    if (this->_input->isKeyPressed(GLFW_KEY_U)) {
+        this->_entities[1]->roll(0.1f);
+    }
+    if (this->_input->isKeyPressed(GLFW_KEY_O)) {
+        this->_entities[1]->roll(-0.1f);
+    }
+
+            //UP AND DOWN
+    if (this->_input->isKeyPressed(GLFW_KEY_UP)) {
+        this->_entities[1]->pitch(0.01f);
+    }
+    if (this->_input->isKeyPressed(GLFW_KEY_DOWN)) {
+        this->_entities[1]->pitch(-0.01f);
+    }
+
+        //LEFT AND RIGHT
+    if (this->_input->isKeyPressed(GLFW_KEY_LEFT)) {
+        this->_entities[1]->yaw(0.1f);
+    }
+    if (this->_input->isKeyPressed(GLFW_KEY_RIGHT)) {
+        this->_entities[1]->yaw(-0.1f);
+    }
+
+    //ENTITY LOCKING
     if (this->_input->isKeyPressed(GLFW_KEY_1)) {
         std::cout << "Locked to entity" << std::endl;
         this->_camera->lockToEntity(this->_entities[2]);

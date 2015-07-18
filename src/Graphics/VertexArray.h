@@ -18,6 +18,7 @@ namespace Cubicuous {
             GLboolean     _normalised;
             GLsizei       _stride;
             const GLvoid* _pointer;
+            bool          _enabled = false;
 
         public:
             inline VertexArray(GLuint shaderProgramId, const char* location, GLint size, GLenum type, GLboolean normalised,
@@ -41,12 +42,20 @@ namespace Cubicuous {
                 this->_pointer = pointer;
             }
 
-            inline void enable() const {
+            inline void enable() {
                 glEnableVertexAttribArray(this->_id);
                 this->_setupAttr();
+                this->_enabled = true;
             }
 
-            inline void disable() const { glDisableVertexAttribArray(this->_id); }
+            inline bool isEnabled() const { return this->_enabled; }
+
+            inline void disable() {
+                if(this->_enabled) {
+                    glDisableVertexAttribArray(this->_id);
+                    this->_enabled = false;
+                }
+            }
 
             inline GLuint getID() { return this->_id; }
 

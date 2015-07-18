@@ -62,13 +62,11 @@ namespace Cubicuous {
         }
 
         glm::vec3 Movable::_getViewVector() {
-            glm::vec4 viewVector = glm::inverse(this->_getRotationMatrix()) * glm::vec4(0, 0, -1, 1);
-            return glm::vec3(viewVector);
+            return glm::vec3(glm::inverse(this->_getRotationMatrix()) * glm::vec4(0, 0, -1, 1));
         }
 
         glm::vec3 Movable::_getRightVector() {
-            glm::vec4 rightVector = glm::inverse(this->_getRotationMatrix()) * glm::vec4(1, 0, 0, 1);
-            return glm::vec3(rightVector);
+            return glm::vec3(glm::inverse(this->_getRotationMatrix()) * glm::vec4(1, 0, 0, 1));
         }
     }
 }
