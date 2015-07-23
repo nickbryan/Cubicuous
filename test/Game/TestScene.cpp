@@ -6,35 +6,6 @@ void TestScene::render(double deltaTime) {
     this->_viewUni->update(this->_camera->getViewMatrix());
     this->_projUni->update(this->_camera->getProjectionMatrix());
 
-    glViewport(350,250,100,100);
-    //draw axis indicator
-    this->_cubeBuffer->update(this->_axisIndicator, 6);
-    this->_positionVertexArray->enable();
-    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
-    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
-    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getYaw(), glm::vec3(1.0f,0.0f,0.0f)));
-    glDrawArrays(GL_LINES, 0, 6);
-    this->_cubeBuffer->update(this->_axisIndicator, 6);
-    this->_positionVertexArray->enable();
-    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
-    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
-    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getPitch(), glm::vec3(0.0f,1.0f,0.0f)));
-    glDrawArrays(GL_LINES, 0, 6);
-    this->_cubeBuffer->update(this->_axisIndicator, 6);
-    this->_positionVertexArray->enable();
-    //this->_projUni->update(glm::ortho(-0.5f,0.5f,-0.5f,0.5f,-1.0f,1.0f));
-    this->_viewUni->update(glm::lookAt(glm::vec3(1.0f,1.0f,1.0f), glm::vec3(0.0f,0.0f,0.0f), glm::vec3(0.0f,0.1f,0.0f)));
-    this->_modelUni->update(glm::rotate(glm::mat4(), this->_camera->getYaw(), glm::vec3(0.0f,0.0f,1.0f)));
-    glDrawArrays(GL_LINES, 0, 6);
-
-    glViewport(0,0,800,600);
-    //draw entities
-    this->_cubeBuffer->update(this->_cube, 108);
-    this->_positionVertexArray->enable();
-
-    this->_viewUni->update(this->_camera->getViewMatrix());
-    this->_projUni->update(this->_camera->getProjectionMatrix());
-
     for (Cubicuous::Core::Entity *entity : this->_entities) {
         if(entity == this->_entities[2] || entity == this->_entities[1]) {
             this->_colorBuffer->update(this->_coloredCube, 108);

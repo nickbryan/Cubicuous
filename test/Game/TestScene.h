@@ -56,11 +56,6 @@ private:
             -0.5f,  0.5f, -0.5f
     };
 
-    GLfloat _axisIndicator[6] = {
-            0.0f, 0.0f, 0.0f,
-            0.0f, 0.5f, 0.0f
-    };
-
     Cubicuous::Graphics::Uniform* _viewUni;
     Cubicuous::Graphics::Uniform* _projUni;
     Cubicuous::Graphics::Uniform* _modelUni;
@@ -101,6 +96,9 @@ public:
             this->_cubeColor[i] = 1.0f;
             this->_coloredCube[i] = i < 18 ? this->_coloredCubeColor : 1.0f;
         }
+
+        this->_cubeBuffer->update(this->_cube, 108);
+        this->_positionVertexArray->enable();
     };
 
     void render(double deltaTime) override;
