@@ -79,9 +79,6 @@ public:
         this->_camera = new Cubicuous::Core::Camera(45.0f, 800.0f / 600.0f,
                                                     1.0f, 100.0f, glm::vec3(0.0f, 0.0f, 5.0f));
 
-        Cubicuous::Debugging::Logger::log("Found attribute position as " + Cubicuous::Debugging::Logger::toLoggable(this->_positionVertexArray->getID()));
-        Cubicuous::Debugging::Logger::log("Found attribute color as " + Cubicuous::Debugging::Logger::toLoggable(this->_colorVertexArray->getID()));
-
         if(this->_viewUni == nullptr) {
             throw "Failed to find view uniform from cache";
         }
