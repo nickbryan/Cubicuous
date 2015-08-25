@@ -30,6 +30,12 @@ namespace Cubicuous {
                 }
 
                 this->_trackerStart = this->getTicks();
+
+                //update camera to save lines
+                if(game->getActiveScene()->getCamera() != nullptr) {
+                    game->getActiveScene()->getCamera()->updateMVP();
+                }
+
                 game->getActiveScene()->render((this->_trackerStart + this->_skipTicks - this->_nextTick) / this->_skipTicks);
                 this->_trackerEnd = this->getTicks();
                 this->_frts++;

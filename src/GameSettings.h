@@ -1,6 +1,8 @@
 #ifndef CUBICUOUS_GAMESETTINGS_H
 #define CUBICUOUS_GAMESETTINGS_H
 
+#include "Core/MatrixManager/IMatrixManager.h"
+
 namespace Cubicuous {
     namespace Core {
         class Scene;
@@ -12,6 +14,7 @@ namespace Cubicuous {
         unsigned int togglePauseKey = 0;
         Core::Scene *pauseScene = nullptr;
         Core::ILoop *loop = nullptr;
+        Core::MatrixManager::IMatrixManager *matrixManager = nullptr;
 
         inline GameSettings() : GameSettings(60) {};
         GameSettings(int logicFps);

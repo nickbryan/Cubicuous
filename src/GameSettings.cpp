@@ -1,6 +1,7 @@
 #include "GameSettings.h"
 #include "Core/ILoop.h"
 #include "Core/Loops/ConstSpeedVarFps.h"
+#include "Core/MatrixManager/MVPMatrixManager.h"
 
 namespace Cubicuous {
     GameSettings::GameSettings(int logicFps) {

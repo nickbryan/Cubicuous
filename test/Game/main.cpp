@@ -1,9 +1,9 @@
-#include <stdlib.h>
 #include "../../src/Window/Window.h"
 #include "../../src/Game.h"
 #include "TestScene.h"
 #include "../../src/Window/WindowException.h"
 #include "CubeEntity.h"
+#include "../../src/Core/MatrixManager/MVPSepMatrixManager.h"
 
 using Cubicuous::Debugging::Logger;
 using Cubicuous::Window::Input;
@@ -15,6 +15,7 @@ int main() {
         // Set the curser to 0,0 so we can work out delta movements
         game.getWindow()->lockCursor();
         game.getWindow()->resetMousePosition();
+        game.getSettings()->matrixManager = new Cubicuous::Core::MatrixManager::MVPSepMatrixManager(game.getShaderProgram(), "model", "projection", "view", false);
 
         ShaderProgram* shaderProgram = game.getShaderProgram();
         shaderProgram->attachShader("test.vert", GL_VERTEX_SHADER);

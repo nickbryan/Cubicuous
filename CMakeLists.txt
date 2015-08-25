@@ -30,6 +30,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Window/WindowException.h
     src/Window/Window.cpp src/Window/Window.h
     src/Window/Input.cpp src/Window/Input.h
+    src/Core/MatrixManager/IMatrixManager.h
     src/GameSettings.cpp src/GameSettings.h
     src/Game.cpp src/Game.h
     src/Core/Scene.cpp src/Core/Scene.h
@@ -42,7 +43,10 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Graphics/VertexArray.h
     src/Graphics/Uniform.h
     src/Core/Camera.cpp src/Core/Camera.h
-    src/Core/Movable.cpp src/Core/Movable.h src/Core/Entity.cpp)
+    src/Core/Movable.cpp src/Core/Movable.h src/Core/Entity.cpp
+    src/Core/Structure/Voxel.h src/Graphics/Renderable.h
+    src/Core/Structure/Structure.cpp src/Core/Structure/Structure.h
+    src/Core/MatrixManager/MVPMatrixManager.cpp src/Core/MatrixManager/MVPMatrixManager.cpp src/Core/MatrixManager/MVPMatrixManager.h src/Core/MatrixManager/MVPSepMatrixManager.cpp src/Core/MatrixManager/MVPSepMatrixManager.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

@@ -5,7 +5,8 @@
 namespace Cubicuous {
     namespace Core {
 
-        Camera::Camera(float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position) {
+        Camera::Camera(Game *game, float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position) {
+            this->_game = game;
             this->_fieldOfView = fieldOfView;
             this->_aspectRatio = aspectRatio;
             this->_nearPlane = nearPlane;

@@ -20,10 +20,11 @@ namespace Cubicuous {
 
             glm::mat4 _projection;
 
-            Entity *_entity = nullptr;
+            Entity *_entity;
+            Game *_game;
 
         public:
-            Camera(float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position);
+            Camera(Game* game, float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position);
             ~Camera();
 
             float getFieldOfView() const { return _fieldOfView; }
@@ -113,6 +114,11 @@ namespace Cubicuous {
                 }
 
                 Movable::setPosition(position);
+            }
+
+            virtual inline void updateMVP() {
+                this->_game->getMatrixManager()->update(this->getViewMatrix());
+                this->_game->getMatrixManager()->update(this->getProjectionMatrix());
             }
 
             inline glm::mat4 getProjectionMatrix() const {

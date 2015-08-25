@@ -4,6 +4,7 @@
 #include <vector>
 #include "Entity.h"
 #include "../Window/Input.h"
+#include "Camera.h"
 
 using Cubicuous::Window::Input;
 
@@ -16,6 +17,7 @@ namespace Cubicuous {
             std::vector<Entity*> _entities;
             Cubicuous::Game *_game;
             Input *_input;
+            Camera *_camera;
 
         public:
             Scene(Cubicuous::Game* game);
@@ -24,6 +26,10 @@ namespace Cubicuous {
                     delete(this->_input);
                 }
             };
+
+            virtual inline Camera* getCamera() const { return this->_camera; }
+
+            virtual inline void setCamera(Camera* camera) const { this->_camera = camera; }
 
             virtual inline Input* getInput() const { return this->_input; }
 
@@ -35,13 +41,13 @@ namespace Cubicuous {
             virtual void update();
 
             //events
-            virtual void onActive() { };
+            inline virtual void onActive() { };
 
-            virtual void onInactive() { };
+            inline virtual void onInactive() { };
 
-            virtual void onPause() { };
+            inline virtual void onPause() { };
 
-            virtual void onPlay() { };
+            inline virtual void onPlay() { };
         };
     }
 }

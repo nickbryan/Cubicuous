@@ -24,6 +24,7 @@ using Cubicuous::Core::Scene;
 using Cubicuous::Core::ILoop;
 using Cubicuous::Graphics::ShaderProgram;
 using Cubicuous::Graphics::VertexBuffer;
+using Cubicuous::Core::MatrixManager::IMatrixManager;
 
 namespace Cubicuous {
     class Game {
@@ -57,6 +58,9 @@ namespace Cubicuous {
         inline Window::Window *getWindow() const { return this->_window; };
 
         inline GameSettings* getSettings() const { return this->_settings; };
+
+        /* MatrixManagers for game engine based */
+        inline IMatrixManager* getMatrixManager() const { return this->getSettings()->matrixManager; }
 
         /* Scene catching */
         void cacheScene(const char *name, Scene *scene);

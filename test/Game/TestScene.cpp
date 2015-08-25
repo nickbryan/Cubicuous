@@ -3,9 +3,6 @@
 #include "TestScene.h"
 
 void TestScene::render(double deltaTime) {
-    this->_viewUni->update(this->_camera->getViewMatrix());
-    this->_projUni->update(this->_camera->getProjectionMatrix());
-
     for (Cubicuous::Core::Entity *entity : this->_entities) {
         if(entity == this->_entities[2] || entity == this->_entities[1]) {
             this->_colorBuffer->update(this->_coloredCube, 108);
@@ -15,9 +12,7 @@ void TestScene::render(double deltaTime) {
         }
 
         this->_colorVertexArray->enable();
-        this->_modelUni->update(entity->getModelMatrix());
-
-        glDrawArrays(GL_TRIANGLES, 0, 36);
+        entity->render(deltaTime);
     }
 }
 

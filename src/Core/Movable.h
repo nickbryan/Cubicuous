@@ -30,6 +30,12 @@ namespace Cubicuous {
             virtual glm::mat4 _getRotationMatrix();
 
         public:
+            inline Movable() {};
+            inline Movable(glm::vec3 position) {
+                this->_initialPosition = position;
+                this->_position = position;
+            }
+
             virtual inline void yaw(float yaw) { this->_yaw += yaw; }
             virtual inline void pitch(float pitch) { this->_pitch += pitch; }
             virtual inline void roll(float roll) { this->_roll += roll; }

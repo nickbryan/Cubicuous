@@ -2,11 +2,8 @@
 
 namespace Cubicuous {
     namespace Core {
-        Entity::Entity(Game* game) {
-            this->_game = game;
-        }
-
         glm::mat4 Entity::_getRotationMatrix() {
+            //rotates in a different order to movable in order to avoid gimball locking
             glm::mat4 rotationMatrix(1.0f);
 
             // Z rotation for roll
