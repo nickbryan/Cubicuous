@@ -17,7 +17,7 @@ namespace Cubicuous {
             }
 
             void Structure::removeVoxel(Voxel *voxel) {
-                this->_voxels.erase(std::remove(this->_voxels.begin(), this->_voxels.end(), voxel), this->_voxels.end());
+                this->_voxels.erase(this->_voxels.begin() + this->getVoxelIndex(voxel));
             }
 
             void Structure::removeVoxel(glm::vec3 position) {
@@ -32,6 +32,20 @@ namespace Cubicuous {
                 }
 
                 return nullptr;
+            }
+
+            int Structure::getVoxelIndex(const glm::vec3 position) const {
+                int index = 0;
+
+                for(Voxel* voxel : this->getVoxels()) {
+                    if(voxel->getPosition() == position) {
+                        return index;
+                    }
+
+                    index++;
+                }
+
+                return -1;
             }
 
             void Structure::_buildMesh() {

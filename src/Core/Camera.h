@@ -27,103 +27,42 @@ namespace Cubicuous {
             Camera(Game* game, float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position);
             ~Camera();
 
+            //Projection settings
             float getFieldOfView() const { return _fieldOfView; }
             float getAspectRatio() const { return _aspectRatio; }
             float getNearPlane() const { return _nearPlane; }
             float getFarPlane() const { return _farPlane; }
 
-            inline void lockToEntity(Entity *entity) {
-                this->_entity = entity;
-            }
+            //Entity locking
+            void lockToEntity(Entity *entity);
 
-            inline void unlockFromEntity() {
-                if (this->_entity == nullptr) {
-                    return;
-                }
-
-                this->_pitch = -this->_entity->getPitch();
-                this->_roll = -this->_entity->getRoll();
-                this->_yaw = -this->_entity->getYaw();
-                this->_position = this->_entity->getPosition();
-                this->_entity = nullptr;
-            }
+            void unlockFromEntity();
 
             inline Entity* getLockedEntity() const { return this->_entity; }
 
+            //Camera matrix functions
             glm::mat4 getViewMatrix();
 
-            virtual const inline glm::vec3 &getPosition() const override {
-                if (this->_entity != nullptr) {
-                    return _entity->getPosition();
-                }
+            inline glm::mat4 getProjectionMatrix() const { return this->_projection; }
 
-                return Movable::getPosition();
-            }
+            //3D position translation and transformation settinsg
+            virtual const glm::vec3 &getPosition() const override;
 
-            virtual inline float getYaw() const override {
-                if (this->_entity != nullptr) {
-                    return -_entity->getYaw();
-                }
+            virtual float getYaw() const override;
 
-                return Movable::getYaw();
-            }
+            virtual float getPitch() const override;
 
-            virtual inline float getPitch() const override {
-                if (this->_entity != nullptr) {
-                    return -_entity->getPitch();
-                }
+            virtual float getRoll() const override;
 
-                return Movable::getPitch();
-            }
+            virtual void setYaw(float yaw) override;
 
-            virtual inline float getRoll() const override {
-                if (this->_entity != nullptr) {
-                    return -_entity->getRoll();
-                }
+            virtual void setPitch(float pitch) override;
 
-                return Movable::getRoll();
-            }
+            virtual void setRoll(float roll) override;
 
-            virtual inline void setYaw(float yaw) override {
-                if (this->_entity != nullptr) {
-                    this->_entity->setYaw(-yaw);
-                }
+            virtual void setPosition(glm::vec3 position) override;
 
-                Movable::setYaw(yaw);
-            }
-
-            virtual inline void setPitch(float pitch) override {
-                if (this->_entity != nullptr) {
-                    this->_entity->setPitch(-pitch);
-                }
-
-                Movable::setPitch(pitch);
-            }
-
-            virtual inline void setRoll(float roll) override {
-                if (this->_entity != nullptr) {
-                    this->_entity->setRoll(-roll);
-                }
-
-                Movable::setRoll(roll);
-            }
-
-            virtual inline void setPosition(glm::vec3 position) override {
-                if (this->_entity != nullptr) {
-                    this->_entity->setPosition(position);
-                }
-
-                Movable::setPosition(position);
-            }
-
-            virtual inline void updateMVP() {
-                this->_game->getMatrixManager()->update(this->getViewMatrix());
-                this->_game->getMatrixManager()->update(this->getProjectionMatrix());
-            }
-
-            inline glm::mat4 getProjectionMatrix() const {
-                return this->_projection;
-            }
+            virtual void updateMVP();
         };
     }
 }

@@ -21,6 +21,7 @@ namespace Cubicuous {
 
         public:
             Scene(Cubicuous::Game* game);
+
             virtual inline ~Scene() {
                 if(this->_input != nullptr) {
                     delete(this->_input);
@@ -29,7 +30,7 @@ namespace Cubicuous {
 
             virtual inline Camera* getCamera() const { return this->_camera; }
 
-            virtual inline void setCamera(Camera* camera) const { this->_camera = camera; }
+            virtual inline void setCamera(Camera* camera) { this->_camera = camera; }
 
             virtual inline Input* getInput() const { return this->_input; }
 

@@ -2,6 +2,8 @@
 #define CUBICUOUS_MVPSEPMATRIXMANAGER_H
 
 #include "IMatrixManager.h"
+#include "../../Graphics/Uniform.h"
+#include "../../Game.h"
 
 namespace Cubicuous {
     namespace Core {
@@ -13,7 +15,7 @@ namespace Cubicuous {
                 Graphics::Uniform *_viewUni;
 
             public:
-                inline MVPSepMatrixManager(ShaderProgram *shaderProgram, const char* modelUniName, const char* projUniName,
+                inline MVPSepMatrixManager(Graphics::ShaderProgram *shaderProgram, const char* modelUniName, const char* projUniName,
                                            const char* viewUniName, bool cached) {
                     if(cached) {
                         this->_modelUni = shaderProgram->getCachedUniform(modelUniName);
@@ -37,7 +39,7 @@ namespace Cubicuous {
                     }
                 };
 
-                inline MVPSepMatrixManager(ShaderProgram *shaderProgram, const char* modelUniName, const char* projUniName,
+                inline MVPSepMatrixManager(Graphics::ShaderProgram *shaderProgram, const char* modelUniName, const char* projUniName,
                                            const char* viewUniName) :
                        MVPSepMatrixManager(shaderProgram, modelUniName, projUniName, viewUniName, true) { };
 

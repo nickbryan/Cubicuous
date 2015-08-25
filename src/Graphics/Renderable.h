@@ -5,7 +5,7 @@ namespace Cubicuous {
     namespace Graphics {
         class Renderable {
         public:
-            virtual void render(double deltaTime) = 0;
+            virtual void render(double deltaTime) {};
         };
     }
 }

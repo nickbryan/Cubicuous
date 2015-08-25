@@ -1,7 +1,7 @@
 #ifndef CUBICUOUS_CONSTSPEEDVARFPS_H
 #define CUBICUOUS_CONSTSPEEDVARFPS_H
 
-#include "../ILoop.h"
+#include "ILoop.h"
 
 namespace Cubicuous {
     namespace Core {

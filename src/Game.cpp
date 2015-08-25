@@ -71,37 +71,37 @@ namespace Cubicuous {
         }
 
         this->_running = true;
-        this->_shaderProgram->enable();
+        this->getShaderProgram()->enable();
 
-        while (this->_running) {
-            this->_window->clear();
+        while (this->isRunning()) {
+            this->getWindow()->clear();
 
-            if (this->_nextScene != nullptr) {
-                if (this->_activeScene != nullptr) {
-                    this->_activeScene->onInactive();
+            if (this->getNextScene() != nullptr) {
+                if (this->getActiveScene() != nullptr) {
+                    this->getActiveScene()->onInactive();
                 }
 
-                this->_previousScene = this->_activeScene;
-                this->_activeScene = this->_nextScene;
-                this->_activeScene->onActive();
+                this->_previousScene = this->getActiveScene();
+                this->_activeScene = this->getNextScene();
+                this->getActiveScene()->onActive();
 
-                if(this->_previousScene == this->_settings->pauseScene) {
-                    this->_activeScene->onPlay();
+                if(this->getPreviousScene() == this->getSettings()->pauseScene) {
+                    this->getActiveScene()->onPlay();
                 }
 
                 this->_nextScene = nullptr;
             }
 
-            if (this->_activeScene != nullptr) {
-                this->_shaderProgram->reloadActiveVertexArray();
-                this->_settings->loop->loop(this);
+            if (this->getActiveScene() != nullptr) {
+                this->getShaderProgram()->reloadActiveVertexArray();
+                this->getSettings()->loop->loop(this);
             }
 
-            this->_window->postRender();
+            this->getWindow()->postRender();
         }
 
         //stop code
-        this->_shaderProgram->disable();
+        this->getShaderProgram()->disable();
     }
 
     void Game::cacheScene(const char *name, Scene *scene) {

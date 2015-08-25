@@ -15,7 +15,6 @@ int main() {
         // Set the curser to 0,0 so we can work out delta movements
         game.getWindow()->lockCursor();
         game.getWindow()->resetMousePosition();
-        game.getSettings()->matrixManager = new Cubicuous::Core::MatrixManager::MVPSepMatrixManager(game.getShaderProgram(), "model", "projection", "view", false);
 
         ShaderProgram* shaderProgram = game.getShaderProgram();
         shaderProgram->attachShader("test.vert", GL_VERTEX_SHADER);
@@ -32,6 +31,9 @@ int main() {
         game.getShaderProgram()->cacheUniform("view");
         game.getShaderProgram()->cacheUniform("projection");
         game.getShaderProgram()->cacheUniform("model");
+
+        //now we have all our shader program data loaded, create our matrix manager
+        game.getSettings()->matrixManager = new Cubicuous::Core::MatrixManager::MVPSepMatrixManager(game.getShaderProgram(), "model", "projection", "view");
 
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");

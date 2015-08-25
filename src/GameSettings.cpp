@@ -1,14 +1,13 @@
 #include "GameSettings.h"
-#include "Core/ILoop.h"
+#include "Core/Loops/ILoop.h"
 #include "Core/Loops/ConstSpeedVarFps.h"
-#include "Core/MatrixManager/MVPMatrixManager.h"
 
 namespace Cubicuous {
     GameSettings::GameSettings(int logicFps) {
         this->loop = new Core::Loops::ConstSpeedVarFps(logicFps);
     }
 
-    GameSettings::GameSettings(Core::ILoop *loop) {
+    GameSettings::GameSettings(Core::Loops::ILoop *loop) {
         this->loop = loop;
     }
 

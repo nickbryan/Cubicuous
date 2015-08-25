@@ -1,18 +1,18 @@
-#ifndef CUBICUOUS_MATRIXMANAGER_H
-#define CUBICUOUS_MATRIXMANAGER_H
+#ifndef CUBICUOUS_IMATRIXMANAGER_H
+#define CUBICUOUS_IMATRIXMANAGER_H
 
-#include "../../Game.h"
+#include <glm/detail/type_mat.hpp>
 
 namespace Cubicuous {
     namespace Core {
         namespace MatrixManager {
             class IMatrixManager {
             public:
-                virtual void updateModel(glm::mat4 model);
+                virtual void updateModel(glm::mat4 model) = 0;
 
-                virtual void updateProjection(glm::mat4 projection);
+                virtual void updateProjection(glm::mat4 projection) = 0;
 
-                virtual void updateView(glm::mat4 view);
+                virtual void updateView(glm::mat4 view) = 0;
             };
         }
     }

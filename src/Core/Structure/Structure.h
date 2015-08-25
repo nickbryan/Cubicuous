@@ -9,7 +9,6 @@
 
 namespace Cubicuous {
     namespace Core {
-        class Game;
         namespace Structure {
             class Structure : public Entity {
             private:
@@ -34,6 +33,10 @@ namespace Cubicuous {
                 Voxel* getVoxel(const glm::vec3 position) const;
 
                 inline std::vector<Voxel*> getVoxels() const { return this->_voxels; }
+
+                int getVoxelIndex(const glm::vec3 position) const;
+
+                int getVoxelIndex(Voxel* voxel) const { return this->getVoxelIndex(voxel->getPosition()); };
 
                 //TODO: Implement this method, render the mesh mat4, build if not built
                 virtual void render(double deltaTime) override;

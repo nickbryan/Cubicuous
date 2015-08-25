@@ -1,7 +1,10 @@
 #ifndef CUBICUOUS_MVPMATRIXMANAGER_H
 #define CUBICUOUS_MVPMATRIXMANAGER_H
 
+#include <glm/detail/type_mat4x4.hpp>
 #include "IMatrixManager.h"
+#include "../../Graphics/Uniform.h"
+#include "../../Game.h"
 
 namespace Cubicuous {
     namespace Core {

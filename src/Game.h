@@ -5,8 +5,8 @@
 #include "Graphics/ShaderProgram.h"
 #include "Graphics/VertexBuffer.h"
 #include "GameSettings.h"
-#include "Core/ILoop.h"
-
+#include "Core/Loops/ILoop.h"
+#include "Core/MatrixManager/IMatrixManager.h"
 #include <unordered_map>
 
 namespace Cubicuous {
@@ -15,13 +15,16 @@ namespace Cubicuous {
             class ConstSpeedVarFps;
         }
 
-        class ILoop;
+        namespace Loops {
+            class ILoop;
+        }
+
         class Scene;
     }
 }
 
 using Cubicuous::Core::Scene;
-using Cubicuous::Core::ILoop;
+using Cubicuous::Core::Loops::ILoop;
 using Cubicuous::Graphics::ShaderProgram;
 using Cubicuous::Graphics::VertexBuffer;
 using Cubicuous::Core::MatrixManager::IMatrixManager;
@@ -52,6 +55,8 @@ namespace Cubicuous {
 
         /* Core methods */
         void start();
+
+        inline bool isRunning() const { return this->_running; }
 
         inline void stop() { this->_running = false; }
 

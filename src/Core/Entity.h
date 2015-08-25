@@ -18,8 +18,6 @@ namespace Cubicuous {
 
             inline Entity(Game *game, glm::vec3 position) : _game(game), Movable(position) {};
 
-            inline virtual void render(double deltaTime) override {}
-
             inline virtual void update() {}
 
             inline glm::mat4 getModelMatrix() {
