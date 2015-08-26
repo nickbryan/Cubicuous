@@ -20,8 +20,8 @@ namespace Cubicuous {
 
             glm::mat4 _projection;
 
-            Entity *_entity;
-            Game *_game;
+            Entity* _entity = nullptr;
+            Game* _game = nullptr;
 
         public:
             Camera(Game* game, float fieldOfView, float aspectRatio, float nearPlane, float farPlane, glm::vec3 position);
@@ -37,6 +37,8 @@ namespace Cubicuous {
             void lockToEntity(Entity *entity);
 
             void unlockFromEntity();
+
+            inline bool isLockedToEntity() const { return this->getLockedEntity() != nullptr; }
 
             inline Entity* getLockedEntity() const { return this->_entity; }
 

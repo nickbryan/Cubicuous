@@ -2,7 +2,9 @@
 #define CUBICUOUS_WINDOWEXCEPTION_H
 
 #include <exception>
-#include <string.h>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 namespace Cubicuous {
     namespace Window {

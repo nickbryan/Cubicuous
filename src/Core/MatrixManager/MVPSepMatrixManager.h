@@ -10,9 +10,9 @@ namespace Cubicuous {
         namespace MatrixManager {
             class MVPSepMatrixManager : public IMatrixManager {
             private:
-                Graphics::Uniform *_modelUni;
-                Graphics::Uniform *_projUni;
-                Graphics::Uniform *_viewUni;
+                Graphics::Uniform* _modelUni = nullptr;
+                Graphics::Uniform* _projUni = nullptr;
+                Graphics::Uniform* _viewUni = nullptr;
 
             public:
                 inline MVPSepMatrixManager(Graphics::ShaderProgram *shaderProgram, const char* modelUniName, const char* projUniName,

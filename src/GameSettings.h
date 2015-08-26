@@ -16,9 +16,10 @@ namespace Cubicuous {
     struct GameSettings {
         unsigned int quickQuitKey = 0;
         unsigned int togglePauseKey = 0;
-        Core::Scene *pauseScene;
-        Core::Loops::ILoop *loop;
-        Core::MatrixManager::IMatrixManager *matrixManager;
+
+        Core::Loops::ILoop* loop = nullptr;
+        Core::Scene* pauseScene = nullptr;
+        Core::MatrixManager::IMatrixManager* matrixManager = nullptr;
 
         inline GameSettings() : GameSettings(60) {};
         GameSettings(int logicFps);

@@ -43,8 +43,8 @@ namespace Cubicuous {
             bool _wasFocused = GL_TRUE;
             bool _cursorLocked = false;
 
-            GLFWwindow *_window;
-            Input *_input;
+            GLFWwindow* _window = nullptr;
+            Input* _input = nullptr;
 
         public:
             Window(const char *title, int width, int height);

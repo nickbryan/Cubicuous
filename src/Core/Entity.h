@@ -9,7 +9,7 @@ namespace Cubicuous {
     namespace Core {
         class Entity : public Movable, public Graphics::Renderable {
         protected:
-            Game* _game;
+            Game* _game = nullptr;
 
             virtual glm::mat4 _getRotationMatrix();
 
@@ -20,7 +20,7 @@ namespace Cubicuous {
 
             inline virtual void update() {}
 
-            inline glm::mat4 getModelMatrix() {
+            inline virtual glm::mat4 getModelMatrix() {
                 return glm::translate(glm::mat4(), this->getPosition()) * this->_getRotationMatrix();
             }
         };

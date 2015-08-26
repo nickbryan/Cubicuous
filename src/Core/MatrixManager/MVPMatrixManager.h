@@ -15,7 +15,7 @@ namespace Cubicuous {
                 glm::mat4 _projection;
                 glm::mat4 _view;
 
-                Graphics::Uniform* _mvpUni;
+                Graphics::Uniform* _mvpUni = nullptr;
 
                 void _update();
 

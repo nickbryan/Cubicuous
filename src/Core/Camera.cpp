@@ -28,7 +28,7 @@ namespace Cubicuous {
         }
 
         void Camera::unlockFromEntity() {
-            if (this->_entity == nullptr) {
+            if (this->isLockedToEntity()) {
                 return;
             }
 
@@ -40,64 +40,64 @@ namespace Cubicuous {
         }
 
         const glm::vec3& Camera::getPosition() const {
-            if (this->_entity != nullptr) {
-                return _entity->getPosition();
+            if (this->isLockedToEntity()) {
+                return this->getLockedEntity()->getPosition();
             }
 
             return Movable::getPosition();
         }
 
         float Camera::getYaw() const {
-            if (this->_entity != nullptr) {
-                return -_entity->getYaw();
+            if (this->isLockedToEntity()) {
+                return -this->getLockedEntity()->getYaw();
             }
 
             return Movable::getYaw();
         }
 
         float Camera::getPitch() const {
-            if (this->_entity != nullptr) {
-                return -_entity->getPitch();
+            if (this->isLockedToEntity()) {
+                return -this->getLockedEntity()->getPitch();
             }
 
             return Movable::getPitch();
         }
 
         float Camera::getRoll() const {
-            if (this->_entity != nullptr) {
-                return -_entity->getRoll();
+            if (this->isLockedToEntity()) {
+                return -this->getLockedEntity()->getRoll();
             }
 
             return Movable::getRoll();
         }
 
         void Camera::setYaw(float yaw) {
-            if (this->_entity != nullptr) {
-                this->_entity->setYaw(-yaw);
+            if (this->isLockedToEntity()) {
+                this->getLockedEntity()->setYaw(-yaw);
             }
 
             Movable::setYaw(yaw);
         }
 
         void Camera::setPitch(float pitch) {
-            if (this->_entity != nullptr) {
-                this->_entity->setPitch(-pitch);
+            if (this->isLockedToEntity()) {
+                this->getLockedEntity()->setPitch(-pitch);
             }
 
             Movable::setPitch(pitch);
         }
 
         void Camera::setRoll(float roll) {
-            if (this->_entity != nullptr) {
-                this->_entity->setRoll(-roll);
+            if (this->isLockedToEntity()) {
+                this->getLockedEntity()->setRoll(-roll);
             }
 
             Movable::setRoll(roll);
         }
 
         void Camera::setPosition(glm::vec3 position) {
-            if (this->_entity != nullptr) {
-                this->_entity->setPosition(position);
+            if (this->isLockedToEntity()) {
+                this->getLockedEntity()->setPosition(position);
             }
 
             Movable::setPosition(position);

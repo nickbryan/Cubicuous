@@ -32,17 +32,17 @@ using Cubicuous::Core::MatrixManager::IMatrixManager;
 namespace Cubicuous {
     class Game {
     private:
-        std::unordered_map<const char *, Scene *> *_scenes;
+        std::unordered_map<const char*, Scene*>* _scenes = nullptr;
         Scene *_activeScene = nullptr;
         Scene *_nextScene = nullptr;
         Scene *_previousScene = nullptr;
 
         bool _running = false;
 
-        Window::Window *_window;
-        GameSettings *_settings;
+        Window::Window* _window = nullptr;
+        GameSettings* _settings = nullptr;
 
-        ShaderProgram *_shaderProgram;
+        ShaderProgram* _shaderProgram = nullptr;
         std::unordered_map<const char*, VertexBuffer*> _vertexBuffers;
         GLuint _vertexArrayID;
 
