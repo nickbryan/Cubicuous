@@ -38,6 +38,8 @@ namespace Cubicuous {
                     this->_nextTime = std::time(nullptr);
                 }
 
+                inline virtual ~ILoop() {};
+
                 virtual void loop(Game* game) = 0;
 
                 inline virtual int getFps() const { return this->_frps; }

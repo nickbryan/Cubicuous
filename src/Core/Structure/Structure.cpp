@@ -1,5 +1,6 @@
 #include "Structure.h"
 #include "../../Game.h"
+#include "Voxel.h"
 
 namespace Cubicuous {
     namespace Core {
@@ -46,6 +47,10 @@ namespace Cubicuous {
                 }
 
                 return -1;
+            }
+
+            int Structure::getVoxelIndex(Voxel *voxel) const {
+                return this->getVoxelIndex(voxel->getPosition());
             }
 
             void Structure::_buildMesh() {

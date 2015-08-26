@@ -3,16 +3,21 @@
 
 #include <vector>
 #include <glm/detail/type_vec.hpp>
-#include "Voxel.h"
 #include "../Entity.h"
 #include <GL/glew.h>
 
 namespace Cubicuous {
     namespace Core {
         namespace Structure {
+            class Voxel;
             class Structure : public Entity {
             private:
                 glm::mat4 _mesh;
+
+                //TODO: Implement this method to make one mat4 from all voxel vec3
+                void _buildMesh();
+
+                std::vector<Voxel*> _voxels;
 
             public:
                 inline Structure(Game *game, const std::vector<Voxel *> &_voxels) : Entity(game), _voxels(_voxels) { }
@@ -36,16 +41,10 @@ namespace Cubicuous {
 
                 int getVoxelIndex(const glm::vec3 position) const;
 
-                int getVoxelIndex(Voxel* voxel) const { return this->getVoxelIndex(voxel->getPosition()); };
+                int getVoxelIndex(Voxel* voxel) const;
 
                 //TODO: Implement this method, render the mesh mat4, build if not built
                 virtual void render(double deltaTime) override;
-
-            private:
-                //TODO: Implement this method to make one mat4 from all voxel vec3
-                void _buildMesh();
-
-                std::vector<Voxel*> _voxels;
             };
         }
     }
