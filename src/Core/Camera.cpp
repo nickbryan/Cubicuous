@@ -28,7 +28,7 @@ namespace Cubicuous {
         }
 
         void Camera::unlockFromEntity() {
-            if (this->isLockedToEntity()) {
+            if (!this->isLockedToEntity()) {
                 return;
             }
 
