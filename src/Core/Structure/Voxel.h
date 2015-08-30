@@ -10,12 +10,16 @@ namespace Cubicuous {
         namespace Structure {
             class Voxel : public Entity {
             public:
-                inline Voxel(Game *game, glm::vec3 position) : Entity(game, position) { };
+                inline Voxel(Game *game, glm::vec3 position) : Entity(game, position) { }
 
-                inline Voxel(Game *game) : Entity(game) {};
+                inline Voxel(Game *game) : Entity(game) {}
+
 
                 //TODO: Implement this method for default usage
-                virtual void render(double deltaTime) override;
+                inline virtual void render(double deltaTime) override {
+                    this->_game->getMatrixManager()->updateModel(this->getModelMatrix());
+                    glDrawArrays(GL_TRIANGLES, 0, 36);
+                };
             };
         }
     }

@@ -22,6 +22,8 @@ namespace Cubicuous {
             public:
                 inline Structure(Game *game, const std::vector<Voxel *> &_voxels) : Entity(game), _voxels(_voxels) { }
 
+                inline Structure(Game *game) : Entity(game), _voxels(std::vector<Voxel*>()) {}
+
                 void addVoxel(Voxel *voxel);
 
                 void addVoxel(glm::vec3 position);
@@ -36,6 +38,9 @@ namespace Cubicuous {
                 void removeVoxel(glm::vec3 position);
 
                 Voxel* getVoxel(const glm::vec3 position) const;
+
+                // TODO: implement
+                Voxel* getVoxel(int x, int y, int z) const;
 
                 inline std::vector<Voxel*> getVoxels() const { return this->_voxels; }
 

@@ -6,7 +6,9 @@ namespace Cubicuous {
     namespace Core {
         namespace Structure {
             void Structure::render(double deltaTime) {
-                
+                for(Voxel* voxel : this->getVoxels()) {
+                    voxel->render(deltaTime);
+                }
             }
 
             void Structure::addVoxel(glm::vec3 position) {

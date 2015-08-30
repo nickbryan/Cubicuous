@@ -4,6 +4,8 @@
 #include "../../src/Window/WindowException.h"
 #include "CubeEntity.h"
 #include "../../src/Core/MatrixManager/MVPSepMatrixManager.h"
+#include "../../src/Core/Structure/Structure.h"
+#include "../../src/Core/Structure/Voxel.h"
 
 using Cubicuous::Debugging::Logger;
 using Cubicuous::Window::Input;
@@ -38,7 +40,11 @@ int main() {
         game.cacheScene("TestScene", new TestScene(&game));
         game.setScene("TestScene");
         Scene *testScene = game.getCachedScene("TestScene");
-        testScene->addEntity(new CubeEntity(glm::vec3(1.0f, 1.0f, 1.0f), &game));
+
+        Cubicuous::Core::Structure::Structure *testStructure = new Cubicuous::Core::Structure::Structure(&game);
+
+        //testScene->addEntity(new CubeEntity(glm::vec3(1.0f, 1.0f, 1.0f), &game));
+        testScene->addEntity(testStructure);
         testScene->addEntity(new CubeEntity(glm::vec3(-10.0f, 2.0f, 2.0f), &game));
         testScene->addEntity(new CubeEntity(glm::vec3(3.0f, 3.0f, 3.0f), &game));
         testScene->addEntity(new CubeEntity(glm::vec3(4.0f, 4.0f, 4.0f), &game));
