@@ -37,10 +37,9 @@ namespace Cubicuous {
 
                 void removeVoxel(glm::vec3 position);
 
-                Voxel* getVoxel(const glm::vec3 position) const;
+                Voxel* getVoxel(float x, float y, float z) const;
 
-                // TODO: implement
-                Voxel* getVoxel(int x, int y, int z) const;
+                inline Voxel* getVoxel(const glm::vec3 position) const { return this->getVoxel(position.x, position.y, position.z) };
 
                 inline std::vector<Voxel*> getVoxels() const { return this->_voxels; }
 

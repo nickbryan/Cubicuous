@@ -27,9 +27,9 @@ namespace Cubicuous {
                 this->removeVoxel(this->getVoxel(position));
             }
 
-            Voxel* Structure::getVoxel(const glm::vec3 position) const {
+            Voxel* Structure::getVoxel(float x, float y, float z) const {
                 for(Voxel* voxel : this->getVoxels()) {
-                    if(voxel->getPosition() == position) {
+                    if(voxel->getPosition().x == x && voxel->getPosition().y == y && voxel->getPosition().z == z) {
                         return voxel;
                     }
                 }

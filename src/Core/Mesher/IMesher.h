@@ -10,7 +10,7 @@ namespace Cubicuous {
 
             class IMesher {
             public:
-                virtual void generateMesh(Structure::Structure structure, int dimensions[3]) = 0;
+                virtual void generateMesh(Structure::Structure *structure, int width, int length, int height) = 0;
             };
 
         }

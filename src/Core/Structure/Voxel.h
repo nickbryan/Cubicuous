@@ -14,8 +14,6 @@ namespace Cubicuous {
 
                 inline Voxel(Game *game) : Entity(game) {}
 
-
-                //TODO: Implement this method for default usage
                 inline virtual void render(double deltaTime) override {
                     this->_game->getMatrixManager()->updateModel(this->getModelMatrix());
                     glDrawArrays(GL_TRIANGLES, 0, 36);
