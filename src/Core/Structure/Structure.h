@@ -4,7 +4,9 @@
 #include <vector>
 #include <glm/detail/type_vec.hpp>
 #include "../Entity.h"
+#include "../Mesher/MeshPart.h"
 #include <GL/glew.h>
+#include <array>
 
 namespace Cubicuous {
     namespace Core {
@@ -12,7 +14,7 @@ namespace Cubicuous {
             class Voxel;
             class Structure : public Entity {
             private:
-                glm::mat4 _mesh;
+                std::array<Mesher::MeshPart> _mesh;
 
                 //TODO: Implement this method to make one mat4 from all voxel vec3
                 void _buildMesh();

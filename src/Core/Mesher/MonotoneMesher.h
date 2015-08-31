@@ -1,4 +1,6 @@
 #include "IMesher.h"
+#include "../Structure/Voxel.h"
+#include "../Structure/Structure.h"
 
 #ifndef CUBICUOUS_MONOTONEMESHER_H
 #define CUBICUOUS_MONOTONEMESHER_H
@@ -31,12 +33,12 @@ namespace Cubicuous {
                     }
                 };
 
-                Structure::Voxel* _getVoxelFromPosition(Structure::Structure *structure, int width, int length, int height, float x, float y, float z);
+                Structure::Voxel* _getVoxelFromPosition(Structure::Structure *structure, int width, int length, int height, int x, int y, int z);
 
                 int _getDimensionFromAxis(int axis, int width, int length, int height);
 
             public:
-                virtual void generateMesh(Structure::Structure* structure, int width, int length, int height) override;
+                virtual std::array<MeshPart> generateMesh(Structure::Structure* structure, int width, int length, int height) override;
             };
 
         }
