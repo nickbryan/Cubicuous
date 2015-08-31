@@ -20,8 +20,8 @@ namespace Cubicuous {
             private:
                 struct MonotonePolygon {
                     int color;
-                    int left[2][2];
-                    int right[2][2];
+                    std::vector< int[2] > left;
+                    std::vector< int[2] > right;
 
                     //TODO: Figure out what v, ul and ur are
                     MonotonePolygon(int color, int v, int ul, int ur) {
@@ -30,6 +30,26 @@ namespace Cubicuous {
                         this->left[0][1] = v;
                         this->right[0][0] = ur;
                         this->right[0][1] = v;
+                    }
+
+                    void closeOff(int v) {
+                        this->left.push_back({this->left[this->left.size() - 1][0], v});
+                        this->right.push_back({this->right[this->right.size() - 1][0], v});
+                    }
+
+                    void mergeRun(int v, int ul, int ur) {
+                        int l = this->left[this->left.size() - 1][0];
+                        int r = this->right[this->right.size() - 1][0];
+
+                        if (l != ul) {
+                            this->left.push_back({l, v});
+                            this->left.push_back({ul, v});
+                        }
+
+                        if (r != ur) {
+                            this->right.push_back({r, v});
+                            this->right.push_back({ur, v});
+                        }
                     }
                 };
 
