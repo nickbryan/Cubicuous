@@ -86,8 +86,8 @@ namespace Cubicuous {
                             runs[nr++] = 0;
 
                             // Update frontier by merging runs
-                            int fp = 0;
-                            for (int i = 0, j = 0; i < nf && j < nr - 2;) {
+                            int fp = 0, i, j;
+                            for (i = 0, j = 0; i < nf && j < nr - 2;) {
                                 MonotonePolygon polygon = polygons[frontier[i]];
                                 int polygonLeft = polygon.left[polygon.left.size() - 1][0];
                                 int polygonRight = polygon.right[polygon.right.size() - 1][0];
@@ -108,13 +108,13 @@ namespace Cubicuous {
                                 } else {
                                     // Check if we need to advance the run pointer
                                     if (runRight <= polygonRight) {
-                                        if (!!runColor) {
+                                        if (runColor != 0) {
                                             MonotonePolygon newPolygon = MonotonePolygon(runColor,
                                                                                          x[v],
                                                                                          runLeft,
                                                                                          runRight);
 
-                                            nextFrontier[fp++] = polygons.size();
+                                            nextFrontier[fp++] = static_cast<int>(polygons.size());
                                             polygons.push_back(newPolygon);
                                         }
                                         j += 2;
@@ -127,17 +127,17 @@ namespace Cubicuous {
                                 }
                             }
                             // Close off any residual polygons
-                            for (; i < nf; ++i) {
+                            for (i; i < nf; ++i) {
                                 polygons[frontier[i]].closeOff(x[v]);
                             }
 
                             // Add any extra runs to frontier
-                            for(; j < nr - 2; j += 2) {
+                            for(j; j < nr - 2; j += 2) {
                                 int rl = runs[j];
                                 int rr = runs[j + 2];
                                 int rc = runs[j + 1];
 
-                                if (!!rc) {
+                                if (rc != 0) {
                                     MonotonePolygon newPolygon = MonotonePolygon(rc, x[v], rl, rr);
                                     nextFrontier[fp++] = polygons.size();
                                     polygons.push_back(newPolygon);
@@ -179,9 +179,9 @@ namespace Cubicuous {
                             }
 
                             for (int j = 0; j < polygon.left.size(); ++j) {
-                                leftIndex[j] = vertices.size();
+                                leftIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
-                                int z[2] = {polygon.left[j][0], polygon.left[j][1]}
+                                int z[2] = {polygon.left[j][0], polygon.left[j][1]};
                                 y[axis] = x[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
@@ -189,7 +189,7 @@ namespace Cubicuous {
                             }
 
                             for (int j = 0; j < polygon.right.size(); ++j) {
-                                rightIndex[j] = vertices.size();
+                                rightIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.right[j][0], polygon.right[j][1]};
                                 y[axis] = x[axis];
@@ -287,7 +287,12 @@ namespace Cubicuous {
                         }
                     }
                 }
-                return {vertices, faces};
+
+                std::vector<MeshPart> meshParts;
+                for(int meshIndex = 0; meshIndex < faces.size(); meshIndex++) {
+                    meshParts.push_back(MeshPart(glm::vec3(vertices[meshIndex][0], vertices[meshIndex][1], vertices[meshIndex][2]), faces[meshIndex][4]));
+                }
+                return meshParts;
             }
         }
     }

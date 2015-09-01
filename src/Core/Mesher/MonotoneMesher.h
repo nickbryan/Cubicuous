@@ -19,13 +19,13 @@ namespace Cubicuous {
             class MonotoneMesher : public IMesher {
             private:
                 struct MonotonePolygon {
-                    int color;
+                    int type;
                     std::vector< int[2] > left;
                     std::vector< int[2] > right;
 
                     //TODO: Figure out what v, ul and ur are
-                    MonotonePolygon(int color, int v, int ul, int ur) {
-                        this->color = color;
+                    MonotonePolygon(int type, int v, int ul, int ur) {
+                        this->type = type;
                         this->left[0][0] = ul;
                         this->left[0][1] = v;
                         this->right[0][0] = ur;

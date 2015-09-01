@@ -8,9 +8,16 @@ namespace Cubicuous {
     namespace Core {
         namespace Mesher {
             struct MeshPart {
+            private:
+                int       _type;
+                glm::vec3 _position;
+
             public:
-                int color;
-                glm::vec3 position;
+                MeshPart(int type, glm::vec3 position) : _type(type), _position(position) {}
+
+                int getType() const { return this->_type; }
+
+                glm::vec3 getPosition() const { return this->_position; }
             };
         }
     }
