@@ -64,8 +64,9 @@ namespace Cubicuous {
 
         inline GameSettings* getSettings() const { return this->_settings; };
 
-        /* MatrixManagers for game engine based */
+        /* Get functions for integral esettings */
         inline IMatrixManager* getMatrixManager() const { return this->getSettings()->matrixManager; }
+        inline Core::Mesher::IMesher* getMesher() const { return this->getSettings()->mesher; }
 
         /* Scene catching */
         void cacheScene(const char *name, Scene *scene);
