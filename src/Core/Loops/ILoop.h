@@ -3,7 +3,6 @@
 
 #include <time.h>
 #include <ctime>
-#include "../Scene.h"
 #include "../../Game.h"
 
 #ifdef _WIN32

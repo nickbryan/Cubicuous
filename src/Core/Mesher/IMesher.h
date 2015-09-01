@@ -2,7 +2,6 @@
 #define CUBICUOUS_IMESHER_H
 
 #include <vector>
-#include <array>
 #include "../Structure/Structure.h"
 #include "MeshPart.h"
 
@@ -11,7 +10,8 @@ namespace Cubicuous {
         namespace Mesher {
             class IMesher {
             public:
-                virtual std::array<MeshPart> generateMesh(Structure::Structure *structure, int width, int length, int height) = 0;
+                virtual std::vector<MeshPart> generateMesh(Structure::Structure* structure, int width, int length,
+                                                           int height) = 0;
             };
 
         }

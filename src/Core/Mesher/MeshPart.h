@@ -7,7 +7,7 @@
 namespace Cubicuous {
     namespace Core {
         namespace Mesher {
-            struct MeshPart {
+            class MeshPart {
             private:
                 int       _type;
                 glm::vec3 _position;

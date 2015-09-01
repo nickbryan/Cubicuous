@@ -1,10 +1,11 @@
 #ifndef CUBICUOUS_GAMESETTINGS_H
 #define CUBICUOUS_GAMESETTINGS_H
 
+#include "Core/Mesher/IMesher.h"
+#include "Core/Scene.h"
+
 namespace Cubicuous {
     namespace Core {
-        class Scene;
-
         namespace Loops {
             class ILoop;
         }
@@ -20,6 +21,7 @@ namespace Cubicuous {
         Core::Loops::ILoop* loop = nullptr;
         Core::Scene* pauseScene = nullptr;
         Core::MatrixManager::IMatrixManager* matrixManager = nullptr;
+        Core::Mesher::IMesher* mesher = nullptr;
 
         inline GameSettings() : GameSettings(60) {};
         GameSettings(int logicFps);

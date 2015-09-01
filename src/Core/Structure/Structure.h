@@ -14,7 +14,7 @@ namespace Cubicuous {
             class Voxel;
             class Structure : public Entity {
             private:
-                std::array<Mesher::MeshPart> _mesh;
+                std::vector<Mesher::MeshPart> _mesh;
 
                 //TODO: Implement this method to make one mat4 from all voxel vec3
                 void _buildMesh();
@@ -41,7 +41,7 @@ namespace Cubicuous {
 
                 Voxel* getVoxel(float x, float y, float z) const;
 
-                inline Voxel* getVoxel(const glm::vec3 position) const { return this->getVoxel(position.x, position.y, position.z) };
+                inline Voxel* getVoxel(const glm::vec3 position) const { return this->getVoxel(position.x, position.y, position.z); };
 
                 inline std::vector<Voxel*> getVoxels() const { return this->_voxels; }
 

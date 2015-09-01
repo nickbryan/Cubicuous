@@ -7,7 +7,7 @@ namespace Cubicuous {
                                                   int x, int y, int z) {
               //TODO: Figure out the commented out code to make sure it has been correctly translated
 //                return volume[i + dims[0] * (j + dims[1] * k)];
-                return structure->getVoxel(x * width, y + height, z);
+                return structure->getVoxel(x, y, z);
             }
 
             int MonotoneMesher::_getDimensionFromAxis(int axis, int width, int length, int height) {
@@ -16,9 +16,10 @@ namespace Cubicuous {
                 );
             }
 
-            std::array<MeshPart> MonotoneMesher::generateMesh(Structure::Structure* structure, int width, int length, int height) {
+            std::vector<MeshPart> MonotoneMesher::generateMesh(Structure::Structure* structure, int width, int length,
+                                                               int height) {
                 std::vector<glm::vec3> vertices;
-                std::vector<int[4]> faces;
+                std::vector<std::array<int, 4>> faces;
 
                 // We need to go over the axis x,y and z
                 for (int axis = 0; axis < 3; ++axis) {
@@ -26,14 +27,14 @@ namespace Cubicuous {
                     // Orthogonal: https://2.bp.blogspot.com/_CKHEK3fLVDo/TJQw_X0G8lI/AAAAAAAABjw/Tju9XJifRcM/s1600/2-pt-perspective_orthogonal_lines.jpg
                     int u = (axis + 1) % 3; // u + v are orthogonal to axis
                     int v = (axis + 2) % 3;
-                    int32_t x[3]; // Sentinel for terminating loop
-                    int32_t q[3]; // Points along the direction of axis variable
-                    int32_t runs[2 * (this->_getDimensionFromAxis(u + 1, width, length, height))];
-                    int32_t frontier[this->_getDimensionFromAxis(u, width, length, height)]; // Frontier is a list of pointers to polygons
-                    int32_t nextFrontier[this->_getDimensionFromAxis(u, width, length, height)];
-                    int32_t leftIndex[2 * this->_getDimensionFromAxis(v, width, length, height)];
-                    int32_t rightIndex[2 * this->_getDimensionFromAxis(v, width, length, height)];
-                    int32_t stack[24 * this->_getDimensionFromAxis(v, width, length, height)];
+                    std::vector<int32_t> x(3); // Sentinel for terminating loop
+                    std::vector<int32_t> q(3); // Points along the direction of axis variable
+                    std::vector<int32_t> runs(2 * this->_getDimensionFromAxis(u + 1, width, length, height));
+                    std::vector<int32_t> frontier(this->_getDimensionFromAxis(u, width, length, height)); // Frontier is a list of pointers to polygons
+                    std::vector<int32_t> nextFrontier(this->_getDimensionFromAxis(u, width, length, height));
+                    std::vector<int32_t> leftIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
+                    std::vector<int32_t> rightIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
+                    std::vector<int32_t> stack(24 * this->_getDimensionFromAxis(v, width, length, height));
                     int32_t delta[2][2] = {{0,0}, {0,0}};
 
                     q[axis] = 1;
@@ -91,13 +92,12 @@ namespace Cubicuous {
                                 MonotonePolygon polygon = polygons[frontier[i]];
                                 int polygonLeft = polygon.left[polygon.left.size() - 1][0];
                                 int polygonRight = polygon.right[polygon.right.size() - 1][0];
-                                int polygonColor = polygon.color;
                                 int runLeft = runs[j]; // Start of run
                                 int runRight = runs[j + 2]; // End of run
                                 int runColor = runs[j + 1]; // Color of run
 
                                 // Check if we can merge run with polygon
-                                if (runRight > polygonLeft && polygonRight > runLeft && runColor == polygonColor) {
+                                if (runRight > polygonLeft && polygonRight > runLeft && runColor == polygon.type) {
                                     // Merge run
                                     polygon.mergeRun(x[v], runLeft, runRight);
 
@@ -143,19 +143,9 @@ namespace Cubicuous {
                                     polygons.push_back(newPolygon);
                                 }
                             }
-                            // Swap frontiers
-                            int32_t tmp[sizeof(nextFrontier) / sizeof(*nextFrontier)];
-
-                            // Copy nextFrontier to tmp
-                            std::copy(std::begin(nextFrontier), std::end(nextFrontier), std::begin(tmp));
-
-                            // Copy frontier to nextFrontier
-                            // TODO: check if this will overwrite the array
-                            std::copy(std::begin(frontier), std::end(frontier), std::begin(nextFrontier));
 
                             // Copy tmp to frontier
-                            std::copy(std::begin(tmp), std::end(tmp), std::begin(frontier));
-
+                            frontier = nextFrontier;
                             nf = fp;
                         }
                         // Close off frontier
@@ -170,13 +160,7 @@ namespace Cubicuous {
                         // Now we need to triangulate each monotone polygon
                         for (int i = 0; i < polygons.size(); ++i) {
                             MonotonePolygon polygon = polygons[i];
-                            int color = polygon.color;
                             bool flipped = false;
-
-                            if (color < 0) {
-                                flipped = true;
-                                color = -color;
-                            }
 
                             for (int j = 0; j < polygon.left.size(); ++j) {
                                 leftIndex[j] = static_cast<int>(vertices.size());
@@ -239,9 +223,9 @@ namespace Cubicuous {
                                     // Opposite side
                                     while(bottom + 3 < top) {
                                         if(flipped == nSide) {
-                                            faces.push_back({ stack[bottom], stack[bottom + 3], idx, color});
+                                            faces.push_back({ stack[bottom], stack[bottom + 3], idx, polygon.type});
                                         } else {
-                                            faces.push_back({ stack[bottom + 3], stack[bottom], idx, color});
+                                            faces.push_back({ stack[bottom + 3], stack[bottom], idx, polygon.type});
                                         }
                                         bottom += 3;
                                     }
@@ -262,9 +246,9 @@ namespace Cubicuous {
 
                                         if (det != 0) {
                                             if (flipped == nSide) {
-                                                faces.push_back({stack[top - 3], stack[top - 6], idx, color});
+                                                faces.push_back({stack[top - 3], stack[top - 6], idx, polygon.type});
                                             } else {
-                                                faces.push_back({stack[top - 6], stack[top - 3], idx, color});
+                                                faces.push_back({stack[top - 6], stack[top - 3], idx, polygon.type});
                                             }
                                         }
                                         top -= 3;
@@ -290,8 +274,9 @@ namespace Cubicuous {
 
                 std::vector<MeshPart> meshParts;
                 for(int meshIndex = 0; meshIndex < faces.size(); meshIndex++) {
-                    meshParts.push_back(MeshPart(glm::vec3(vertices[meshIndex][0], vertices[meshIndex][1], vertices[meshIndex][2]), faces[meshIndex][4]));
+                    meshParts.push_back(MeshPart(faces[meshIndex][4], glm::vec3(vertices[meshIndex][0], vertices[meshIndex][1], vertices[meshIndex][2])));
                 }
+
                 return meshParts;
             }
         }

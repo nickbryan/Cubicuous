@@ -1,4 +1,5 @@
 #include "Game.h"
+#include "Core/Scene.h"
 
 namespace Cubicuous {
     Game::Game(GameSettings *gameSettings, Cubicuous::Window::WindowSettings windowSettings) {

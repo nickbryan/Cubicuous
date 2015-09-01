@@ -18,10 +18,11 @@ namespace Cubicuous {
             */
             class MonotoneMesher : public IMesher {
             private:
-                struct MonotonePolygon {
+                class MonotonePolygon {
+                public:
                     int type;
-                    std::vector< int[2] > left;
-                    std::vector< int[2] > right;
+                    std::vector<std::array<int, 2>> left;
+                    std::vector<std::array<int, 2>> right;
 
                     //TODO: Figure out what v, ul and ur are
                     MonotonePolygon(int type, int v, int ul, int ur) {
@@ -58,7 +59,8 @@ namespace Cubicuous {
                 int _getDimensionFromAxis(int axis, int width, int length, int height);
 
             public:
-                virtual std::array<MeshPart> generateMesh(Structure::Structure* structure, int width, int length, int height) override;
+                virtual std::vector<MeshPart> generateMesh(Structure::Structure* structure, int width, int length,
+                                                           int height) override;
             };
 
         }

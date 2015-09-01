@@ -1,13 +1,16 @@
 #include "GameSettings.h"
 #include "Core/Loops/ILoop.h"
 #include "Core/Loops/ConstSpeedVarFps.h"
+#include "Core/Mesher/MonotoneMesher.h"
 
 namespace Cubicuous {
     GameSettings::GameSettings(int logicFps) {
+        this->mesher = new Core::Mesher::MonotoneMesher();
         this->loop = new Core::Loops::ConstSpeedVarFps(logicFps);
     }
 
     GameSettings::GameSettings(Core::Loops::ILoop *loop) {
+        this->mesher = new Core::Mesher::MonotoneMesher();
         this->loop = loop;
     }
 
