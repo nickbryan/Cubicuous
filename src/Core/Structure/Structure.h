@@ -16,7 +16,6 @@ namespace Cubicuous {
             private:
                 std::vector<Mesher::MeshPart> _mesh;
 
-                //TODO: Implement this method to make one mat4 from all voxel vec3
                 void _buildMesh();
 
                 std::vector<Voxel*> _voxels;

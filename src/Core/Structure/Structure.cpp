@@ -6,8 +6,15 @@ namespace Cubicuous {
     namespace Core {
         namespace Structure {
             void Structure::render(double deltaTime) {
-                for(Voxel* voxel : this->getVoxels()) {
-                    voxel->render(deltaTime);
+                if(this->_game->getMesher() != nullptr) {
+                    if(this->_mesh == nullptr) {
+                        this->_buildMesh();
+                    }
+                }
+                else {
+                    for (Voxel *voxel : this->getVoxels()) {
+                        voxel->render(deltaTime);
+                    }
                 }
             }
 
@@ -17,10 +24,12 @@ namespace Cubicuous {
 
             void Structure::addVoxel(Voxel *voxel) {
                 this->_voxels.push_back(voxel);
+                this->_buildMesh();
             }
 
             void Structure::removeVoxel(Voxel *voxel) {
                 this->_voxels.erase(this->_voxels.begin() + this->getVoxelIndex(voxel));
+                this->_buildMesh();
             }
 
             void Structure::removeVoxel(glm::vec3 position) {
@@ -56,7 +65,7 @@ namespace Cubicuous {
             }
 
             void Structure::_buildMesh() {
-
+                this->_mesh = this->_game->getMesher()->generateMesh(this, )
             }
         }
     }

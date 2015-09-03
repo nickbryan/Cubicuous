@@ -18,7 +18,7 @@ namespace Cubicuous {
 
             std::vector<MeshPart> MonotoneMesher::generateMesh(Structure::Structure* structure, int width, int length,
                                                                int height) {
-                std::vector<glm::vec3> vertices;
+                std::vector<glm::vec3> verticies;
                 std::vector<std::array<int, 4>> faces;
 
                 // We need to go over the axis x,y and z
@@ -163,23 +163,23 @@ namespace Cubicuous {
                             bool flipped = false;
 
                             for (int j = 0; j < polygon.left.size(); ++j) {
-                                leftIndex[j] = static_cast<int>(vertices.size());
+                                leftIndex[j] = static_cast<int>(verticies.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.left[j][0], polygon.left[j][1]};
                                 y[axis] = x[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
-                                vertices.push_back(glm::vec3(y[0], y[1], y[2]));
+                                verticies.push_back(glm::vec3(y[0], y[1], y[2]));
                             }
 
                             for (int j = 0; j < polygon.right.size(); ++j) {
-                                rightIndex[j] = static_cast<int>(vertices.size());
+                                rightIndex[j] = static_cast<int>(verticies.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.right[j][0], polygon.right[j][1]};
                                 y[axis] = x[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
-                                vertices.push_back(glm::vec3(y[0], y[1], y[2]));
+                                verticies.push_back(glm::vec3(y[0], y[1], y[2]));
                             }
 
                             // Triangulate the monotone polygon
@@ -273,8 +273,10 @@ namespace Cubicuous {
                 }
 
                 std::vector<MeshPart> meshParts;
-                for(int meshIndex = 0; meshIndex < faces.size(); meshIndex++) {
-                    meshParts.push_back(MeshPart(faces[meshIndex][4], glm::vec3(vertices[meshIndex][0], vertices[meshIndex][1], vertices[meshIndex][2])));
+                for(int faceIndex = 0; faceIndex < faces.size(); faceIndex++) {
+                    meshParts.push_back(MeshPart(faces[faceIndex][3], {
+                            verticies[faces[faceIndex][0]], verticies[faces[faceIndex][1]], verticies[faces[faceIndex][2]]
+                    }));
                 }
 
                 return meshParts;
