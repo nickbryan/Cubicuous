@@ -1,7 +1,7 @@
+#include "../../src/Window/Exception.h"
 #include "../../src/Window/Window.h"
 #include "../../src/Game.h"
 #include "TestScene.h"
-#include "../../src/Window/WindowException.h"
 #include "CubeEntity.h"
 #include "../../src/Core/MatrixManager/MVPSepMatrixManager.h"
 #include "../../src/Core/Structure/Structure.h"
@@ -24,7 +24,7 @@ int main() {
         shaderProgram->bindOutput("outColor");
         shaderProgram->enable();
 
-        game->createVertexBuffer("cubeBuffer", GL_ARRAY_BUFFER);
+        game->createVertexBuffer(std::string("cubeBuffer"), GL_ARRAY_BUFFER);
         game->getShaderProgram()->addVertexArray("vertices", 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
         game->createVertexBuffer("colorBuffer", GL_ARRAY_BUFFER);
@@ -36,15 +36,17 @@ int main() {
 
         //now we have all our shader program data loaded, create our matrix manager
         game->getSettings()->matrixManager = new Cubicuous::Core::MatrixManager::MVPSepMatrixManager(game, "model", "projection", "view");
-        game->getSettings()->geometryManager = new Cubicuous::Core::GeometryManager(game, "cubeBuffer", "colorBuffer");
+
+        //wrap in std::string because there is a bool constructor and GCC will see as const char* then casts to bool as closer than string
+        game->getSettings()->geometryManager = new Cubicuous::Core::GeometryManager(game, "cubeBuffer", std::string("colorBuffer"));
 
         game->cacheScene("TestScene", new TestScene(game));
         game->setScene("TestScene");
         Scene *testScene = game->getCachedScene("TestScene");
 
         Cubicuous::Core::Structure::Structure *testStructure = new Cubicuous::Core::Structure::Structure(game);
+        testStructure->addVoxel(glm::vec3(0.0f, 0.0f, 0.0f));
 
-        //testScene->addEntity(new CubeEntity(glm::vec3(1.0f, 1.0f, 1.0f), &game));
         testScene->addEntity(testStructure);
         testScene->addEntity(new CubeEntity(glm::vec3(-10.0f, 2.0f, 2.0f), game));
         testScene->addEntity(new CubeEntity(glm::vec3(3.0f, 3.0f, 3.0f), game));
@@ -56,26 +58,8 @@ int main() {
 
         game->start();
     }
-    catch (Cubicuous::Graphics::GraphicsException&e) {
-        Logger::log("Shader Exception", e.what());
-
-#ifdef _WIN32
-        system("PAUSE");
-#endif
-
-        return 1;
-    }
-    catch(Cubicuous::Window::WindowException &e) {
-        Logger::log("Window Exception", e.what());
-
-#ifdef _WIN32
-        system("PAUSE");
-#endif
-
-        return 1;
-    }
     catch(const std::exception &e) {
-        Logger::log(e.what());
+        Logger::log("Exception", e.what());
 
 #ifdef _WIN32
         system("PAUSE");
@@ -84,7 +68,7 @@ int main() {
         return 1;
     }
     catch(const char *e) {
-        Logger::log(e);
+        Logger::log("Exception", e);
 
 #ifdef _WIN32
         system("PAUSE");
@@ -94,11 +78,11 @@ int main() {
     }
     catch(...) {
         #ifdef _WIN32
-            Logger::log(std::current_exception().__cxa_exception_type()->name());
+            Logger::log("Exception", std::current_exception().__cxa_exception_type()->name());
             system("PAUSE");
         #endif
         #ifdef __APPLE__
-            Logger::log("An unknown error occurred");
+            Logger::log("Exception", "An unknown error occurred");
         #endif
 
         return 1;

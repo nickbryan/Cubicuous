@@ -6,33 +6,31 @@
 #include <GL/glew.h>
 #include "../Graphics/Uniform.h"
 #include "../Graphics/VertexBuffer.h"
+#include "Exception.h"
 
 namespace Cubicuous {
     namespace Core {
         class GeometryManager {
         private:
-            Graphics::Uniform* _verticesUniform;
-            Graphics::Uniform* _colorUniform;
-            Graphics::VertexBuffer* _verticesBuffer;
-            Graphics::VertexBuffer* _colorBuffer;
+            Graphics::Uniform* _verticesUniform = nullptr;
+            Graphics::Uniform* _colorUniform    = nullptr;
+            Graphics::VertexBuffer* _verticesBuffer = nullptr;
+            Graphics::VertexBuffer* _colorBuffer    = nullptr;
 
         public:
             //Shorthands for boolean based constructors
             inline GeometryManager(Game* game, std::string verticesName) : GeometryManager(game, verticesName, false) {};
-            inline GeometryManager(Game* game, std::string verticesName, std::string colorName) : GeometryManager(game, verticesName, colorName, false) {};
             inline GeometryManager(Game* game, std::string verticesName, bool usesUniform) : GeometryManager(game, verticesName, "", usesUniform) {};
+            inline GeometryManager(Game* game, std::string verticesName, std::string colorName) : GeometryManager(game, verticesName, colorName, false) {};
 
             //Short hands for full constructor
             inline GeometryManager(Game* game, std::string verticesName, std::string colorName, bool usesUniform) :
-                    GeometryManager(game, usesUniform ? "" : verticesName,
-                                    usesUniform ? "" : colorName,
-                                    usesUniform ? verticesName : "",
-                                    usesUniform ? colorName : "") { };
+                    GeometryManager(game, verticesName, colorName, usesUniform, usesUniform) {};
             inline GeometryManager(Game* game, std::string verticesName, std::string colorName, bool verticesUsesUniform, bool colorUsesUniform) :
                     GeometryManager(game, verticesUsesUniform ? "" : verticesName,
-                                    colorUsesUniform ? "" : colorName,
-                                    verticesUsesUniform ? verticesName : "",
-                                    colorUsesUniform ? colorName : "") { };
+                                          colorUsesUniform    ? "" : colorName,
+                                          verticesUsesUniform ? verticesName : "",
+                                          colorUsesUniform    ? colorName : "") {};
 
             GeometryManager(Game* game, std::string verticesBufferName, std::string colorBufferName, std::string verticesUniformName, std::string colorUniformName);
 

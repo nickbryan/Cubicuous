@@ -27,7 +27,8 @@ endif (APPLE)
 #Add the library its self
 add_library(Cubicuous ${SOURCE_FILES}
     src/Debugging/Logger.cpp src/Debugging/Logger.h
-    src/Window/WindowException.h
+    src/Core/Exception.h
+    src/Window/Exception.h
     src/Window/Window.cpp src/Window/Window.h
     src/Window/Input.cpp src/Window/Input.h
     src/Core/MatrixManager/IMatrixManager.h
@@ -39,7 +40,7 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Core/Loops/ConstSpeedVarFps.cpp src/Core/Loops/ConstSpeedVarFps.h
     src/Graphics/ShaderProgram.cpp src/Graphics/ShaderProgram.h
     src/Graphics/VertexBuffer.h
-    src/Graphics/GraphicsException.h
+    src/Graphics/Exception.h
     src/Graphics/VertexArray.h
     src/Graphics/Uniform.h
     src/Core/Camera.cpp src/Core/Camera.h

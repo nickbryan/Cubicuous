@@ -4,7 +4,7 @@
 #include <functional>
 #include <GL/glew.h>
 #include <glm/gtc/type_ptr.hpp>
-#include "GraphicsException.h"
+#include "Exception.h"
 #include "../Debugging/Logger.h"
 
 namespace Cubicuous {
@@ -35,12 +35,12 @@ namespace Cubicuous {
                 this->_id = glGetUniformLocation(shaderProgramID, name);
 
                 if (this->_id == -1) {
-                    throw GraphicsException("Uniform location " + Debugging::Logger::toLoggable(name) + " not found");
+                    throw Exception("Uniform location " + Debugging::Logger::toLoggable(name) + " not found");
                 }
 
                 GLenum error = glGetError();
                 if (error != GL_NO_ERROR) {
-                    throw GraphicsException(
+                    throw Exception(
                             "Failed to get uniform location " + Debugging::Logger::toLoggable(name) + ", error: " +
                             Debugging::Logger::toLoggable(error));
                 }

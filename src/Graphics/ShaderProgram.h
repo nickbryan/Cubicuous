@@ -8,7 +8,7 @@
 #include <fstream>
 
 #include "../Debugging/Logger.h"
-#include "GraphicsException.h"
+#include "Exception.h"
 #include "VertexArray.h"
 #include "Uniform.h"
 

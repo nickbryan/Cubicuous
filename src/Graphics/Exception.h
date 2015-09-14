@@ -1,5 +1,5 @@
-#ifndef CUBICUOUS_SHADEREXCEPTION_H
-#define CUBICUOUS_SHADEREXCEPTION_H
+#ifndef CUBICUOUS_GRAPHICSEXCEPTION_H
+#define CUBICUOUS_GRAPHICSEXCEPTION_H
 
 #include <exception>
 #include <string>
@@ -8,19 +8,19 @@
 
 namespace Cubicuous {
     namespace Graphics {
-        class GraphicsException : public std::exception {
+        class Exception : public std::exception {
         private:
             std::string _what;
 
         public:
-            GraphicsException(const char* what) {
+            Exception(const char* what) {
                 this->_what = std::string(what);
             }
-            GraphicsException(std::string what) {
+            Exception(std::string what) {
                 this->_what = what;
             }
 
-            virtual ~GraphicsException() throw() {
+            virtual ~Exception() throw() {
 
             }
 

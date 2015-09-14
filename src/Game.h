@@ -1,6 +1,7 @@
 #ifndef CUBICUOUS_GAME_H
 #define CUBICUOUS_GAME_H
 
+#include "Core/Exception.h"
 #include "Window/Window.h"
 #include "Graphics/ShaderProgram.h"
 #include "Graphics/VertexBuffer.h"
@@ -33,7 +34,7 @@ using Cubicuous::Core::MatrixManager::IMatrixManager;
 namespace Cubicuous {
     class Game {
     private:
-        std::unordered_map<const char*, Scene*>* _scenes = nullptr;
+        std::unordered_map<std::string, Scene*> _scenes;
         Scene *_activeScene = nullptr;
         Scene *_nextScene = nullptr;
         Scene *_previousScene = nullptr;
@@ -44,7 +45,7 @@ namespace Cubicuous {
         GameSettings* _settings = nullptr;
 
         ShaderProgram* _shaderProgram = nullptr;
-        std::unordered_map<const char*, VertexBuffer*> _vertexBuffers;
+        std::unordered_map<std::string, VertexBuffer*> _vertexBuffers;
         GLuint _vertexArrayID;
 
     public:
@@ -71,16 +72,16 @@ namespace Cubicuous {
         inline Core::Mesher::IMesher* getMesher() const { return this->getSettings()->mesher; }
 
         /* Scene catching */
-        void cacheScene(const char *name, Scene *scene);
-        inline void cacheScene(std::string name, Scene *scene) { this->cacheScene(name.c_str(), scene); }
+        void cacheScene(std::string name, Scene *scene);
+        inline void cacheScene(const char* name, Scene *scene) { this->cacheScene(std::string(name), scene); }
 
-        Scene* getCachedScene(const char *name) const;
-        inline Scene* getCachedScene(std::string name) const { return this->getCachedScene(name.c_str()); }
+        Scene* getCachedScene(std::string name) const;
+        inline Scene* getCachedScene(const char* name) const { return this->getCachedScene(std::string(name)); }
 
         /* Scene management */
         inline void setScene(Scene *scene) { this->_nextScene = scene; };
-        void setScene(const char *name);
-        inline void setScene(std::string name) { this->setScene(name.c_str()); }
+        void setScene(std::string name);
+        inline void setScene(const char *name) { this->setScene(std::string(name)); };
 
         inline void previousScene() { this->setScene(this->_previousScene); }
 
@@ -94,16 +95,19 @@ namespace Cubicuous {
         inline ShaderProgram* getShaderProgram() const { return this->_shaderProgram; }
 
         /* Vertex buffer management */
-        VertexBuffer* createVertexBuffer(const char* name, GLenum type);
-        inline VertexBuffer* createVertexBuffer(const char* name) { return this->createVertexBuffer(name, GL_STATIC_DRAW); };
+        VertexBuffer* createVertexBuffer(std::string, GLenum type);
+        inline VertexBuffer* createVertexBuffer(const char* name, GLenum type) { return this->createVertexBuffer(std::string(name), type); };
+        inline VertexBuffer* createVertexBuffer(std::string name) { return this->createVertexBuffer(name, GL_STATIC_DRAW); };
+        inline VertexBuffer* createVertexBuffer(const char* name) { return this->createVertexBuffer(std::string(name)); };
 
-        void createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type);
-        inline void attachVertexBuffer(const char* name, GLuint id, GLenum type) { this->createVertexBuffer(name, id, type, type); };
-        void attachVertexBuffer(const char* name, VertexBuffer* buffer);
-        inline void attachVertexBuffer(const char* name, GLuint id) { this->attachVertexBuffer(name, id, GL_STATIC_DRAW); };
+        void createVertexBuffer(std::string name, GLuint id, GLenum storageMode, GLenum type);
+        inline void attachVertexBuffer(std::string name, GLuint id, GLenum type) { this->createVertexBuffer(name, id, type, type); };
 
-        VertexBuffer* getVertexBuffer(const char* name) const;
-        inline VertexBuffer* getVertexBuffer(std::string name) const { return this->getVertexBuffer(name.c_str()); };
+        void attachVertexBuffer(std::string name, VertexBuffer* buffer);
+        inline void attachVertexBuffer(std::string name, GLuint id) { this->attachVertexBuffer(name, id, GL_STATIC_DRAW); };
+
+        VertexBuffer* getVertexBuffer(std::string name) const;
+        inline VertexBuffer* getVertexBuffer(const char* name) const { return this->getVertexBuffer(std::string(name)); };
     };
 }
 #endif

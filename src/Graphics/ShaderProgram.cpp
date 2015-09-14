@@ -10,10 +10,10 @@ namespace Cubicuous {
             this->_shaderProgramID = glCreateProgram();
 
             if (this->_shaderProgramID == 0) {
-                throw GraphicsException("Failed to create shader program");
+                throw Exception("Failed to create shader program");
             }
             else if (glIsProgram(this->_shaderProgramID) != GL_TRUE) {
-                throw GraphicsException("Failed to create shader program, shader program is not a shader program");
+                throw Exception("Failed to create shader program, shader program is not a shader program");
             }
 
             this->_checkError("Failed to create shader program");
@@ -99,7 +99,7 @@ namespace Cubicuous {
             shaderFile.open(shaderFilePath, std::ios_base::in);
 
             if (!shaderFile) {
-                throw GraphicsException("Shader file not found");
+                throw Exception("Shader file not found");
             }
 
             std::string line;
@@ -115,7 +115,7 @@ namespace Cubicuous {
             GLuint shaderID = glCreateShader(shaderType);
 
             if (shaderID == 0) {
-                throw GraphicsException("Failed to create shader, id 0 returned");
+                throw Exception("Failed to create shader, id 0 returned");
             }
 
             const char *shaderStr = shaderData.c_str();
@@ -132,7 +132,7 @@ namespace Cubicuous {
                 GLchar *infoLog = new GLchar[logLength + 1];
                 glGetShaderInfoLog(shaderID, logLength, nullptr, infoLog);
 
-                throw GraphicsException("Failed to compile shader: " + Logger::toLoggable(infoLog));
+                throw Exception("Failed to compile shader: " + Logger::toLoggable(infoLog));
             }
 
             this->_checkError("Failed making shader program");
@@ -142,7 +142,7 @@ namespace Cubicuous {
         void ShaderProgram::_checkError(const char* strIfError) {
             GLenum error = glGetError();
             if(error != GL_NO_ERROR) {
-                throw GraphicsException(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": "
+                throw Exception(Logger::toLoggable(strIfError) + ". Error: " + Logger::toLoggable(error) + ": "
                                       + Logger::toLoggable(glewGetErrorString(error)));
             }
         }

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include "Window.h"
-#include "WindowException.h"
+#include "Exception.h"
 #include "../Game.h"
 
 namespace Cubicuous {
@@ -34,7 +34,7 @@ namespace Cubicuous {
 
         void Window::_init() {
             if (!glfwInit()) {
-                throw WindowException("Failed to initialise GLFW!");
+                throw Exception("Failed to initialise GLFW!");
             }
 
             // We need this to get latest version of OpenGl on mac
@@ -49,7 +49,7 @@ namespace Cubicuous {
 
             this->_window = glfwCreateWindow(this->_width, this->_height, this->_title, nullptr, nullptr);
             if (!this->_window) {
-                throw WindowException("Failed to create GLFW window!");
+                throw Exception("Failed to create GLFW window!");
             }
 
             glfwMakeContextCurrent(this->_window);
@@ -60,10 +60,10 @@ namespace Cubicuous {
             glGetIntegerv(GL_MINOR_VERSION, &minor);
 
             if(major < Window::OPENGL_VERSION_MAJOR) {
-                throw WindowException("OpenGL major installation version (" + Debugging::Logger::toLoggable(major) + ") too old!");
+                throw Exception("OpenGL major installation version (" + Debugging::Logger::toLoggable(major) + ") too old!");
             }
             else if(minor < Window::OPENGL_VERSION_MINOR) {
-                throw WindowException("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
+                throw Exception("OpenGL minor installation version (" + Debugging::Logger::toLoggable(minor) + ") too old!");
             }
 
             // Initialise the input handler, this needs to be read only
@@ -75,7 +75,7 @@ namespace Cubicuous {
 
             glewExperimental = GL_TRUE;
             if (glewInit() != GLEW_OK) {
-                throw WindowException("Failed to initialise GLEW!");
+                throw Exception("Failed to initialise GLEW!");
             }
 
             glGetError(); // GLEW can randomly raise 1280 when you hint for opengl 3.3, ignore it as it's a bug in GLEW

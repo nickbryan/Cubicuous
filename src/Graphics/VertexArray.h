@@ -2,7 +2,7 @@
 #define CUBICUOUS_VERTEXARRAY_H
 
 #include "../Debugging/Logger.h"
-#include "GraphicsException.h"
+#include "Exception.h"
 #include "ShaderProgram.h"
 #include <GL/glew.h>
 #include <string>
@@ -26,7 +26,7 @@ namespace Cubicuous {
                 GLint attrId = glGetAttribLocation(shaderProgramId, location);
 
                 if(attrId == -1) { //opengl only uses signed so it can return -1
-                    throw GraphicsException("Failed to get attr location " + Debugging::Logger::toLoggable(location));
+                    throw Exception("Failed to get attr location " + Debugging::Logger::toLoggable(location));
                 }
 
                 this->_id = (GLuint)attrId;

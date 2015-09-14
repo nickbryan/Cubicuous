@@ -24,7 +24,7 @@ namespace Cubicuous {
         Core::Scene* pauseScene                                 = nullptr;
         Core::MatrixManager::IMatrixManager* matrixManager      = nullptr;
         Core::Mesher::IMesher* mesher                           = nullptr;
-        Core::GeometryManager* geometryManager = nullptr;
+        Core::GeometryManager* geometryManager                  = nullptr;
 
         inline GameSettings() : GameSettings(60) {};
         GameSettings(int logicFps);

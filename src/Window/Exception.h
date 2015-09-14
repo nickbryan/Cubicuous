@@ -8,19 +8,19 @@
 
 namespace Cubicuous {
     namespace Window {
-        class WindowException : public std::exception {
+        class Exception : public std::exception {
         private:
             std::string _what;
 
         public:
-            WindowException(const char* what) {
+            Exception(const char* what) {
                 this->_what = std::string(what);
             }
-            WindowException(std::string what) {
+            Exception(std::string what) {
                 this->_what = what;
             }
 
-            virtual ~WindowException() throw() {
+            virtual ~Exception() throw() {
 
             }
 

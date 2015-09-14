@@ -9,7 +9,6 @@ namespace Cubicuous {
         glfwSetMouseButtonCallback(this->getWindow()->getWindow(), Input::mouseButtonCallback);
 
         this->_settings = gameSettings;
-        this->_scenes = new std::unordered_map<const char *, Scene *>;
 
         glGenVertexArrays(1, &this->_vertexArrayID);
         glBindVertexArray(this->_vertexArrayID);
@@ -48,10 +47,6 @@ namespace Cubicuous {
             delete this->_previousScene;
         }
 
-        if (this->_scenes != nullptr) {
-            delete this->_scenes;
-        }
-
         glDeleteVertexArrays(1, &this->_vertexArrayID);
         if (this->_settings != nullptr) {
             delete this->_settings;
@@ -68,7 +63,7 @@ namespace Cubicuous {
 
     void Game::start() {
         if (this->_running) {
-            throw "Game is already running";
+            throw Core::Exception("Game is already running");
         }
 
         this->_running = true;
@@ -105,54 +100,55 @@ namespace Cubicuous {
         this->getShaderProgram()->disable();
     }
 
-    void Game::cacheScene(const char *name, Scene *scene) {
-        if (this->_scenes->find(name) != this->_scenes->end()) {
-            throw "Scene already cached";
+    void Game::cacheScene(std::string name, Scene *scene) {
+        if (this->_scenes.find(name) != this->_scenes.end()) {
+            throw Core::Exception("Scene already cached");
         }
 
-        this->_scenes->insert(std::pair<const char *, Scene *>(name, scene));
+        this->_scenes.insert(std::pair<std::string, Scene *>(name, scene));
     }
 
-    void Game::setScene(const char *name) {
+    void Game::setScene(std::string name) {
         Scene *setTo = this->getCachedScene(name);
 
         if (setTo == nullptr) {
-            throw "Scene not found";
+            throw Core::Exception("Scene not found");
         }
 
         this->setScene(setTo);
     }
 
-    Scene *Game::getCachedScene(const char *name) const {
-        std::unordered_map<const char *, Scene *>::const_iterator iterator = this->_scenes->find(name);
+    Scene *Game::getCachedScene(std::string name) const {
+        std::unordered_map<std::string, Scene *>::const_iterator iterator = this->_scenes.find(name);
 
-        if (iterator == this->_scenes->end()) {
+        if (iterator == this->_scenes.end()) {
+            Debugging::Logger::log("Failed to find cached scene " + Debugging::Logger::toLoggable(name));
             return nullptr;
         }
 
         return iterator->second;
     }
 
-    VertexBuffer* Game::createVertexBuffer(const char* name, GLenum type) {
+    VertexBuffer* Game::createVertexBuffer(std::string name, GLenum type) {
         VertexBuffer* vertexBuffer = new VertexBuffer(type);
-        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer*>(name, vertexBuffer));
+        this->_vertexBuffers.insert(std::pair<std::string, VertexBuffer*>(name, vertexBuffer));
         return vertexBuffer;
     }
 
-    void Game::createVertexBuffer(const char* name, GLuint id, GLenum storageMode, GLenum type) {
-        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer*>(name, new VertexBuffer(type, storageMode, id)));
+    void Game::createVertexBuffer(std::string name, GLuint id, GLenum storageMode, GLenum type) {
+        this->_vertexBuffers.insert(std::pair<std::string, VertexBuffer*>(name, new VertexBuffer(type, storageMode, id)));
     }
 
-    void Game::attachVertexBuffer(const char* name, VertexBuffer* buffer) {
-        this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer*>(name, buffer));
+    void Game::attachVertexBuffer(std::string name, VertexBuffer* buffer) {
+        this->_vertexBuffers.insert(std::pair<std::string, VertexBuffer*>(name, buffer));
     }
 
-    VertexBuffer* Game::getVertexBuffer(const char* name) const {
-        std::unordered_map<const char*, VertexBuffer*>::const_iterator iterator = this->_vertexBuffers.find(name);
+    VertexBuffer* Game::getVertexBuffer(std::string name) const {
+        std::unordered_map<std::string, VertexBuffer*>::const_iterator iterator = this->_vertexBuffers.find(name);
 
         if (iterator == this->_vertexBuffers.end()) {
             Debugging::Logger::log("Failed to find buffer " + Debugging::Logger::toLoggable(name));
-            throw "Buffer not found.";
+            return nullptr;
         }
 
         return (*iterator).second;
