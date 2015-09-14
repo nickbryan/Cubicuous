@@ -10,8 +10,8 @@ namespace Cubicuous {
         namespace Mesher {
             class IMesher {
             public:
-                virtual std::vector<MeshPart> generateMesh(Structure::Structure* structure, int width, int length,
-                                                           int height) = 0;
+                virtual std::vector<MeshPart*> generateMesh(Structure::Structure *structure, float width, float length,
+                                                           float height) = 0;
             };
 
         }

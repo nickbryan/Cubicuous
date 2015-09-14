@@ -7,8 +7,19 @@ namespace Cubicuous {
         namespace Structure {
             void Structure::render(double deltaTime) {
                 if(this->_game->getMesher() != nullptr) {
-                    if(this->_mesh == nullptr) {
-                        this->_buildMesh();
+                    if(this->_totalMeshTriangles <= 0) {
+                        return;
+                    }
+
+                    if(this->_game->getGeometryManager()->isVerticesUniformOnly()) {
+                        for(Mesher::MeshPart *meshPart : this->getMesh()) {
+                            this->_game->getGeometryManager()->updateVertices(meshPart->getVerticesAsFloats(), 9);
+                            glDrawArrays(GL_TRIANGLES, 0, 9);
+                        }
+                    }
+                    else {
+                        this->_game->getGeometryManager()->updateVertices(this->_meshVertices, this->_totalMeshTriangles);
+                        glDrawArrays(GL_TRIANGLES, 0, this->_totalMeshTriangles);
                     }
                 }
                 else {
@@ -65,7 +76,63 @@ namespace Cubicuous {
             }
 
             void Structure::_buildMesh() {
-                this->_mesh = this->_game->getMesher()->generateMesh(this, )
+                if(!this->_meshGenerationEnabled) {
+                    return;
+                }
+
+                this->_recalculateBoundingBox();
+                this->_mesh = this->_game->getMesher()->generateMesh(this, this->getWidth(), this->getLength(), this->getHeight());
+                this->_meshToVertices();
+            }
+
+            void Structure::_meshToVertices() {
+                this->_totalMeshTriangles = 0;
+                this->_meshVertices = new GLfloat[this->getMesh().size() * 3 * 3];
+                int verticesBlock = -1;
+
+                for(Mesher::MeshPart *meshPart : this->getMesh()) {
+                    for(int pointIndex = 0; pointIndex < 3; pointIndex++) {
+                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].x;
+                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].y;
+                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].z;
+                    }
+
+                    this->_totalMeshTriangles++;
+                }
+            }
+
+            void Structure::_recalculateBoundingBox() {
+                float minX = 0.0f;
+                float minY = 0.0f;
+                float minZ = 0.0f;
+                float maxX = 0.0f;
+                float maxY = 0.0f;
+                float maxZ = 0.0f;
+
+                for(Voxel* voxel : this->getVoxels()) {
+                    if(voxel->getPosition().x < minX) {
+                        minX = voxel->getPosition().x;
+                    }
+                    if(voxel->getPosition().y < minY) {
+                        minY = voxel->getPosition().y;
+                    }
+                    if(voxel->getPosition().z < minZ) {
+                        minZ = voxel->getPosition().z;
+                    }
+                    if(voxel->getPosition().x > maxX) {
+                        maxX = voxel->getPosition().x;
+                    }
+                    if(voxel->getPosition().y > minY) {
+                        maxY = voxel->getPosition().y;
+                    }
+                    if(voxel->getPosition().z > minZ) {
+                        maxZ = voxel->getPosition().z;
+                    }
+                }
+
+                this->_width = maxX - minX;
+                this->_height = maxY - minY;
+                this->_length = maxZ - minZ;
             }
         }
     }

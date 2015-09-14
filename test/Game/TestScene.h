@@ -56,16 +56,12 @@ private:
             -0.5f,  0.5f, -0.5f
     };
 
-    Cubicuous::Graphics::VertexBuffer* _cubeBuffer;
-    Cubicuous::Graphics::VertexBuffer* _colorBuffer;
     Cubicuous::Graphics::VertexArray*  _positionVertexArray;
     Cubicuous::Graphics::VertexArray*  _colorVertexArray;
 
 public:
     inline TestScene(Cubicuous::Game* game) : Scene(game) {
-        this->_colorBuffer = this->_game->getVertexBuffer("colorBuffer");
-        this->_cubeBuffer = this->_game->getVertexBuffer("cubeBuffer");
-        this->_positionVertexArray = this->_game->getShaderProgram()->getVertexArray("position");
+        this->_positionVertexArray = this->_game->getShaderProgram()->getVertexArray("vertices");
         this->_colorVertexArray = this->_game->getShaderProgram()->getVertexArray("color");
         this->setCamera(new Cubicuous::Core::Camera(game, 45.0f, 800.0f / 600.0f,
                                                     1.0f, 100.0f, glm::vec3(0.0f, 0.0f, 5.0f)));
@@ -75,7 +71,7 @@ public:
             this->_coloredCube[i] = i < 18 ? this->_coloredCubeColor : 1.0f;
         }
 
-        this->_cubeBuffer->update(this->_cube, 108);
+        this->_game->getGeometryManager()->updateVertices(this->_cube, 108);
         this->_positionVertexArray->enable();
     };
 

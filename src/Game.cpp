@@ -147,8 +147,8 @@ namespace Cubicuous {
         this->_vertexBuffers.insert(std::pair<const char*, VertexBuffer*>(name, buffer));
     }
 
-    VertexBuffer* Game::getVertexBuffer(const char* name) {
-        std::unordered_map<const char*, VertexBuffer*>::iterator iterator = this->_vertexBuffers.find(name);
+    VertexBuffer* Game::getVertexBuffer(const char* name) const {
+        std::unordered_map<const char*, VertexBuffer*>::const_iterator iterator = this->_vertexBuffers.find(name);
 
         if (iterator == this->_vertexBuffers.end()) {
             Debugging::Logger::log("Failed to find buffer " + Debugging::Logger::toLoggable(name));

@@ -41,7 +41,8 @@ namespace Cubicuous {
             }
 
             //uniforms
-            Uniform* getCachedUniform(const char* name);
+            Uniform* getCachedUniform(const char* name) const;
+            inline Uniform* getCachedUniform(std::string name) const { return this->getCachedUniform(name.c_str()); };
 
             inline Uniform* cacheUniform(const char* name) {
                 Uniform* uniform = new Uniform(this->_shaderProgramID, name);
@@ -67,7 +68,9 @@ namespace Cubicuous {
 
             inline VertexArray* getActiveVertexArray() const { return this->_activeVertexArray; }
 
-            VertexArray* getVertexArray(const char* name);
+            VertexArray* getVertexArray(const char* name) const;
+
+            inline VertexArray* getVertexArray(std::string name) const { return this->getVertexArray(name.c_str()); };
 
             void setActiveVertexArray(const char* name);
 

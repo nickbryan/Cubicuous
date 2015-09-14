@@ -54,13 +54,11 @@ namespace Cubicuous {
                     }
                 };
 
-                Structure::Voxel* _getVoxelFromPosition(Structure::Structure *structure, int width, int length, int height, int x, int y, int z);
-
-                int _getDimensionFromAxis(int axis, int width, int length, int height);
+                float _getDimensionFromAxis(int axis, float width, float length, float height);
 
             public:
-                virtual std::vector<MeshPart> generateMesh(Structure::Structure* structure, int width, int length,
-                                                           int height) override;
+                virtual std::vector<MeshPart*> generateMesh(Structure::Structure *structure, float width, float length,
+                                                           float height) override;
             };
 
         }

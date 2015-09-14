@@ -3,21 +3,15 @@
 namespace Cubicuous {
     namespace Core {
         namespace Mesher {
-            Structure::Voxel* MonotoneMesher::_getVoxelFromPosition(Structure::Structure* structure, int width, int length, int height,
-                                                  int x, int y, int z) {
-              //TODO: Figure out the commented out code to make sure it has been correctly translated
-//                return volume[i + dims[0] * (j + dims[1] * k)];
-                return structure->getVoxel(x, y, z);
-            }
-
-            int MonotoneMesher::_getDimensionFromAxis(int axis, int width, int length, int height) {
+            float MonotoneMesher::_getDimensionFromAxis(int axis, float width, float length, float height) {
                 return axis == 0 ? width : ( //TODO: Find some way to remove the need for this terrible function
                     axis == 1 ? height : length
                 );
             }
 
-            std::vector<MeshPart> MonotoneMesher::generateMesh(Structure::Structure* structure, int width, int length,
-                                                               int height) {
+            std::vector<MeshPart*> MonotoneMesher::generateMesh(Structure::Structure *structure, float width,
+                                                               float length,
+                                                               float height) {
                 std::vector<glm::vec3> verticies;
                 std::vector<std::array<int, 4>> faces;
 
@@ -63,9 +57,9 @@ namespace Cubicuous {
                                 // In the Javascript implementation, the value of each voxel in the volume is a binary
                                 // version of the hexdecimal hash code that will make up the colour
 
-                                int a = (0 <= x[axis] ? this->_getVoxelFromPosition(structure, width, length, height, x[0], x[1], x[2])->getType() : 0);
+                                int a = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2])->getType() : 0);
                                 int b = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
-                                    ? this->_getVoxelFromPosition(structure, width, length, height, x[0] + q[0], x[1] + q[1], x[2] + q[2])->getType()
+                                    ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])->getType()
                                     : 0);
 
                                 c = a;
@@ -126,6 +120,7 @@ namespace Cubicuous {
                                     }
                                 }
                             }
+
                             // Close off any residual polygons
                             for (i; i < nf; ++i) {
                                 polygons[frontier[i]].closeOff(x[v]);
@@ -272,9 +267,9 @@ namespace Cubicuous {
                     }
                 }
 
-                std::vector<MeshPart> meshParts;
+                std::vector<MeshPart*> meshParts;
                 for(int faceIndex = 0; faceIndex < faces.size(); faceIndex++) {
-                    meshParts.push_back(MeshPart(faces[faceIndex][3], {
+                    meshParts.push_back(new MeshPart(faces[faceIndex][3], new glm::vec3[3] {
                             verticies[faces[faceIndex][0]], verticies[faces[faceIndex][1]], verticies[faces[faceIndex][2]]
                     }));
                 }

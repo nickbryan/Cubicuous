@@ -7,6 +7,7 @@
 #include "GameSettings.h"
 #include "Core/Loops/ILoop.h"
 #include "Core/MatrixManager/IMatrixManager.h"
+#include "Core/GeometryManager.h"
 #include <unordered_map>
 
 namespace Cubicuous {
@@ -66,6 +67,7 @@ namespace Cubicuous {
 
         /* Get functions for integral esettings */
         inline IMatrixManager* getMatrixManager() const { return this->getSettings()->matrixManager; }
+        inline Core::GeometryManager* getGeometryManager() const { return this->getSettings()->geometryManager; }
         inline Core::Mesher::IMesher* getMesher() const { return this->getSettings()->mesher; }
 
         /* Scene catching */
@@ -100,7 +102,8 @@ namespace Cubicuous {
         void attachVertexBuffer(const char* name, VertexBuffer* buffer);
         inline void attachVertexBuffer(const char* name, GLuint id) { this->attachVertexBuffer(name, id, GL_STATIC_DRAW); };
 
-        VertexBuffer* getVertexBuffer(const char* name);
+        VertexBuffer* getVertexBuffer(const char* name) const;
+        inline VertexBuffer* getVertexBuffer(std::string name) const { return this->getVertexBuffer(name.c_str()); };
     };
 }
 #endif

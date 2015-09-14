@@ -48,7 +48,7 @@ namespace Cubicuous {
             }
         }
 
-        VertexArray* ShaderProgram::getVertexArray(const char* name) {
+        VertexArray* ShaderProgram::getVertexArray(const char* name) const {
             for(VertexArray* vertexArray : this->_vertexArrays) {
                 if(vertexArray->getName() == name) {
                     return vertexArray;
@@ -73,7 +73,7 @@ namespace Cubicuous {
             Debugging::Logger::log("Shader Manager", "Bound output " + Debugging::Logger::toLoggable(binding));
         }
 
-        Uniform* ShaderProgram::getCachedUniform(const char* name) {
+        Uniform* ShaderProgram::getCachedUniform(const char* name) const {
             for(Uniform* uniform : this->_uniforms) {
                 if(uniform->getName() == name) {
                     return uniform;

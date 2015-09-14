@@ -5,10 +5,10 @@
 void TestScene::render(double deltaTime) {
     for (Cubicuous::Core::Entity *entity : this->_entities) {
         if(entity == this->_entities[2] || entity == this->_entities[1]) {
-            this->_colorBuffer->update(this->_coloredCube, 108);
+            this->_game->getGeometryManager()->updateVertices(this->_coloredCube, 108);
         }
         else {
-            this->_colorBuffer->update(this->_cubeColor, 108);
+            this->_game->getGeometryManager()->updateColor(this->_cubeColor, 108);
         }
 
         this->_colorVertexArray->enable();
