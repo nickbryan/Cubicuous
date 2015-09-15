@@ -40,9 +40,14 @@ namespace Cubicuous {
 
             virtual void updateColor(GLfloat* colors, GLsizei count);
 
-            inline void updateColor(glm::vec3 color) { this->updateColor(color.x, color.y, color.z); };
+            inline void updateColor(glm::vec4 color) { this->updateColor(color.x, color.y, color.z, color.w); };
+            inline void updateColor(glm::vec3 color) { this->updateColor(color.x, color.y, color.z, 1.0f); };
+            virtual void updateColor(float r, float g, float b, float a);
 
-            virtual void updateColor(float r, float g, float b);
+            //These methods with size have built in backups so if we can't use uniform we fill a buffer and use that
+            inline void updateColor(glm::vec4 color, GLsizei size) { this->updateColor(color.x, color.y, color.z, color.w, size); };
+            inline void updateColor(glm::vec3 color, GLsizei size) { this->updateColor(color.x, color.y, color.z, 1.0f, size); };
+            virtual void updateColor(float r, float g, float b, float a, GLsizei size);
 
             bool isVerticesUniformOnly() const {
                 return this->_verticesBuffer != nullptr;

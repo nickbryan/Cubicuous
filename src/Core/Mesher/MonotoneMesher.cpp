@@ -12,8 +12,9 @@ namespace Cubicuous {
             std::vector<MeshPart*> MonotoneMesher::generateMesh(Structure::Structure *structure, float width,
                                                                float length,
                                                                float height) {
-                std::vector<glm::vec3> verticies;
+                std::vector<glm::vec3> vertices;
                 std::vector<std::array<int, 4>> faces;
+                std::vector<Graphics::Renderer::IRenderer*> faceRenderers;
 
                 // We need to go over the axis x,y and z
                 for (int axis = 0; axis < 3; ++axis) {
@@ -29,6 +30,7 @@ namespace Cubicuous {
                     std::vector<int32_t> leftIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
                     std::vector<int32_t> rightIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
                     std::vector<int32_t> stack(24 * this->_getDimensionFromAxis(v, width, length, height));
+                    std::vector<Graphics::Renderer::IRenderer*> runRenderers;
                     int32_t delta[2][2] = {{0,0}, {0,0}};
 
                     q[axis] = 1;
@@ -42,37 +44,37 @@ namespace Cubicuous {
                      */
                     for (x[axis] = -1; x[axis] < this->_getDimensionFromAxis(axis, width, length, height);) {
                         // Perform monotone polygon subdivision
-                        int n = 0;
                         std::vector<MonotonePolygon> polygons;
                         int nf = 0;
 
                         for (x[v] = 0; x[v] < this->_getDimensionFromAxis(v, width, length, height); ++x[v]) {
                             // Make one pass over the u-scan line of the volume to run-length encode polygon
                             int nr = 0;
-                            int p = 0;
-                            int c = 0;
+                            Graphics::Renderer::IRenderer* p = nullptr;
+                            Graphics::Renderer::IRenderer* c = nullptr;
 
                             for (x[u] = 0; x[u] < this->_getDimensionFromAxis(u, width, length, height); ++x[u], p = c) {
                                 // Each face has a type, only adjacent voxels of the same type can be merged.
                                 // In the Javascript implementation, the value of each voxel in the volume is a binary
                                 // version of the hexdecimal hash code that will make up the colour
 
-                                int a = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2])->getType() : 0);
-                                int b = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
-                                    ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])->getType()
-                                    : 0);
+                                Graphics::Renderer::IRenderer* a = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2])->getRenderer() : nullptr);
+                                Graphics::Renderer::IRenderer* b = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
+                                                                    ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])->getRenderer()
+                                                                    : nullptr);
 
                                 c = a;
-                                if ((!a) == (!b)) {
-                                    c = 0;
-                                } else if(!a) {
-                                    c = -b;
+                                if (a == b && a == nullptr) {
+                                    c = nullptr;
+                                } else if(a == nullptr) {
+                                    c = nullptr;
                                 }
 
                                 // If cell type doesn't match start a new run
                                 if (p != c) {
                                     runs[nr++] = x[u];
-                                    runs[nr++] = c;
+                                    runs[nr++] = 0; //TODO: Remove this from array and adjust all accessing of runs array to access at new index
+                                    runRenderers[nr] = c;
                                 }
                             }
 
@@ -88,10 +90,11 @@ namespace Cubicuous {
                                 int polygonRight = polygon.right[polygon.right.size() - 1][0];
                                 int runLeft = runs[j]; // Start of run
                                 int runRight = runs[j + 2]; // End of run
-                                int runColor = runs[j + 1]; // Color of run
+//                                int runColor = runs[j + 1]; // Color of run
+                                Graphics::Renderer::IRenderer* runRenderer = runRenderers[j];
 
                                 // Check if we can merge run with polygon
-                                if (runRight > polygonLeft && polygonRight > runLeft && runColor == polygon.type) {
+                                if (runRight > polygonLeft && polygonRight > runLeft && polygon.renderer->isSameAs(runRenderer)) {
                                     // Merge run
                                     polygon.mergeRun(x[v], runLeft, runRight);
 
@@ -102,12 +105,8 @@ namespace Cubicuous {
                                 } else {
                                     // Check if we need to advance the run pointer
                                     if (runRight <= polygonRight) {
-                                        if (runColor != 0) {
-                                            MonotonePolygon newPolygon = MonotonePolygon(runColor,
-                                                                                         x[v],
-                                                                                         runLeft,
-                                                                                         runRight);
-
+                                        if (runRenderer != nullptr) {
+                                            MonotonePolygon newPolygon = MonotonePolygon(runRenderer, x[v], runLeft, runRight);
                                             nextFrontier[fp++] = static_cast<int>(polygons.size());
                                             polygons.push_back(newPolygon);
                                         }
@@ -128,12 +127,8 @@ namespace Cubicuous {
 
                             // Add any extra runs to frontier
                             for(j; j < nr - 2; j += 2) {
-                                int rl = runs[j];
-                                int rr = runs[j + 2];
-                                int rc = runs[j + 1];
-
-                                if (rc != 0) {
-                                    MonotonePolygon newPolygon = MonotonePolygon(rc, x[v], rl, rr);
+                                if (runRenderers[j] != nullptr) {
+                                    MonotonePolygon newPolygon = MonotonePolygon(runRenderers[j], x[v], runs[j], runs[j + 2]);
                                     nextFrontier[fp++] = polygons.size();
                                     polygons.push_back(newPolygon);
                                 }
@@ -158,23 +153,23 @@ namespace Cubicuous {
                             bool flipped = false;
 
                             for (int j = 0; j < polygon.left.size(); ++j) {
-                                leftIndex[j] = static_cast<int>(verticies.size());
+                                leftIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.left[j][0], polygon.left[j][1]};
                                 y[axis] = x[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
-                                verticies.push_back(glm::vec3(y[0], y[1], y[2]));
+                                vertices.push_back(glm::vec3(y[0], y[1], y[2]));
                             }
 
                             for (int j = 0; j < polygon.right.size(); ++j) {
-                                rightIndex[j] = static_cast<int>(verticies.size());
+                                rightIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.right[j][0], polygon.right[j][1]};
                                 y[axis] = x[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
-                                verticies.push_back(glm::vec3(y[0], y[1], y[2]));
+                                vertices.push_back(glm::vec3(y[0], y[1], y[2]));
                             }
 
                             // Triangulate the monotone polygon
@@ -218,10 +213,12 @@ namespace Cubicuous {
                                     // Opposite side
                                     while(bottom + 3 < top) {
                                         if(flipped == nSide) {
-                                            faces.push_back({ stack[bottom], stack[bottom + 3], idx, polygon.type});
+                                            faces.push_back({ stack[bottom], stack[bottom + 3], idx });
                                         } else {
-                                            faces.push_back({ stack[bottom + 3], stack[bottom], idx, polygon.type});
+                                            faces.push_back({ stack[bottom + 3], stack[bottom], idx });
                                         }
+
+                                        faceRenderers[faces.size() - 1] = polygon.renderer;
                                         bottom += 3;
                                     }
                                 } else {
@@ -241,10 +238,12 @@ namespace Cubicuous {
 
                                         if (det != 0) {
                                             if (flipped == nSide) {
-                                                faces.push_back({stack[top - 3], stack[top - 6], idx, polygon.type});
+                                                faces.push_back({stack[top - 3], stack[top - 6], idx });
                                             } else {
-                                                faces.push_back({stack[top - 6], stack[top - 3], idx, polygon.type});
+                                                faces.push_back({stack[top - 6], stack[top - 3], idx });
                                             }
+
+                                            faceRenderers[faces.size() - 1] = polygon.renderer;
                                         }
                                         top -= 3;
                                     }
@@ -269,9 +268,9 @@ namespace Cubicuous {
 
                 std::vector<MeshPart*> meshParts;
                 for(int faceIndex = 0; faceIndex < faces.size(); faceIndex++) {
-                    meshParts.push_back(new MeshPart(faces[faceIndex][3], new glm::vec3[3] {
-                            verticies[faces[faceIndex][0]], verticies[faces[faceIndex][1]], verticies[faces[faceIndex][2]]
-                    }));
+                    meshParts.push_back(new MeshPart(faceRenderers[faceIndex], std::vector<glm::vec3>({
+                            vertices[faces[faceIndex][0]], vertices[faces[faceIndex][1]], vertices[faces[faceIndex][2]]
+                    })));
                 }
 
                 return meshParts;

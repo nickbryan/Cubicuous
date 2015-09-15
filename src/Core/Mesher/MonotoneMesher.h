@@ -20,13 +20,13 @@ namespace Cubicuous {
             private:
                 class MonotonePolygon {
                 public:
-                    int type;
+                    Graphics::Renderer::IRenderer* renderer;
                     std::vector<std::array<int, 2>> left;
                     std::vector<std::array<int, 2>> right;
 
                     //TODO: Figure out what v, ul and ur are
-                    MonotonePolygon(int type, int v, int ul, int ur) {
-                        this->type = type;
+                    MonotonePolygon(Graphics::Renderer::IRenderer* renderer, int v, int ul, int ur) {
+                        this->renderer = renderer;
                         this->left[0][0] = ul;
                         this->left[0][1] = v;
                         this->right[0][0] = ur;

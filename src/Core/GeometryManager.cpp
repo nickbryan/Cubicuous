@@ -49,12 +49,33 @@ namespace Cubicuous {
             this->_verticesUniform->update(vertex);
         }
 
-        void GeometryManager::updateColor(float r, float g, float b) {
+        void GeometryManager::updateColor(float r, float g, float b, float a) {
             if(this->_colorUniform == nullptr) {
                 throw Exception("Called Uniform based updateColor when not setup for Uniform usage");
             }
 
-            this->_colorUniform->update(glm::vec3(r,g,b));
+            this->_colorUniform->update(glm::vec4(r,g,b,a));
+        }
+
+        void GeometryManager::updateColor(float r, float g, float b, float a, GLsizei size) {
+            if(this->_colorUniform != nullptr) {
+                this->_colorUniform->update(glm::vec4(r, g, b, a));
+            }
+            else if(this->_colorBuffer != nullptr) { //TODO: Test this, should fill an array with the rgba values so every point is coloured this rgba.
+                GLfloat *colorFloats = new GLfloat[size * 4];
+
+                for(int i = 0; i < size * 4; i++) {
+                    colorFloats[i] = r;
+                    colorFloats[++i] = g;
+                    colorFloats[++i] = b;
+                    colorFloats[++i] = a;
+                }
+
+                this->_colorBuffer->update(colorFloats, size * 4);
+            }
+            else {
+                throw Exception("Called Uniform based updateColor when not setup for Uniform usage, also the Buffer version is not setup so it cannot be used instead");
+            }
         }
     }
 }

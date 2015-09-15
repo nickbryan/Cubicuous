@@ -9,19 +9,14 @@ namespace Cubicuous {
     namespace Core {
         namespace Structure {
             class Voxel : public Entity {
-            private:
-                int _type = 0;
-
             public:
-                inline Voxel(Game *game, glm::vec3 position, int type) : _type(type), Entity(game, position) { }
-            
+                inline Voxel(Game *game, glm::vec3 position, Graphics::Renderer::IRenderer* renderer) : Entity(game, position, renderer) { }
+
                 inline Voxel(Game *game, glm::vec3 position) : Entity(game, position) { }
 
                 inline Voxel(Game *game) : Entity(game) {}
 
-                inline Voxel(Game *game, int type) : _type(type), Entity(game) {}
-
-                inline virtual int getType() const { return this->_type; }
+                inline Voxel(Game *game, int type) : Entity(game) {}
             };
         }
     }

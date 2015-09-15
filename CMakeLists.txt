@@ -50,8 +50,9 @@ add_library(Cubicuous ${SOURCE_FILES}
     src/Core/MatrixManager/MVPMatrixManager.cpp src/Core/MatrixManager/MVPMatrixManager.h
     src/Core/MatrixManager/MVPSepMatrixManager.cpp src/Core/MatrixManager/MVPSepMatrixManager.h
     src/Core/Mesher/IMesher.h src/Core/Mesher/MonotoneMesher.cpp
-    src/Core/Mesher/MonotoneMesher.h src/Core/Mesher/MeshPart.h
-    src/Core/GeometryManager.h src/Core/GeometryManager.cpp)
+    src/Core/Mesher/MonotoneMesher.h src/Core/Mesher/MeshPart.h src/Core/Mesher/MeshPart.cpp
+    src/Core/GeometryManager.h src/Core/GeometryManager.cpp
+    src/Graphics/Renderer/IRenderer.h src/Graphics/Renderer/ColorRenderer.cpp src/Graphics/Renderer/ColorRenderer.h)
 
 #Link the libraries to the exe
 target_link_libraries (Cubicuous

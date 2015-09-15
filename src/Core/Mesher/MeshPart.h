@@ -4,41 +4,45 @@
 #include <GL/glew.h>
 #include <glm/detail/type_vec.hpp>
 #include <glm/detail/type_vec3.hpp>
-#include <array>
+#include <vector>
 
 namespace Cubicuous {
+    namespace Graphics {
+        namespace Renderer {
+            class IRenderer;
+        }
+    }
+
     namespace Core {
         namespace Mesher {
             class MeshPart {
             private:
-                int       _type;
-                glm::vec3 *_vertices;
+                Graphics::Renderer::IRenderer* _renderer = nullptr;
+                std::vector<glm::vec3>         _vertices;
+                GLsizei                        _floatCount = 0;
 
             public:
-                MeshPart(int type) : _type(type) {}
+                MeshPart(Graphics::Renderer::IRenderer* type) : _renderer(type) {}
 
-                MeshPart(int type, glm::vec3 *vertices) : _type(type), _vertices(vertices) {}
+                MeshPart(Graphics::Renderer::IRenderer* type, std::vector<glm::vec3> vertices) : _renderer(type), _vertices(vertices) {}
 
                 void setVertex(int position, glm::vec3 vertex) {
                     this->_vertices[position] = vertex;
                 }
 
-                int getType() const { return this->_type; }
-
-                glm::vec3* getVertices() const { return this->_vertices; }
-
-                GLfloat * getVerticesAsFloats() const {
-                    GLfloat* floats = new GLfloat[9];
-                    int currentFloatIndex = -1;
-
-                    for(int floatIndex = 0; floatIndex < 3; floatIndex++) {
-                        floats[++currentFloatIndex] = this->_vertices[floatIndex].x;
-                        floats[++currentFloatIndex] = this->_vertices[floatIndex].y;
-                        floats[++currentFloatIndex] = this->_vertices[floatIndex].z;
-                    }
-
-                    return floats;
+                inline Graphics::Renderer::IRenderer* getRenderer() const {
+                    return this->_renderer;
                 }
+
+                std::vector<glm::vec3> getVertices() const { return this->_vertices; }
+
+                GLfloat* getVerticesAsFloats();
+
+                inline GLsizei getLastVerticesCount() const {
+                    return this->_floatCount + 1;
+                }
+
+                void render();
             };
         }
     }

@@ -13,8 +13,13 @@ namespace Cubicuous {
 
                     if(this->_game->getGeometryManager()->isVerticesUniformOnly()) {
                         for(Mesher::MeshPart *meshPart : this->getMesh()) {
-                            this->_game->getGeometryManager()->updateVertices(meshPart->getVerticesAsFloats(), 9);
-                            glDrawArrays(GL_TRIANGLES, 0, 9);
+                            if(meshPart->getRenderer() != nullptr) {
+                                meshPart->render();
+                            }
+                            else {
+                                this->_game->getGeometryManager()->updateVertices(meshPart->getVerticesAsFloats(), meshPart->getLastVerticesCount() / 3);
+                                glDrawArrays(GL_TRIANGLES, 0, meshPart->getLastVerticesCount() / 3);
+                            }
                         }
                     }
                     else {
@@ -91,10 +96,10 @@ namespace Cubicuous {
                 int verticesBlock = -1;
 
                 for(Mesher::MeshPart *meshPart : this->getMesh()) {
-                    for(int pointIndex = 0; pointIndex < 3; pointIndex++) {
-                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].x;
-                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].y;
-                        this->_meshVertices[++verticesBlock] = meshPart->getVertices()[pointIndex].z;
+                    for(glm::vec3 vertex : meshPart->getVertices()) {
+                        this->_meshVertices[++verticesBlock] = vertex.x;
+                        this->_meshVertices[++verticesBlock] = vertex.y;
+                        this->_meshVertices[++verticesBlock] = vertex.z;
                     }
 
                     this->_totalMeshTriangles++;
