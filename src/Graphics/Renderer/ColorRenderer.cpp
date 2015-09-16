@@ -10,7 +10,7 @@ namespace Cubicuous {
             }
 
             bool ColorRenderer::isSameAs(IRenderer* renderer) {
-                if(!dynamic_cast<ColorRenderer*>(this, renderer) == 0) {
+                if(dynamic_cast<ColorRenderer*>(renderer) == 0) {
                     return false;
                 }
 

@@ -11,6 +11,7 @@ namespace Cubicuous {
                         return;
                     }
 
+                    this->_game->getMatrixManager()->updateModel(this->getModelMatrix());
                     if(this->_game->getGeometryManager()->isVerticesUniformOnly()) {
                         for(Mesher::MeshPart *meshPart : this->getMesh()) {
                             if(meshPart->getRenderer() != nullptr) {

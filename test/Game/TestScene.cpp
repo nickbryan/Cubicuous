@@ -4,8 +4,8 @@
 
 void TestScene::render(double deltaTime) {
     for (Cubicuous::Core::Entity *entity : this->_entities) {
-        if(entity == this->_entities[2] || entity == this->_entities[1]) {
-            this->_game->getGeometryManager()->updateVertices(this->_coloredCube, 108);
+        if(entity == this->_entities[1]) {
+            this->_game->getGeometryManager()->updateColor(this->_coloredCube, 108);
         }
         else {
             this->_game->getGeometryManager()->updateColor(this->_cubeColor, 108);
@@ -90,7 +90,7 @@ void TestScene::update() {
     //ENTITY LOCKING
     if (this->_input->isKeyPressed(GLFW_KEY_1)) {
         std::cout << "Locked to entity" << std::endl;
-        this->_camera->lockToEntity(this->_entities[2]);
+        this->_camera->lockToEntity(this->_entities[1]);
     }
     if (this->_input->isKeyPressed(GLFW_KEY_2)) {
         std::cout << "Unlocked from entity" << std::endl;

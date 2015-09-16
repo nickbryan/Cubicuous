@@ -72,15 +72,19 @@ namespace Cubicuous {
 
                                 // If cell type doesn't match start a new run
                                 if (p != c) {
-                                    runs[nr++] = x[u];
-                                    runs[nr++] = 0; //TODO: Remove this from array and adjust all accessing of runs array to access at new index
-                                    runRenderers[nr] = c;
+                                    runs.push_back(x[u]);
+                                    nr++
+                                    runs.push_back(0); //TODO: Remove this from array and adjust all accessing of runs array to access at new index
+                                    nr++;
+                                    runRenderers.push_back(c);
                                 }
                             }
 
                             // Add sentinel run
-                            runs[nr++] = this->_getDimensionFromAxis(u, width, length, height);
-                            runs[nr++] = 0;
+                            runs.push_back(this->_getDimensionFromAxis(u, width, length, height));
+                            nr++;
+                            runs.push_back(0);
+                            nr++;
 
                             // Update frontier by merging runs
                             int fp = 0, i, j;
@@ -94,12 +98,13 @@ namespace Cubicuous {
                                 Graphics::Renderer::IRenderer* runRenderer = runRenderers[j];
 
                                 // Check if we can merge run with polygon
-                                if (runRight > polygonLeft && polygonRight > runLeft && polygon.renderer->isSameAs(runRenderer)) {
+                                if (runRight > polygonLeft && polygonRight > runLeft && polygon.renderer != nullptr && polygon.renderer->isSameAs(runRenderer)) {
                                     // Merge run
                                     polygon.mergeRun(x[v], runLeft, runRight);
 
                                     // Insert polygon into frontier
-                                    nextFrontier[fp++] = frontier[i];
+                                    nextFrontier.push_back(frontier[i]);
+                                    fp++;
                                     i++;
                                     j += 2;
                                 } else {
@@ -107,7 +112,8 @@ namespace Cubicuous {
                                     if (runRight <= polygonRight) {
                                         if (runRenderer != nullptr) {
                                             MonotonePolygon newPolygon = MonotonePolygon(runRenderer, x[v], runLeft, runRight);
-                                            nextFrontier[fp++] = static_cast<int>(polygons.size());
+                                            nextFrontier.push_back(static_cast<int>(polygons.size()));
+                                            fp++
                                             polygons.push_back(newPolygon);
                                         }
                                         j += 2;
@@ -129,7 +135,8 @@ namespace Cubicuous {
                             for(j; j < nr - 2; j += 2) {
                                 if (runRenderers[j] != nullptr) {
                                     MonotonePolygon newPolygon = MonotonePolygon(runRenderers[j], x[v], runs[j], runs[j + 2]);
-                                    nextFrontier[fp++] = polygons.size();
+                                    nextFrontier.push_back(polygons.size());
+                                    fp++;
                                     polygons.push_back(newPolygon);
                                 }
                             }
@@ -179,13 +186,19 @@ namespace Cubicuous {
                             int ri = 1;
                             bool side = true; // true = right, false = left
 
-                            stack[top++] = leftIndex[0];
-                            stack[top++] = polygon.left[0][0];
-                            stack[top++] = polygon.left[0][1];
+                            stack.push_back(leftIndex[0]);
+                            top++;
+                            stack.push_back(polygon.left[0][0]);
+                            top++;
+                            stack.push_back(polygon.left[0][1]);
+                            top++;
 
-                            stack[top++] = rightIndex[0];
-                            stack[top++] = polygon.right[0][0];
-                            stack[top++] = polygon.right[0][1];
+                            stack.push_back(rightIndex[0]);
+                            top++;
+                            stack.push_back(polygon.right[0][0]);
+                            top++;
+                            stack.push_back(polygon.right[0][1]);
+                            top++;
 
                             while (li < polygon.left.size() || ri < polygon.right.size()) {
                                 // Compute next size
@@ -250,9 +263,12 @@ namespace Cubicuous {
                                 }
 
                                 // Push Vertex
-                                stack[top++] = idx;
-                                stack[top++] = vert[0];
-                                stack[top++] = vert[1];
+                                stack.push_back(idx);
+                                top++;
+                                stack.push_back(vert[0]);
+                                top++;
+                                stack.push_back(vert[1]);
+                                top++;
 
                                 //Update loop index
                                 if(nSide) {
