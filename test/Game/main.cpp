@@ -45,10 +45,18 @@ int main() {
         Scene *testScene = game->getCachedScene("TestScene");
 
         Cubicuous::Core::Structure::Structure *testStructure = new Cubicuous::Core::Structure::Structure(game);
+        testStructure->stopMeshGeneration();
         testStructure->addVoxel(glm::vec3(0.0f, 0.0f, 0.0f));
-        testStructure->addVoxel(glm::vec3(0.1f, 0.0f, 0.0f));
-        testStructure->addVoxel(glm::vec3(0.2f, 0.0f, 0.0f));
+        testStructure->addVoxel(glm::vec3(1.0f, 0.0f, 0.0f));
+        testStructure->addVoxel(glm::vec3(0.0f, 0.0f, 1.0f));
+        testStructure->addVoxel(glm::vec3(1.0f, 0.0f, 1.0f));
+        testStructure->addVoxel(glm::vec3(0.0f, 1.0f, 0.0f));
+        testStructure->addVoxel(glm::vec3(1.0f, 1.0f, 0.0f));
+        testStructure->addVoxel(glm::vec3(0.0f, 1.0f, 1.0f));
+        testStructure->addVoxel(glm::vec3(1.0f, 1.0f, 1.0f));
         testStructure->setPosition(glm::vec3(1.0f,1.0f,1.0f));
+        testStructure->resumeMeshGeneration();
+        testStructure->buildMesh();
 
         testScene->addEntity(testStructure);
         testScene->addEntity(new CubeEntity(glm::vec3(-10.0f, 2.0f, 2.0f), game));

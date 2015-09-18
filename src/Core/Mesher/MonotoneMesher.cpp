@@ -58,10 +58,13 @@ namespace Cubicuous {
                                 // In the Javascript implementation, the value of each voxel in the volume is a binary
                                 // version of the hexdecimal hash code that will make up the colour
 
-                                Graphics::Renderer::IRenderer* a = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2])->getRenderer() : nullptr);
-                                Graphics::Renderer::IRenderer* b = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
-                                                                    ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])->getRenderer()
-                                                                    : nullptr);
+                                Structure::Voxel* aVoxel = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2]) : nullptr);
+                                Structure::Voxel* bVoxel = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
+                                                            ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])
+                                                            : nullptr);
+
+                                Graphics::Renderer::IRenderer* a = aVoxel == nullptr ? nullptr : aVoxel->getRenderer();
+                                Graphics::Renderer::IRenderer* b = bVoxel == nullptr ? nullptr : bVoxel->getRenderer();
 
                                 c = a;
                                 if (a == b && a == nullptr) {
@@ -73,7 +76,7 @@ namespace Cubicuous {
                                 // If cell type doesn't match start a new run
                                 if (p != c) {
                                     runs.push_back(x[u]);
-                                    nr++
+                                    nr++;
                                     runs.push_back(0); //TODO: Remove this from array and adjust all accessing of runs array to access at new index
                                     nr++;
                                     runRenderers.push_back(c);
@@ -113,7 +116,7 @@ namespace Cubicuous {
                                         if (runRenderer != nullptr) {
                                             MonotonePolygon newPolygon = MonotonePolygon(runRenderer, x[v], runLeft, runRight);
                                             nextFrontier.push_back(static_cast<int>(polygons.size()));
-                                            fp++
+                                            fp++;
                                             polygons.push_back(newPolygon);
                                         }
                                         j += 2;
@@ -288,6 +291,8 @@ namespace Cubicuous {
                             vertices[faces[faceIndex][0]], vertices[faces[faceIndex][1]], vertices[faces[faceIndex][2]]
                     })));
                 }
+
+
 
                 return meshParts;
             }

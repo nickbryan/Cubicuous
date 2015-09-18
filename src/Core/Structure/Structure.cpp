@@ -35,18 +35,22 @@ namespace Cubicuous {
                 }
             }
 
+            void Structure::addVoxel(glm::vec3 position, glm::vec3 size) {
+                this->addVoxel(new Voxel(this->_game, position, size));
+            }
+
             void Structure::addVoxel(glm::vec3 position) {
                 this->addVoxel(new Voxel(this->_game, position));
             }
 
             void Structure::addVoxel(Voxel *voxel) {
                 this->_voxels.push_back(voxel);
-                this->_buildMesh();
+                this->buildMesh();
             }
 
             void Structure::removeVoxel(Voxel *voxel) {
                 this->_voxels.erase(this->_voxels.begin() + this->getVoxelIndex(voxel));
-                this->_buildMesh();
+                this->buildMesh();
             }
 
             void Structure::removeVoxel(glm::vec3 position) {
@@ -81,7 +85,7 @@ namespace Cubicuous {
                 return this->getVoxelIndex(voxel->getPosition());
             }
 
-            void Structure::_buildMesh() {
+            void Structure::buildMesh() {
                 if(!this->_meshGenerationEnabled) {
                     return;
                 }
@@ -125,14 +129,16 @@ namespace Cubicuous {
                     if(voxel->getPosition().z < minZ) {
                         minZ = voxel->getPosition().z;
                     }
-                    if(voxel->getPosition().x > maxX) {
-                        maxX = voxel->getPosition().x;
+
+                    glm::vec3 voxelSize = voxel->getSize();
+                    if(voxel->getPosition().x + voxelSize.x > maxX) {
+                        maxX = voxel->getPosition().x + voxelSize.x;
                     }
-                    if(voxel->getPosition().y > minY) {
-                        maxY = voxel->getPosition().y;
+                    if(voxel->getPosition().y + voxelSize.y > maxY) {
+                        maxY = voxel->getPosition().y + voxelSize.y;
                     }
-                    if(voxel->getPosition().z > minZ) {
-                        maxZ = voxel->getPosition().z;
+                    if(voxel->getPosition().z + voxelSize.z > maxZ) {
+                        maxZ = voxel->getPosition().z + voxelSize.z;
                     }
                 }
 

@@ -25,7 +25,6 @@ namespace Cubicuous {
                 float _length;
                 float _height;
 
-                void _buildMesh();
                 void _recalculateBoundingBox();
                 void _meshToVertices();
 
@@ -36,11 +35,12 @@ namespace Cubicuous {
 
                 //Voxel management
                 void addVoxel(Voxel *voxel);
+                void addVoxel(glm::vec3 position, glm::vec3 size);
                 void addVoxel(glm::vec3 position);
 
                 inline void setVoxels(std::vector<Voxel*> voxels) {
                     this->_voxels = voxels;
-                    this->_buildMesh();
+                    this->buildMesh();
                 }
 
                 void removeVoxel(Voxel *voxel);
@@ -56,6 +56,7 @@ namespace Cubicuous {
                 int getVoxelIndex(Voxel* voxel) const;
 
                 //Mesh management
+                void buildMesh();
                 inline void stopMeshGeneration() { this->_meshGenerationEnabled = false; }
                 inline void resumeMeshGeneration() { this->_meshGenerationEnabled = true; }
                 inline float getWidth() const { return this->_width; }
