@@ -1,4 +1,5 @@
 #include "MonotoneMesher.h"
+#include "../../Debugging/Logger.h"
 
 namespace Cubicuous {
     namespace Core {
@@ -24,7 +25,7 @@ namespace Cubicuous {
                     int v = (axis + 2) % 3;
                     std::vector<int32_t> x(3); // Sentinel for terminating loop
                     std::vector<int32_t> q(3); // Points along the direction of axis variable
-                    std::vector<int32_t> runs(2 * this->_getDimensionFromAxis(u + 1, width, length, height));
+                    std::vector<int32_t> runs(2 * (1 + this->_getDimensionFromAxis(u, width, length, height)));
                     std::vector<int32_t> frontier(this->_getDimensionFromAxis(u, width, length, height)); // Frontier is a list of pointers to polygons
                     std::vector<int32_t> nextFrontier(this->_getDimensionFromAxis(u, width, length, height));
                     std::vector<int32_t> leftIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
@@ -42,7 +43,7 @@ namespace Cubicuous {
                      * presence as a condition of termination, typically in a loop or
                      * recursive algorithm.
                      */
-                    for (x[axis] = -1; x[axis] < this->_getDimensionFromAxis(axis, width, length, height);) {
+                    for (x[axis] = -1; x[axis] < this->_getDimensionFromAxis(axis, width, length, height); ) {
                         // Perform monotone polygon subdivision
                         std::vector<MonotonePolygon> polygons;
                         int nf = 0;
@@ -50,36 +51,46 @@ namespace Cubicuous {
                         for (x[v] = 0; x[v] < this->_getDimensionFromAxis(v, width, length, height); ++x[v]) {
                             // Make one pass over the u-scan line of the volume to run-length encode polygon
                             int nr = 0;
-                            Graphics::Renderer::IRenderer* p = nullptr;
-                            Graphics::Renderer::IRenderer* c = nullptr;
+                            Graphics::Renderer::IRenderer* previousRenderer = nullptr;
 
-                            for (x[u] = 0; x[u] < this->_getDimensionFromAxis(u, width, length, height); ++x[u], p = c) {
+                            for (x[u] = 0; x[u] < this->_getDimensionFromAxis(u, width, length, height); ++x[u]) {
                                 // Each face has a type, only adjacent voxels of the same type can be merged.
                                 // In the Javascript implementation, the value of each voxel in the volume is a binary
-                                // version of the hexdecimal hash code that will make up the colour
+                                // version of the hexadecimal hash code that will make up the colour
 
                                 Structure::Voxel* aVoxel = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2]) : nullptr);
                                 Structure::Voxel* bVoxel = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
                                                             ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])
                                                             : nullptr);
 
-                                Graphics::Renderer::IRenderer* a = aVoxel == nullptr ? nullptr : aVoxel->getRenderer();
-                                Graphics::Renderer::IRenderer* b = bVoxel == nullptr ? nullptr : bVoxel->getRenderer();
+                                Graphics::Renderer::IRenderer* currentRenderer = nullptr;
 
-                                c = a;
-                                if (a == b && a == nullptr) {
-                                    c = nullptr;
-                                } else if(a == nullptr) {
-                                    c = nullptr;
+                                //Neither of the voxels don't exist, we don't have a renderer to carry over
+                                if (bVoxel == nullptr && aVoxel == nullptr) {
+                                    currentRenderer = nullptr;
+                                }
+                                else if(aVoxel == nullptr) {
+                                    //Our current voxel doesn't exist, use the next voxel's renderer
+                                    currentRenderer = bVoxel->getRenderer();
+                                }
+                                else {
+                                    //Our current voxel still exists, use its renderer
+                                    currentRenderer = aVoxel->getRenderer();
                                 }
 
                                 // If cell type doesn't match start a new run
-                                if (p != c) {
+                                if (previousRenderer == nullptr || !previousRenderer->isSameAs(currentRenderer)) {
+                                    //console.log("Axis: " + d + ", x[d]: " + x[d] + ", x[v]: " + x[v] + ", x[u]: " + x[u] + ", voxelA: " + (a ? "present" : "null")+ ", voxelB: " + (b ? "present" : "null") + ", previous: " + (p ? "present" : "null") + ", added: true, cresult: " + ((!a) === (!b) ? "1" : (!a ? "2" : "none")) + ", c:" + c);
+                                    Debugging::Logger::log("Axis: " + Debugging::Logger::toLoggable(axis) + ", x[d]: " + Debugging::Logger::toLoggable(x[axis]) + ", x[v]: " + Debugging::Logger::toLoggable(x[v]) + ", x[u]: " + Debugging::Logger::toLoggable(x[u]) + ", voxelA: " + (aVoxel != nullptr ? "present" : "null") + ", voxelB: " + (bVoxel != nullptr ? "present" : "null") + ", previous: " + (previousRenderer != nullptr ? "present" : "null") + ", added: true, cresult: " + (bVoxel == nullptr && aVoxel == nullptr ? "1" : (aVoxel == nullptr ? "2" : "none")) + ", ");
                                     runs.push_back(x[u]);
                                     nr++;
                                     runs.push_back(0); //TODO: Remove this from array and adjust all accessing of runs array to access at new index
                                     nr++;
-                                    runRenderers.push_back(c);
+                                    runRenderers.push_back(currentRenderer);
+                                    previousRenderer = currentRenderer;
+                                }
+                                else {
+                                    Debugging::Logger::log("Axis: " + Debugging::Logger::toLoggable(axis) + ", x[d]: " + Debugging::Logger::toLoggable(x[axis]) + ", x[v]: " + Debugging::Logger::toLoggable(x[v]) + ", x[u]: " + Debugging::Logger::toLoggable(x[u]) + ", voxelA: " + (aVoxel != nullptr ? "present" : "null") + ", voxelB: " + (bVoxel != nullptr ? "present" : "null") + ", previous: " + (previousRenderer != nullptr ? "present" : "null") + ", added: false, cresult: " + (bVoxel == nullptr && aVoxel == nullptr ? "1" : (aVoxel == nullptr ? "2" : "none")) + ", ");
                                 }
                             }
 
@@ -291,8 +302,6 @@ namespace Cubicuous {
                             vertices[faces[faceIndex][0]], vertices[faces[faceIndex][1]], vertices[faces[faceIndex][2]]
                     })));
                 }
-
-
 
                 return meshParts;
             }

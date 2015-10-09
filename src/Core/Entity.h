@@ -4,6 +4,7 @@
 #include "Movable.h"
 #include "../Graphics/Renderable.h"
 #include "../Graphics/Renderer/IRenderer.h"
+#include "../Graphics/Renderer/ColorRenderer.h"
 
 namespace Cubicuous {
     class Game;
@@ -12,14 +13,19 @@ namespace Cubicuous {
         protected:
             Game* _game = nullptr;
 
+            //Renderer should NEVER be null otherwise the meshing alogrithm may skip it
             Graphics::Renderer::IRenderer *_renderer = nullptr;
 
             virtual glm::mat4 _getRotationMatrix();
 
         public:
-            inline Entity(Game *game) : _game(game) {};
+            inline Entity(Game *game) : _game(game) {
+                this->_renderer = new Graphics::Renderer::ColorRenderer(this->_game, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+            };
 
-            inline Entity(Game *game, glm::vec3 position) : _game(game), Movable(position) {};
+            inline Entity(Game *game, glm::vec3 position) : Movable(position) {
+                this->_renderer = new Graphics::Renderer::ColorRenderer(this->_game, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+            };
 
             inline Entity(Game *game, glm::vec3 position, Graphics::Renderer::IRenderer* renderer) : _game(game), _renderer(renderer), Movable(position) {};
 
