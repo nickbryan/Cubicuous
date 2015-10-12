@@ -9,7 +9,7 @@ namespace Cubicuous {
                 this->_game->getGeometryManager()->updateVertices(vertices, size);
             }
 
-            bool ColorRenderer::isSameAs(IRenderer* renderer) {
+            bool ColorRenderer::isSameAs(IRenderer* renderer) const {
                 if(dynamic_cast<ColorRenderer*>(renderer) == 0) {
                     return false;
                 }

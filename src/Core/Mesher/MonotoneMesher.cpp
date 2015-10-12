@@ -20,10 +20,9 @@ namespace Cubicuous {
                 // We need to go over the axis x,y and z
                 for (int axis = 0; axis < 3; ++axis) {
                     //TODO: Rename all variables to their actual meaning
-                    // Orthogonal: https://2.bp.blogspot.com/_CKHEK3fLVDo/TJQw_X0G8lI/AAAAAAAABjw/Tju9XJifRcM/s1600/2-pt-perspective_orthogonal_lines.jpg
                     int u = (axis + 1) % 3; // u + v are orthogonal to axis
                     int v = (axis + 2) % 3;
-                    std::vector<int32_t> x(3); // Sentinel for terminating loop
+                    std::vector<int32_t> pos(3); // Sentinel for terminating loop
                     std::vector<int32_t> q(3); // Points along the direction of axis variable
                     std::vector<int32_t> runs(2 * (1 + this->_getDimensionFromAxis(u, width, length, height)));
                     std::vector<int32_t> frontier(this->_getDimensionFromAxis(u, width, length, height)); // Frontier is a list of pointers to polygons
@@ -36,62 +35,55 @@ namespace Cubicuous {
 
                     q[axis] = 1;
 
-                    // Initialise sentinel
-                    /*
-                     * In computer programming, a sentinel value
-                     * is a special value in the context of an algorithm which uses its
-                     * presence as a condition of termination, typically in a loop or
-                     * recursive algorithm.
-                     */
-                    for (x[axis] = -1; x[axis] < this->_getDimensionFromAxis(axis, width, length, height); ) {
+                    for (pos[axis] = -1; pos[axis] < this->_getDimensionFromAxis(axis, width, length, height); ) {
                         // Perform monotone polygon subdivision
                         std::vector<MonotonePolygon> polygons;
                         int nf = 0;
 
-                        for (x[v] = 0; x[v] < this->_getDimensionFromAxis(v, width, length, height); ++x[v]) {
+                        for (pos[v] = 0; pos[v] < this->_getDimensionFromAxis(v, width, length, height); ++pos[v]) {
                             // Make one pass over the u-scan line of the volume to run-length encode polygon
                             int nr = 0;
-                            Graphics::Renderer::IRenderer* previousRenderer = nullptr;
+                            Graphics::Renderer::IRenderer* currentRunRenderer = nullptr;
 
-                            for (x[u] = 0; x[u] < this->_getDimensionFromAxis(u, width, length, height); ++x[u]) {
+                            for (pos[u] = 0; pos[u] < this->_getDimensionFromAxis(u, width, length, height); ++pos[u]) {
                                 // Each face has a type, only adjacent voxels of the same type can be merged.
                                 // In the Javascript implementation, the value of each voxel in the volume is a binary
                                 // version of the hexadecimal hash code that will make up the colour
 
-                                Structure::Voxel* aVoxel = (0 <= x[axis] ? structure->getVoxel(x[0], x[1], x[2]) : nullptr);
-                                Structure::Voxel* bVoxel = (x[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
-                                                            ? structure->getVoxel(x[0] + q[0], x[1] + q[1], x[2] + q[2])
+                                Structure::Voxel* aVoxel = (0 <= pos[axis] ? structure->getVoxel(pos[0], pos[1], pos[2]) : nullptr);
+                                Structure::Voxel* bVoxel = (pos[axis] < this->_getDimensionFromAxis(axis, width, length, height) - 1
+                                                            ? structure->getVoxel(pos[0] + q[0], pos[1] + q[1], pos[2] + q[2])
                                                             : nullptr);
 
-                                Graphics::Renderer::IRenderer* currentRenderer = nullptr;
-
-                                //Neither of the voxels don't exist, we don't have a renderer to carry over
-                                if (bVoxel == nullptr && aVoxel == nullptr) {
-                                    currentRenderer = nullptr;
+                                Graphics::Renderer::IRenderer* nextRenderer = nullptr;
+                                if (aVoxel != nullptr && bVoxel != nullptr && aVoxel->getRenderer()->isSameAs(bVoxel->getRenderer())) {
+                                    //The voxel is of the same type, no need to start a new run
+                                    nextRenderer = nullptr;
                                 }
                                 else if(aVoxel == nullptr) {
-                                    //Our current voxel doesn't exist, use the next voxel's renderer
-                                    currentRenderer = bVoxel->getRenderer();
+                                    //Start a new run, we have a new type of voxel
+                                    nextRenderer = bVoxel->getRenderer();
                                 }
                                 else {
-                                    //Our current voxel still exists, use its renderer
-                                    currentRenderer = aVoxel->getRenderer();
+                                    //Start a new run, we have a new type of voxel
+                                    nextRenderer = aVoxel->getRenderer();
                                 }
 
                                 // If cell type doesn't match start a new run
-                                if (previousRenderer == nullptr || !previousRenderer->isSameAs(currentRenderer)) {
-                                    //console.log("Axis: " + d + ", x[d]: " + x[d] + ", x[v]: " + x[v] + ", x[u]: " + x[u] + ", voxelA: " + (a ? "present" : "null")+ ", voxelB: " + (b ? "present" : "null") + ", previous: " + (p ? "present" : "null") + ", added: true, cresult: " + ((!a) === (!b) ? "1" : (!a ? "2" : "none")) + ", c:" + c);
-                                    Debugging::Logger::log("Axis: " + Debugging::Logger::toLoggable(axis) + ", x[d]: " + Debugging::Logger::toLoggable(x[axis]) + ", x[v]: " + Debugging::Logger::toLoggable(x[v]) + ", x[u]: " + Debugging::Logger::toLoggable(x[u]) + ", voxelA: " + (aVoxel != nullptr ? "present" : "null") + ", voxelB: " + (bVoxel != nullptr ? "present" : "null") + ", previous: " + (previousRenderer != nullptr ? "present" : "null") + ", added: true, cresult: " + (bVoxel == nullptr && aVoxel == nullptr ? "1" : (aVoxel == nullptr ? "2" : "none")) + ", ");
-                                    runs.push_back(x[u]);
+                                if ((currentRunRenderer == nextRenderer && nextRenderer == nullptr) || currentRunRenderer == nullptr || currentRunRenderer->isSameAs(nextRenderer)) {
+                                    runs.push_back(pos[u]);
                                     nr++;
                                     runs.push_back(0); //TODO: Remove this from array and adjust all accessing of runs array to access at new index
                                     nr++;
-                                    runRenderers.push_back(currentRenderer);
-                                    previousRenderer = currentRenderer;
+                                    runRenderers.push_back(nextRenderer);
+
+                                    if(axis == 0) {
+                                        Debugging::Logger::log((currentRunRenderer == nullptr ? "from none to one"
+                                                                                              : "from one to one"));
+                                    }
                                 }
-                                else {
-                                    Debugging::Logger::log("Axis: " + Debugging::Logger::toLoggable(axis) + ", x[d]: " + Debugging::Logger::toLoggable(x[axis]) + ", x[v]: " + Debugging::Logger::toLoggable(x[v]) + ", x[u]: " + Debugging::Logger::toLoggable(x[u]) + ", voxelA: " + (aVoxel != nullptr ? "present" : "null") + ", voxelB: " + (bVoxel != nullptr ? "present" : "null") + ", previous: " + (previousRenderer != nullptr ? "present" : "null") + ", added: false, cresult: " + (bVoxel == nullptr && aVoxel == nullptr ? "1" : (aVoxel == nullptr ? "2" : "none")) + ", ");
-                                }
+
+                                currentRunRenderer = nextRenderer;
                             }
 
                             // Add sentinel run
@@ -114,7 +106,7 @@ namespace Cubicuous {
                                 // Check if we can merge run with polygon
                                 if (runRight > polygonLeft && polygonRight > runLeft && polygon.renderer != nullptr && polygon.renderer->isSameAs(runRenderer)) {
                                     // Merge run
-                                    polygon.mergeRun(x[v], runLeft, runRight);
+                                    polygon.mergeRun(pos[v], runLeft, runRight);
 
                                     // Insert polygon into frontier
                                     nextFrontier.push_back(frontier[i]);
@@ -125,7 +117,7 @@ namespace Cubicuous {
                                     // Check if we need to advance the run pointer
                                     if (runRight <= polygonRight) {
                                         if (runRenderer != nullptr) {
-                                            MonotonePolygon newPolygon = MonotonePolygon(runRenderer, x[v], runLeft, runRight);
+                                            MonotonePolygon newPolygon = MonotonePolygon(runRenderer, pos[v], runLeft, runRight);
                                             nextFrontier.push_back(static_cast<int>(polygons.size()));
                                             fp++;
                                             polygons.push_back(newPolygon);
@@ -134,7 +126,7 @@ namespace Cubicuous {
                                     }
                                     // Check if we  need to advance the frontier pointer
                                     if (polygonRight <= runRight) {
-                                        polygon.closeOff(x[v]);
+                                        polygon.closeOff(pos[v]);
                                         i++;
                                     }
                                 }
@@ -142,13 +134,13 @@ namespace Cubicuous {
 
                             // Close off any residual polygons
                             for (i; i < nf; ++i) {
-                                polygons[frontier[i]].closeOff(x[v]);
+                                polygons[frontier[i]].closeOff(pos[v]);
                             }
 
                             // Add any extra runs to frontier
                             for(j; j < nr - 2; j += 2) {
                                 if (runRenderers[j] != nullptr) {
-                                    MonotonePolygon newPolygon = MonotonePolygon(runRenderers[j], x[v], runs[j], runs[j + 2]);
+                                    MonotonePolygon newPolygon = MonotonePolygon(runRenderers[j], pos[v], runs[j], runs[j + 2]);
                                     nextFrontier.push_back(polygons.size());
                                     fp++;
                                     polygons.push_back(newPolygon);
@@ -166,7 +158,7 @@ namespace Cubicuous {
                         }
                         // --- Monotone subdivision of polygon is complete at this point ---
 
-                        x[axis]++;
+                        pos[axis]++;
 
                         // Now we need to triangulate each monotone polygon
                         for (int i = 0; i < polygons.size(); ++i) {
@@ -177,7 +169,7 @@ namespace Cubicuous {
                                 leftIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.left[j][0], polygon.left[j][1]};
-                                y[axis] = x[axis];
+                                y[axis] = pos[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
                                 vertices.push_back(glm::vec3(y[0], y[1], y[2]));
@@ -187,7 +179,7 @@ namespace Cubicuous {
                                 rightIndex[j] = static_cast<int>(vertices.size());
                                 float y[3] = {0.0f, 0.0f, 0.0f};
                                 int z[2] = {polygon.right[j][0], polygon.right[j][1]};
-                                y[axis] = x[axis];
+                                y[axis] = pos[axis];
                                 y[u] = z[0];
                                 y[v] = z[1];
                                 vertices.push_back(glm::vec3(y[0], y[1], y[2]));

@@ -22,7 +22,7 @@ namespace Cubicuous {
 
                 virtual void render(GLfloat* vertices, GLsizei size) override;
 
-                virtual bool isSameAs(IRenderer* renderer) override;
+                virtual bool isSameAs(IRenderer* renderer) const override;
             };
         }
     }

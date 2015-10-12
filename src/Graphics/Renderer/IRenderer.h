@@ -46,7 +46,7 @@ namespace Cubicuous {
                     this->render(triangles);
                 }
 
-                virtual bool isSameAs(IRenderer *renderer) = 0;
+                virtual bool isSameAs(IRenderer *renderer) const = 0;
             };
         }
     }
