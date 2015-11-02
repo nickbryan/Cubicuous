@@ -70,17 +70,12 @@ namespace Cubicuous {
                                 }
 
                                 // If cell type doesn't match start a new run
-                                if ((currentRunRenderer == nextRenderer && nextRenderer == nullptr) || currentRunRenderer == nullptr || currentRunRenderer->isSameAs(nextRenderer)) {
+                                if (nextRenderer != nullptr && !nextRenderer->isSameAs(currentRunRenderer)) {
                                     runs.push_back(pos[u]);
                                     nr++;
                                     runs.push_back(0); //TODO: Remove this from array and adjust all accessing of runs array to access at new index
                                     nr++;
                                     runRenderers.push_back(nextRenderer);
-
-                                    if(axis == 0) {
-                                        Debugging::Logger::log((currentRunRenderer == nullptr ? "from none to one"
-                                                                                              : "from one to one"));
-                                    }
                                 }
 
                                 currentRunRenderer = nextRenderer;
