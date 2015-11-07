@@ -1,0 +1,529 @@
+Processing axis 0
+Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 0, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 0, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 0, 0, 0
+            Generating left side veritces for polygon 1
+            Generated 0, 0, 2
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 0, 2, 0
+            Generating right side veritces for polygon 1
+            Generated 0, 2, 2
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 1, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 2, 0
+                Updating faceRenderer 1
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 3, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 2, 1
+                Updating faceRenderer 2
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+    Finished Pos[v] loop, closing off generated frontiers, nf = 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 0
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 2, 0, 0
+            Generating left side veritces for polygon 1
+            Generated 2, 0, 2
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 2, 2, 0
+            Generating right side veritces for polygon 1
+            Generated 2, 2, 2
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 5, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 4, 6
+                Updating faceRenderer 3
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 7, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 5, 6
+                Updating faceRenderer 4
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+Finished polygon generation for axis
+Processing axis 1
+Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 0, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 0, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 0, 0, 0
+            Generating left side veritces for polygon 1
+            Generated 2, 0, 0
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 0, 0, 2
+            Generating right side veritces for polygon 1
+            Generated 2, 0, 2
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 9, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 10, 8
+                Updating faceRenderer 5
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 11, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 10, 9
+                Updating faceRenderer 6
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+    Finished Pos[v] loop, closing off generated frontiers, nf = 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 0
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 0, 2, 0
+            Generating left side veritces for polygon 1
+            Generated 2, 2, 0
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 0, 2, 2
+            Generating right side veritces for polygon 1
+            Generated 2, 2, 2
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 13, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 12, 14
+                Updating faceRenderer 7
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 15, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 13, 14
+                Updating faceRenderer 8
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+Finished polygon generation for axis
+Processing axis 2
+Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 0, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 0, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel not found. B voxel found
+            Set nextRenderer to b renderer, a voxel not found
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 0, 0, 0
+            Generating left side veritces for polygon 1
+            Generated 0, 2, 0
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 2, 0, 0
+            Generating right side veritces for polygon 1
+            Generated 2, 2, 0
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 17, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 18, 16
+                Updating faceRenderer 9
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 19, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 18, 17
+                Updating faceRenderer 10
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+            Pos[u] loop at 1
+            A voxel found. B voxel found
+            Set nextRenderer to null, a and b are the same
+        Pos[u] loop finished, nr at 2, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 2
+    Finished Pos[v] loop, closing off generated frontiers, nf = 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 0
+    Finished all polygon triangulation
+    Pos[axis] loop = 1, nf = 0
+    Start pos[v] loop, pos[v] = 2, v dimensions = 2
+        Pos[v] loop at 0, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 0
+        Finished polygon merge run loop, closing remaining polygons. nf = 0
+        Closed remaining polygons. Starting extra run loop. J = 0, nr = 4
+            Extra run loop at 0
+            Run renderer not null, updating frontier
+        Pos[v] loop at 1, nr = 0
+        Start Pos[u] loop, pos[u] = 2, u dimensions = 2
+            Pos[u] loop at 0
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+            starting new run, nr now 2
+            Pos[u] loop at 1
+            A voxel found. B voxel not found
+            Set nextRenderer to a renderer, a and b different
+        Pos[u] loop finished, nr at 4, total runs 6
+        Start merge run check loop, nf 1
+            Merge run loop at i = 0, j = 0, fp = 0
+            Polygon left = 0, Polygon right = 2 run left = 0, run right = 2
+            Running merge run on polgyon and adding to next frontier
+        Finished polygon merge run loop, closing remaining polygons. nf = 1
+        Closed remaining polygons. Starting extra run loop. J = 2, nr = 4
+    Finished Pos[v] loop, closing off generated frontiers, nf = 1
+        Closing off frontier polygon 0
+    Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
+        Triangulation loop at 0
+        Generating left side veritces
+            Generating left side veritces for polygon 0
+            Generated 0, 0, 2
+            Generating left side veritces for polygon 1
+            Generated 0, 2, 2
+        Generating right side veritces
+            Generating right side veritces for polygon 0
+            Generated 2, 0, 2
+            Generating right side veritces for polygon 1
+            Generated 2, 2, 2
+        Generated all verticies
+        Triangulation begun, top now at 6, stack size of 48
+        Beginning triangulation, li = 1, ri = 1. Left polygon size =2. Right polygon size =2
+            triangulation at, li = 1, ri = 1, top = 6, bottom = 0. Left polygon size =2. Right polygon size =2 side = right
+            nSide set to false, ri != polygonLeft. Polygon.left[li][1] = 2 Polygon.left[li][1] = 2
+            Calculated nSide. idx set as 21, vert[0] 0, vert[1] 2
+            On opposite side, update faces from bottom = 3 to top = 6
+                Updating faces for bottom 0
+                Flipped face same face as nSide. Push as bottom, bottom + 3 with values from stack as 20, 22
+                Updating faceRenderer 11
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 9
+            Increased li side var
+            Set last side var to left
+            triangulation at, li = 2, ri = 1, top = 9, bottom = 3. Left polygon size =2. Right polygon size =2 side = left
+            nSide set to true, li == polygonLeft
+            Calculated nSide. idx set as 23, vert[0] 2, vert[1] 2
+            On opposite side, update faces from bottom = 6 to top = 9
+                Updating faces for bottom 3
+                Flipped face same face as nSide. Push as bottom + 3, bottom with values from stack as 21, 22
+                Updating faceRenderer 12
+            Completed update of faces and face renders. Pushing vertex to stack. Stack size now 48, top = 12
+            Increased ri side var
+            Set last side var to right
+        Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
+    Finished all polygon triangulation
+Finished polygon generation for axis
+Finished polygon generation, converting polgyon faces to mesh parts for rendering. Total faces = 12, Total vertices = 24
