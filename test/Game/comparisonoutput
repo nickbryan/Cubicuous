@@ -1,6 +1,6 @@
 Processing axis 0
 Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = -1, nf = 0
     Start pos[v] loop, pos[v] = 0, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 0, u dimensions = 2
@@ -37,12 +37,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 0, 0, 0
             Generating left side veritces for polygon 1
             Generated 0, 0, 2
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 0, 2, 0
             Generating right side veritces for polygon 1
@@ -72,7 +72,7 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
             Set last side var to right
         Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
     Finished all polygon triangulation
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = 0, nf = 0
     Start pos[v] loop, pos[v] = 2, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 2, u dimensions = 2
@@ -138,12 +138,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 2, 0, 0
             Generating left side veritces for polygon 1
             Generated 2, 0, 2
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 2, 2, 0
             Generating right side veritces for polygon 1
@@ -176,7 +176,7 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
 Finished polygon generation for axis
 Processing axis 1
 Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = -1, nf = 0
     Start pos[v] loop, pos[v] = 0, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 0, u dimensions = 2
@@ -213,12 +213,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 0, 0, 0
             Generating left side veritces for polygon 1
             Generated 2, 0, 0
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 0, 0, 2
             Generating right side veritces for polygon 1
@@ -248,7 +248,7 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
             Set last side var to right
         Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
     Finished all polygon triangulation
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = 0, nf = 0
     Start pos[v] loop, pos[v] = 2, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 2, u dimensions = 2
@@ -314,12 +314,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 0, 2, 0
             Generating left side veritces for polygon 1
             Generated 2, 2, 0
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 0, 2, 2
             Generating right side veritces for polygon 1
@@ -352,7 +352,7 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
 Finished polygon generation for axis
 Processing axis 2
 Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = -1, nf = 0
     Start pos[v] loop, pos[v] = 0, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 0, u dimensions = 2
@@ -389,12 +389,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 0, 0, 0
             Generating left side veritces for polygon 1
             Generated 0, 2, 0
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 2, 0, 0
             Generating right side veritces for polygon 1
@@ -424,7 +424,7 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
             Set last side var to right
         Finished triangulation of polygon. Total stack size 48, total top = 12, total bottom = 6 final li 2, final ri = 2
     Finished all polygon triangulation
-    Pos[axis] loop = 1, nf = 0
+    Pos[axis] loop = 0, nf = 0
     Start pos[v] loop, pos[v] = 2, v dimensions = 2
         Pos[v] loop at 0, nr = 0
         Start Pos[u] loop, pos[u] = 2, u dimensions = 2
@@ -490,12 +490,12 @@ Doing pos loop, pos[axis] = 0, Axis Dimensions = 2
         Closing off frontier polygon 0
     Montone subdivision of polygons complete, triangulation beginning. Total polygons = 1
         Triangulation loop at 0
-        Generating left side veritces
+        Generating left side veritces 
             Generating left side veritces for polygon 0
             Generated 0, 0, 2
             Generating left side veritces for polygon 1
             Generated 0, 2, 2
-        Generating right side veritces
+        Generating right side veritces 
             Generating right side veritces for polygon 0
             Generated 2, 0, 2
             Generating right side veritces for polygon 1

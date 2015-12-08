@@ -31,8 +31,7 @@ namespace Cubicuous {
                     std::vector<int32_t> rightIndex(2 * this->_getDimensionFromAxis(v, width, length, height));
                     std::vector<int32_t> stack(24 * this->_getDimensionFromAxis(v, width, length, height));
                     std::vector<Graphics::Renderer::IRenderer*> runRenderers;
-                    int32_t delta[2][2] = {{0, 0},
-                                           {0, 0}};
+                    int32_t delta[2][2] = {{0, 0}, {0, 0}};
 
                     q[axis] = 1;
 

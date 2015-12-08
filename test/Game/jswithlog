@@ -79,7 +79,7 @@ return function(volume, dims) {
       var n = 0
         , polygons = []
         , nf = 0;
-      console.log("    Pos[axis] loop = " + q[d] + ", nf = " + nf);
+      console.log("    Pos[axis] loop = " + x[d] + ", nf = " + nf);
       console.log("    Start pos[v] loop, pos[v] = " + x[v] + ", v dimensions = " + dims[v]);
 
       for(x[v]=0; x[v]<dims[v]; ++x[v]) {
