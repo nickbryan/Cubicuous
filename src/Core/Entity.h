@@ -23,7 +23,7 @@ namespace Cubicuous {
                 this->_renderer = new Graphics::Renderer::ColorRenderer(this->_game, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             };
 
-            inline Entity(Game *game, glm::vec3 position) : Movable(position) {
+\            inline Entity(Game *game, glm::vec3 position) : _game(game), Movable(position) {
                 this->_renderer = new Graphics::Renderer::ColorRenderer(this->_game, glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
             };
 

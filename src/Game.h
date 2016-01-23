@@ -66,7 +66,7 @@ namespace Cubicuous {
 
         inline GameSettings* getSettings() const { return this->_settings; };
 
-        /* Get functions for integral esettings */
+        /* Get functions for integral settings */
         inline IMatrixManager* getMatrixManager() const { return this->getSettings()->matrixManager; }
         inline Core::GeometryManager* getGeometryManager() const { return this->getSettings()->geometryManager; }
         inline Core::Mesher::IMesher* getMesher() const { return this->getSettings()->mesher; }

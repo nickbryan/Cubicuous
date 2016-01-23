@@ -283,7 +283,7 @@ namespace Cubicuous {
                                             faces.push_back({stack[bottom + 3], stack[bottom], idx});
                                         }
 
-                                        faceRenderers[faces.size() - 1] = polygon.renderer;
+                                        faceRenderers.push_back(polygon.renderer);
                                         bottom += 3;
                                         Debugging::Logger::log("                Updating faceRenderer " + Debugging::Logger::toLoggable(faces.size()));
                                     }
@@ -322,7 +322,7 @@ namespace Cubicuous {
                                                 faces.push_back({stack[top - 6], stack[top - 3], idx});
                                             }
 
-                                            faceRenderers[faces.size() - 1] = polygon.renderer;
+                                            faceRenderers.push_back(polygon.renderer);
                                             Debugging::Logger::log("                Setting faceRenderer " + Debugging::Logger::toLoggable(faces.size() - 1));
                                         }
                                         top -= 3;
